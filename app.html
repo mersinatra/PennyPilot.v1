@@ -375,30 +375,58 @@
                         
                         <!-- Search and Filters -->
                         <div class="bg-surface2 rounded-lg p-4 mb-6 shadow-md">
-                            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                            <div class="flex flex-col lg:flex-row lg:items-center gap-4">
                                 <div class="flex-1">
                                     <input type="text" id="transactionSearch" placeholder="Search transactions..."
                                            class="focus-ring w-full px-4 py-2 border border-border rounded-md bg-surface1 text-textPrimary text-base focus:border-primary transition-colors">
                                 </div>
 
-                                <div class="flex items-center gap-2 w-full lg:w-auto">
-                                    <div class="flex-1 overflow-x-auto whitespace-nowrap flex gap-2 no-scrollbar pb-1">
-                                        <button class="filter-pill active" data-filter="all">All</button>
-                                        <button class="filter-pill" data-filter="income">Income</button>
-                                        <button class="filter-pill" data-filter="expense">Expense</button>
-                                        <button class="filter-pill" data-filter="food">Food</button>
-                                        <button class="filter-pill" data-filter="transport">Transport</button>
-                                        <button class="filter-pill" data-filter="entertainment">Entertainment</button>
+                                <!-- Desktop Toolbar -->
+                                <div class="hidden lg:flex items-center gap-2 flex-shrink-0">
+                                    <div class="relative">
+                                        <button id="categoryDropdownBtn" class="date-toggle-btn date-filter-btn">Category ▾</button>
+                                        <div id="categoryDropdownMenu" class="hidden absolute left-0 mt-2 w-36 bg-surface1 border border-border rounded-md shadow-lg p-2 space-y-2 z-20">
+                                            <button class="filter-pill w-full text-left active" data-filter="all">All</button>
+                                            <button class="filter-pill w-full text-left" data-filter="income">Income</button>
+                                            <button class="filter-pill w-full text-left" data-filter="expense">Expense</button>
+                                            <button class="filter-pill w-full text-left" data-filter="food">Food</button>
+                                            <button class="filter-pill w-full text-left" data-filter="transport">Transport</button>
+                                            <button class="filter-pill w-full text-left" data-filter="entertainment">Entertainment</button>
+                                        </div>
                                     </div>
                                     <div class="relative">
-                                        <button id="dateDropdownBtn" class="date-toggle-btn date-filter-btn">Date ▾</button>
-                                        <div id="dateDropdownMenu" class="hidden absolute right-0 mt-2 w-36 bg-surface1 border border-border rounded-md shadow-lg p-2 space-y-2 z-20">
+                                        <button id="dateDropdownBtn" class="date-toggle-btn date-filter-btn">Date Range ▾</button>
+                                        <div id="dateDropdownMenu" class="hidden absolute left-0 mt-2 w-36 bg-surface1 border border-border rounded-md shadow-lg p-2 space-y-2 z-20">
                                             <button class="date-filter-btn w-full text-left active" data-range="all">All Time</button>
                                             <button class="date-filter-btn w-full text-left" data-range="today">Today</button>
                                             <button class="date-filter-btn w-full text-left" data-range="week">This Week</button>
                                             <button class="date-filter-btn w-full text-left" data-range="month">This Month</button>
                                             <button class="date-filter-btn w-full text-left" data-range="lastMonth">Last Month</button>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mobile Filters -->
+                            <div class="lg:hidden mt-4 space-y-3">
+                                <div class="segmented-control flex">
+                                    <button class="filter-pill flex-1 text-center active" data-filter="all">All</button>
+                                    <button class="filter-pill flex-1 text-center" data-filter="income">Income</button>
+                                    <button class="filter-pill flex-1 text-center" data-filter="expense">Expense</button>
+                                </div>
+                                <div class="relative">
+                                    <button id="dateDropdownBtnMobile" class="w-full date-toggle-btn date-filter-btn">Date ▾</button>
+                                    <div id="dateDropdownMenuMobile" class="hidden absolute left-0 mt-2 w-44 bg-surface1 border border-border rounded-md shadow-lg p-2 space-y-2 z-20">
+                                        <div class="px-2 text-sm font-medium text-textSecondary">Categories</div>
+                                        <button class="filter-pill w-full text-left" data-filter="food">Food</button>
+                                        <button class="filter-pill w-full text-left" data-filter="transport">Transport</button>
+                                        <button class="filter-pill w-full text-left" data-filter="entertainment">Entertainment</button>
+                                        <div class="mt-2 px-2 text-sm font-medium text-textSecondary border-t border-border">Date Range</div>
+                                        <button class="date-filter-btn w-full text-left active" data-range="all">All Time</button>
+                                        <button class="date-filter-btn w-full text-left" data-range="today">Today</button>
+                                        <button class="date-filter-btn w-full text-left" data-range="week">This Week</button>
+                                        <button class="date-filter-btn w-full text-left" data-range="month">This Month</button>
+                                        <button class="date-filter-btn w-full text-left" data-range="lastMonth">Last Month</button>
                                     </div>
                                 </div>
                             </div>
@@ -943,27 +971,42 @@
                     document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
                     e.target.classList.add('active');
                     filterTransactions();
+                    document.getElementById('categoryDropdownMenu')?.classList.add('hidden');
+                    document.getElementById('dateDropdownMenuMobile')?.classList.add('hidden');
                 });
             });
 
-            const dropdownBtn = document.getElementById('dateDropdownBtn');
-            const dropdownMenu = document.getElementById('dateDropdownMenu');
+            const dateMenus = [
+                {btn: document.getElementById('dateDropdownBtn'), menu: document.getElementById('dateDropdownMenu')},
+                {btn: document.getElementById('dateDropdownBtnMobile'), menu: document.getElementById('dateDropdownMenuMobile')}
+            ];
 
-            dropdownBtn.addEventListener('click', () => {
-                dropdownMenu.classList.toggle('hidden');
+            dateMenus.forEach(({btn, menu}) => {
+                if (!btn || !menu) return;
+                btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+                document.addEventListener('click', (e) => {
+                    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                        menu.classList.add('hidden');
+                    }
+                });
             });
 
-            document.addEventListener('click', (e) => {
-                if (!dropdownMenu.contains(e.target) && !dropdownBtn.contains(e.target)) {
-                    dropdownMenu.classList.add('hidden');
-                }
-            });
+            const categoryBtn = document.getElementById('categoryDropdownBtn');
+            const categoryMenu = document.getElementById('categoryDropdownMenu');
+            if (categoryBtn && categoryMenu) {
+                categoryBtn.addEventListener('click', () => categoryMenu.classList.toggle('hidden'));
+                document.addEventListener('click', (e) => {
+                    if (!categoryMenu.contains(e.target) && !categoryBtn.contains(e.target)) {
+                        categoryMenu.classList.add('hidden');
+                    }
+                });
+            }
 
-            dropdownMenu.querySelectorAll('.date-filter-btn').forEach(btn => {
+            document.querySelectorAll('.date-filter-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    dropdownMenu.querySelectorAll('.date-filter-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.date-filter-btn').forEach(b => b.classList.remove('active'));
                     e.target.classList.add('active');
-                    dropdownMenu.classList.add('hidden');
+                    dateMenus.forEach(({menu}) => menu?.classList.add('hidden'));
                     filterTransactions();
                 });
             });
@@ -2514,6 +2557,23 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
 
             .date-toggle-btn {
                 min-width: 4.5rem;
+            }
+
+            .segmented-control {
+                display: flex;
+                border: 1px solid var(--color-border);
+                border-radius: 0.5rem;
+                overflow: hidden;
+            }
+
+            .segmented-control .filter-pill {
+                border-radius: 0;
+                border: none;
+                border-right: 1px solid var(--color-border);
+            }
+
+            .segmented-control .filter-pill:last-child {
+                border-right: none;
             }
 
             .no-scrollbar {
