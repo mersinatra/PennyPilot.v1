@@ -74,7 +74,7 @@
     :root {
         /* Light mode colors */
         --color-surface-1: #FFFFFF;
-        --color-surface-2: #F9F9F9;
+        --color-surface-2: #F8FAFB; /* Lighter surface for modern feel */
         --color-surface-3: #E0E0E0;
         --color-surface-4: #C4C4C4;
         --color-primary: #1ABC9C;
@@ -85,14 +85,16 @@
         --color-border: #E0E0E0;
         --color-focus-ring: #1ABC9C80;
         --space: 8px;
-        --color-income: #059669;
-        --color-expense: #DC2626;
+        --money-positive: #059669;
+        --money-negative: #DC2626;
+        --color-income: var(--money-positive);
+        --color-expense: var(--money-negative);
         --color-income-border: var(--color-income);
         --color-expense-border: var(--color-expense);
 
         /* MODIFIED: CSS Variables for Theming Table and Rows */
-        --color-table-header-bg: rgba(26, 188, 156, 0.15); /* Light theme header - increased opacity */
-        --color-surface-1-alt: #F0F0F0; /* Alternate row background for light theme - more distinct */
+        --color-table-header-bg: var(--color-surface-2); /* Header matches card surface */
+        --color-surface-1-alt: #FFFFFF; /* Alternate row background for light theme */
         --color-row-border: var(--color-border);
         --color-selected-row-bg: rgba(26, 188, 156, 0.1);
         --shadow-lg: 0 4px 6px rgba(0,0,0,0.1);
@@ -107,13 +109,15 @@
         --color-text-primary: #FAFAFA;
         --color-text-secondary: #C2C2C2;
         --color-border: #333333;
-        --color-income: #34D399;
-        --color-expense: #F87171;
+        --money-positive: #34D399;
+        --money-negative: #F87171;
+        --color-income: var(--money-positive);
+        --color-expense: var(--money-negative);
         --color-income-border: var(--color-income);
         --color-expense-border: var(--color-expense);
 
         /* MODIFIED: Dark Theme CSS Variables for Table and Rows */
-        --color-table-header-bg: rgba(26, 188, 156, 0.2);  
+        --color-table-header-bg: var(--color-surface-2);
         --color-surface-1-alt: #242424; 
         --color-selected-row-bg: rgba(26, 188, 156, 0.25);
         --shadow-lg: 0 4px 6px rgba(0,0,0,0.4);
@@ -203,7 +207,11 @@
     }
 
     /* FAB base styles */
-    .fab-option,
+    .fab-option {
+        border: 1px solid transparent;
+        transform: translateY(8px);
+        transition: transform 0.2s, opacity 0.2s;
+    }
     #mainFab {
         border: 1px solid transparent;
     }
@@ -211,6 +219,13 @@
     body:not(.dark) #mainFab {
         border-color: rgba(0,0,0,0.1);
         box-shadow: var(--shadow-lg);
+    }
+
+    #fabOptions.show .fab-option {
+        transform: translateY(0);
+    }
+    #fabOptions.show .fab-option:nth-child(2) {
+        transition-delay: 150ms;
     }
 
     /* Card hover effects */
@@ -271,25 +286,33 @@
         z-index: 50;
     }
 
+    html.animate-theme {
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    }
+
     /* --- NEW/MODIFIED CSS FOR TABLE THEMING --- */
 
     /* Table Header Styling */
     .table-header {
         background-color: var(--color-table-header-bg);
-        position: sticky; 
+        position: sticky;
         top: 0;
-        z-index: 10; 
+        z-index: 10;
     }
     .table-header th {
-        border-bottom: 2px solid var(--color-border); 
+        border-bottom: 1px solid var(--color-border);
         color: var(--color-text-secondary);
     }
 
     /* Transaction Row Styling */
     .transactions-row {
-        transition: background-color 0.2s ease;
+        transition: background-color 0.1s ease;
         border-bottom: 1px solid var(--color-row-border);
         line-height: 1.5;
+        position: relative;
+    }
+    .transactions-row:hover {
+        background-color: var(--color-surface-1-alt);
     }
     .transactions-row:last-child { 
         border-bottom: none;
@@ -299,11 +322,23 @@
     }
 
     /* Income and expense row accents */
-    .row-income {
-        border-left: 2px solid var(--color-income-border);
+    .row-income::before,
+    .row-expense::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 2px;
+        bottom: 2px;
+        width: 2px;
     }
-    .row-expense {
-        border-left: 2px solid var(--color-expense-border);
+    .row-income::before { background-color: var(--color-income-border); }
+    .row-expense::before { background-color: var(--color-expense-border); }
+
+    .merchant-col {
+        max-width: 12rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     /* Class for JS to apply for zebra striping */
@@ -313,6 +348,11 @@
     /* Class for JS to apply for selected rows */
     .bg-selected-row {
         background-color: var(--color-selected-row-bg) !important;
+    }
+
+    body.density-compact .transactions-row td {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
     }
 
 
@@ -474,8 +514,11 @@
         cursor: pointer;
         border: none;
     }
-    .row-chrome button { 
-        transition: opacity 0.15s;
+    .row-chrome button {
+        transition: opacity 0.15s, transform 0.1s;
+    }
+    .row-chrome button:hover {
+        transform: scale(1.1);
     }
     .skeleton {
         background: rgba(26,188,156,0.1); 
@@ -494,7 +537,7 @@
 <body class="h-full bg-surface1 text-textPrimary">
     <div id="app" class="h-full flex flex-col">
         <!-- Top Navigation (Desktop) -->
-        <nav class="hidden lg:flex bg-surface2 border-b border-border px-6 py-4">
+        <nav class="hidden lg:flex bg-surface2 border-b border-border px-6 py-4 shadow-sm">
             <div class="flex items-center justify-between w-full max-w-7xl mx-auto">
                 <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -515,7 +558,7 @@
         </nav>
         
         <!-- Mobile Header -->
-        <header class="lg:hidden bg-surface2 border-b border-border px-4 py-3">
+        <header class="lg:hidden bg-surface2 border-b border-border px-4 py-3 shadow-sm">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                     <div class="w-6 h-6 bg-primary rounded flex items-center justify-center">
@@ -733,7 +776,7 @@
                         </div>
                         
                         <!-- Desktop Table View -->
-                        <div class="hidden lg:block bg-surface2 rounded-lg shadow-md overflow-hidden p-2">
+                        <div class="hidden lg:block bg-surface2 rounded-lg overflow-hidden p-2">
                             <div class="overflow-x-auto">
                                 <table class="w-full">
                                     <thead class="table-header sticky top-0 z-10">
@@ -941,6 +984,22 @@
         <option value="light">Light</option>
         <option value="dark">Dark</option>
         <option value="system" selected>System</option>
+      </select>
+    </div>
+
+    <!-- Density Dropdown -->
+    <div>
+      <label for="densitySelect" class="block text-sm font-medium text-textPrimary mb-2">
+        Density
+      </label>
+      <select
+        id="densitySelect"
+        name="density"
+        class="focus-ring block w-full max-w-xs px-3 py-2 border border-border rounded-md bg-surface1 text-textPrimary text-base focus:border-primary transition-colors"
+        required
+      >
+        <option value="comfy" selected>Comfy</option>
+        <option value="compact">Compact</option>
       </select>
     </div>
   </div>
@@ -1209,7 +1268,8 @@
             settings: {
                 currency: 'NZD',
                 dateFormat: 'DD/MM/YYYY',
-                theme: 'system'
+                theme: 'system',
+                density: 'comfy'
             },
             fabExpanded: false,
             selectedTransactions: new Set(),
@@ -1230,6 +1290,7 @@
             loadData();
             setupEventListeners();
             setupTheme();
+            applyDensity();
             renderCurrentPage();
             updateCurrentDate();
         }
@@ -1388,6 +1449,12 @@
         applyTheme();
     });
 
+    document.getElementById('densitySelect').addEventListener('change', (e) => {
+        appState.settings.density = e.target.value;
+        saveData();
+        applyDensity();
+    });
+
     // Date format change - Updated for <select>
     document.getElementById('dateFormatSelect').addEventListener('change', (e) => {
         appState.settings.dateFormat = e.target.value;
@@ -1434,6 +1501,15 @@
             });
         }
 
+        function applyDensity() {
+            const body = document.body;
+            if (appState.settings.density === 'compact') {
+                body.classList.add('density-compact');
+            } else {
+                body.classList.remove('density-compact');
+            }
+        }
+
         function toggleTheme() {
     const currentTheme = appState.settings.theme;
     let newTheme;
@@ -1450,6 +1526,7 @@
     saveData();
     applyTheme();
 
+    document.documentElement.classList.add('animate-theme');
     const overlay = document.createElement('div');
     overlay.className = 'theme-overlay';
     document.body.appendChild(overlay);
@@ -1460,6 +1537,7 @@
         });
     });
     overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+    setTimeout(() => document.documentElement.classList.remove('animate-theme'), 200);
 
     const themeSelect = document.getElementById('themeSelect');
     if (themeSelect) {
@@ -1798,7 +1876,7 @@
                     <td class="px-4 py-4 text-xs font-mono text-textSecondary text-center">
                         ${formatDate(t.date)}
                     </td>
-                    <td class="px-4 py-4 font-semibold text-textPrimary">
+                    <td class="px-4 py-4 font-semibold text-textPrimary merchant-col">
                         ${t.merchant}
                     </td>
                     <td class="px-4 py-4">
@@ -2768,7 +2846,8 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             document.getElementById('currencySelect').value = appState.settings.currency;
             document.getElementById('dateFormatSelect').value = appState.settings.dateFormat;
             document.getElementById('themeSelect').value = appState.settings.theme;
-            
+            document.getElementById('densitySelect').value = appState.settings.density;
+
             renderCategoriesList();
         }
 
@@ -2806,11 +2885,11 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             if (appState.fabExpanded) {
                 icon.classList.add('fab-expanded');
                 fabOptions.classList.remove('opacity-0', 'scale-0');
-                fabOptions.classList.add('opacity-100', 'scale-100');
+                fabOptions.classList.add('opacity-100', 'scale-100', 'show');
             } else {
                 icon.classList.remove('fab-expanded');
                 fabOptions.classList.add('opacity-0', 'scale-0');
-                fabOptions.classList.remove('opacity-100', 'scale-100');
+                fabOptions.classList.remove('opacity-100', 'scale-100', 'show');
             }
         }
 
@@ -3314,18 +3393,21 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                 appState.settings = {
                     currency: 'NZD',
                     dateFormat: 'DD/MM/YYYY',
-                    theme: 'system'
+                    theme: 'system',
+                    density: 'comfy'
                 };
                 appState.selectedTransactions.clear();
                 appState.transactionsLoaded = false; // Force reload effect if needed
 
                 saveData(); // Save the reset state
                 applyTheme(); // Apply default theme settings
+                applyDensity();
 
                 // Update settings UI to defaults
                 document.getElementById('currencySelect').value = appState.settings.currency;
                 document.getElementById('dateFormatSelect').value = appState.settings.dateFormat;
                 document.getElementById('themeSelect').value = appState.settings.theme;
+                document.getElementById('densitySelect').value = appState.settings.density;
                 
                 closeDeleteModal();
                 showPage('dashboard'); // Go to a default page
