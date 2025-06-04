@@ -377,26 +377,30 @@
                         <div class="bg-surface2 rounded-lg p-4 mb-6 shadow-md">
                             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                                 <div class="flex-1">
-                                    <input type="text" id="transactionSearch" placeholder="Search transactions..." 
+                                    <input type="text" id="transactionSearch" placeholder="Search transactions..."
                                            class="focus-ring w-full px-4 py-2 border border-border rounded-md bg-surface1 text-textPrimary text-base focus:border-primary transition-colors">
                                 </div>
-                                
-                                <div class="flex flex-wrap gap-2">
-                                    <button class="filter-pill active" data-filter="all">All</button>
-                                    <button class="filter-pill" data-filter="income">Income</button>
-                                    <button class="filter-pill" data-filter="expense">Expense</button>
-                                    <button class="filter-pill" data-filter="food">Food</button>
-                                    <button class="filter-pill" data-filter="transport">Transport</button>
-                                    <button class="filter-pill" data-filter="entertainment">Entertainment</button>
+
+                                <div class="flex items-center gap-2 w-full lg:w-auto">
+                                    <div class="flex-1 overflow-x-auto whitespace-nowrap flex gap-2 no-scrollbar pb-1">
+                                        <button class="filter-pill active" data-filter="all">All</button>
+                                        <button class="filter-pill" data-filter="income">Income</button>
+                                        <button class="filter-pill" data-filter="expense">Expense</button>
+                                        <button class="filter-pill" data-filter="food">Food</button>
+                                        <button class="filter-pill" data-filter="transport">Transport</button>
+                                        <button class="filter-pill" data-filter="entertainment">Entertainment</button>
+                                    </div>
+                                    <div class="relative">
+                                        <button id="dateDropdownBtn" class="date-toggle-btn date-filter-btn">Date ▾</button>
+                                        <div id="dateDropdownMenu" class="hidden absolute right-0 mt-2 w-36 bg-surface1 border border-border rounded-md shadow-lg p-2 space-y-2 z-20">
+                                            <button class="date-filter-btn w-full text-left active" data-range="all">All Time</button>
+                                            <button class="date-filter-btn w-full text-left" data-range="today">Today</button>
+                                            <button class="date-filter-btn w-full text-left" data-range="week">This Week</button>
+                                            <button class="date-filter-btn w-full text-left" data-range="month">This Month</button>
+                                            <button class="date-filter-btn w-full text-left" data-range="lastMonth">Last Month</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="flex flex-wrap gap-2 mt-4">
-                                <button class="date-filter-btn active" data-range="all">All Time</button>
-                                <button class="date-filter-btn" data-range="today">Today</button>
-                                <button class="date-filter-btn" data-range="week">This Week</button>
-                                <button class="date-filter-btn" data-range="month">This Month</button>
-                                <button class="date-filter-btn" data-range="lastMonth">Last Month</button>
                             </div>
                         </div>
                         
@@ -942,10 +946,24 @@
                 });
             });
 
-            document.querySelectorAll('.date-filter-btn').forEach(btn => {
+            const dropdownBtn = document.getElementById('dateDropdownBtn');
+            const dropdownMenu = document.getElementById('dateDropdownMenu');
+
+            dropdownBtn.addEventListener('click', () => {
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!dropdownMenu.contains(e.target) && !dropdownBtn.contains(e.target)) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+
+            dropdownMenu.querySelectorAll('.date-filter-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.date-filter-btn').forEach(b => b.classList.remove('active'));
+                    dropdownMenu.querySelectorAll('.date-filter-btn').forEach(b => b.classList.remove('active'));
                     e.target.classList.add('active');
+                    dropdownMenu.classList.add('hidden');
                     filterTransactions();
                 });
             });
@@ -2492,6 +2510,18 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                 background: var(--color-primary);
                 color: white;
                 border-color: var(--color-primary);
+            }
+
+            .date-toggle-btn {
+                min-width: 4.5rem;
+            }
+
+            .no-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
             }
             
             .budget-slider {
