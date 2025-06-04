@@ -384,7 +384,7 @@
                                     <h2 class="text-2xl sm:text-3xl font-bold text-textPrimary mb-2">Transactions</h2>
                                     <p class="text-textSecondary">Manage your income and expenses</p>
                                 </div>
-                                <button id="bulkDeleteBtn" class="hidden bg-danger text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-danger/90 transition-colors">
+                                <button id="bulkDeleteBtn" class="hidden opacity-0 translate-y-2 bg-danger text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-danger/90 transition-colors">
                                     <i class="fas fa-trash mr-2"></i>
                                     Delete Selected
                                 </button>
@@ -393,10 +393,11 @@
                         
                         <!-- Search and Filters -->
                         <div class="bg-surface2 rounded-lg p-4 mb-6 shadow-md">
-                            <div class="flex flex-col lg:flex-row lg:items-center gap-4">
-                                <div class="flex-1">
+                        <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+                                <div class="flex-1 relative">
                                     <input type="text" id="transactionSearch" placeholder="Search transactions..."
-                                           class="focus-ring w-full px-4 py-2 border border-primary rounded-md bg-white text-textPrimary text-base shadow-inner transition-colors">
+                                           class="focus-ring w-full pl-10 pr-4 py-2 border border-primary rounded-md bg-white text-textPrimary text-base shadow-inner transition-colors">
+                                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-textSecondary pointer-events-none"></i>
                                 </div>
 
                                 <!-- Desktop Toolbar -->
@@ -455,9 +456,9 @@
                         <div class="hidden lg:block bg-surface2 rounded-lg shadow-md overflow-hidden p-2">
                             <div class="overflow-x-auto">
                                 <table class="w-full">
-                                    <thead class="bg-surface3 border-b border-border shadow-sm sticky top-0 z-10">
+                                    <thead class="table-header sticky top-0 z-10">
                                         <tr>
-                                            <th class="w-12 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">
+                                            <th class="w-10 px-3 py-4 text-center text-sm font-semibold text-textSecondary uppercase tracking-wider">
                                                 <input type="checkbox" id="selectAllTransactions" class="transaction-checkbox focus-ring rounded border-border">
                                             </th>
                                             <th class="w-32 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider cursor-pointer select-none" data-sort="date" aria-sort="none">
@@ -934,7 +935,9 @@
             selectedTransactions: new Set(),
             editingTransaction: null,
             sortField: 'date',
-            sortDirection: 'desc'
+            sortDirection: 'desc',
+            loadingTransactions: false,
+            transactionsLoaded: false
         };
 
         // Initialize the app
@@ -1200,7 +1203,17 @@
                     renderDashboard();
                     break;
                 case 'transactions':
-                    renderTransactions();
+                    if (!appState.transactionsLoaded) {
+                        appState.loadingTransactions = true;
+                        renderTransactions();
+                        setTimeout(() => {
+                            appState.loadingTransactions = false;
+                            appState.transactionsLoaded = true;
+                            renderTransactions();
+                        }, 600);
+                    } else {
+                        renderTransactions();
+                    }
                     break;
                 case 'budgets':
                     renderBudgets();
@@ -1397,6 +1410,11 @@
         }
 
         function renderTransactions() {
+            if (appState.loadingTransactions) {
+                renderTransactionsSkeleton();
+                renderTransactionCardsSkeleton();
+                return;
+            }
             renderTransactionsTable();
             renderTransactionCards();
             updateSortIndicators();
@@ -1409,11 +1427,11 @@
             tbody.innerHTML = transactions.map((t, idx) => {
                 const category = appState.categories.find(c => c.id === t.category);
                 const isSelected = appState.selectedTransactions.has(t.id);
-                const rowBg = isSelected ? 'bg-primary/5' : 'bg-surface1';
+                const rowBg = isSelected ? 'bg-primary/5' : (idx % 2 === 0 ? 'bg-surface1' : 'bg-[#FAFAFA]');
 
                 return `
                     <tr data-id="${t.id}" class="transactions-row group ${rowBg}">
-                        <td class="px-4 py-3 first:rounded-l-md">
+                        <td class="px-3 py-3 text-center first:rounded-l-md">
                             <input type="checkbox" class="transaction-checkbox focus-ring rounded border-border opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" data-id="${t.id}" ${isSelected ? 'checked' : ''}>
                         </td>
                         <td class="px-4 py-3 text-xs font-mono uppercase text-textSecondary">
@@ -1427,7 +1445,7 @@
                                 ${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span>
                             </span>
                         </td>
-                        <td class="px-4 py-3 text-right font-mono tabular-nums text-base font-bold ${t.type === 'income' ? 'text-green-400' : 'text-red-500'}">
+                        <td class="px-4 py-3 text-right font-mono tabular-nums text-base font-semibold ${t.type === 'income' ? 'text-green-400' : 'text-red-500'}">
                             ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
                         </td>
                         <td class="px-4 py-3 last:rounded-r-md">
@@ -1468,6 +1486,17 @@
                     </tr>
                 `;
             }
+        }
+
+        function renderTransactionsSkeleton() {
+            const tbody = document.getElementById('transactionsTableBody');
+            tbody.innerHTML = Array.from({length:4}).map(() => `
+                <tr>
+                    <td class="px-4 py-3" colspan="6">
+                        <div class="h-4 skeleton"></div>
+                    </td>
+                </tr>
+            `).join('');
         }
 
         function renderTransactionCards() {
@@ -1545,6 +1574,16 @@
                     </div>
                 `;
             }
+        }
+
+        function renderTransactionCardsSkeleton() {
+            const container = document.getElementById('transactionCards');
+            container.innerHTML = Array.from({length:3}).map(() => `
+                <div class="bg-surface2 rounded-lg p-4 shadow-md space-y-2">
+                    <div class="h-4 skeleton w-1/2"></div>
+                    <div class="h-3 skeleton w-1/3"></div>
+                </div>
+            `).join('');
         }
 
         function getFilteredTransactions() {
@@ -1693,10 +1732,11 @@
             const selectedCount = appState.selectedTransactions.size;
             
             if (selectedCount > 0) {
-                bulkDeleteBtn.classList.remove('hidden');
+                bulkDeleteBtn.classList.remove('hidden', 'opacity-0', 'translate-y-2');
                 bulkDeleteBtn.textContent = `Delete Selected (${selectedCount})`;
             } else {
-                bulkDeleteBtn.classList.add('hidden');
+                bulkDeleteBtn.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => bulkDeleteBtn.classList.add('hidden'), 200);
             }
         }
 
@@ -2743,16 +2783,36 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
 
             .transactions-row {
                 transition: transform 0.15s var(--tw-ease-out), box-shadow 0.15s;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+                box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             }
             .transactions-row:hover,
             .transactions-row:focus-within {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-                filter: brightness(1.05);
+                transform: translateY(-1px);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                filter: brightness(1.03);
             }
             .row-chrome button {
                 transition: opacity 0.15s;
+            }
+
+            .skeleton {
+                background: rgba(26,188,156,0.1);
+                border-radius: 4px;
+                animation: pulse 1.5s infinite ease-in-out;
+            }
+
+            @keyframes pulse {
+                0%,100% { opacity: 0.3; }
+                50% { opacity: 0.6; }
+            }
+
+            .table-header {
+                background: rgba(26,188,156,0.04);
+                box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+            }
+
+            #bulkDeleteBtn {
+                transition: transform 0.2s, opacity 0.2s;
             }
         `;
         document.head.appendChild(style);
