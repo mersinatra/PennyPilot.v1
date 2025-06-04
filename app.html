@@ -142,6 +142,11 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        @keyframes slideOut {
+            from { opacity: 1; height: var(--h, auto); }
+            to { opacity: 0; height: 0; }
+        }
         
         .animate-count-up {
             animation: countUp 0.6s ease-out;
@@ -190,6 +195,10 @@
         .sparkline-point:hover {
             r: 4;
             fill: var(--color-primary);
+        }
+
+        .animate-slide-out {
+            animation: slideOut 0.3s ease forwards;
         }
 
 
@@ -434,7 +443,7 @@
                         </div>
                         
                         <!-- Desktop Table View -->
-                        <div class="hidden lg:block bg-surface2 rounded-lg shadow-md overflow-hidden">
+                        <div class="hidden lg:block bg-surface2 rounded-lg shadow-md overflow-hidden p-2">
                             <div class="overflow-x-auto">
                                 <table class="w-full">
                                     <thead class="bg-surface4 sticky top-0 z-10">
@@ -442,14 +451,32 @@
                                             <th class="w-12 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">
                                                 <input type="checkbox" id="selectAllTransactions" class="focus-ring rounded border-border">
                                             </th>
-                                            <th class="w-32 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">Date</th>
-                                            <th class="w-40 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">Merchant</th>
+                                            <th class="w-32 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider cursor-pointer select-none" data-sort="date" aria-sort="none">
+                                                <span class="inline-flex items-center">
+                                                    Date
+                                                    <i class="fas fa-chevron-down ml-1 text-xs transition-transform opacity-0"></i>
+                                                </span>
+                                            </th>
+                                            <th class="w-40 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider cursor-pointer select-none" data-sort="merchant" aria-sort="none">
+                                                <span class="inline-flex items-center">
+                                                    Merchant
+                                                    <i class="fas fa-chevron-down ml-1 text-xs transition-transform opacity-0"></i>
+                                                </span>
+                                            </th>
                                             <th class="w-40 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">Category</th>
-                                            <th class="w-32 px-6 py-4 text-right text-sm font-semibold text-textSecondary uppercase tracking-wider">Amount</th>
-                                            <th class="w-32 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">Actions</th>
+                                            <th class="w-32 px-6 py-4 text-right text-sm font-semibold text-textSecondary uppercase tracking-wider cursor-pointer select-none" data-sort="amount" aria-sort="none">
+                                                <span class="inline-flex items-center">
+                                                    Amount
+                                                    <i class="fas fa-chevron-down ml-1 text-xs transition-transform opacity-0"></i>
+                                                </span>
+                                            </th>
+                                            <th class="w-12 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">
+                                                <span class="sr-only">Actions</span>
+                                                <i class="fas fa-ellipsis-h" title="Actions"></i>
+                                            </th>
                                         </tr>
                                     </thead>
-                                    <tbody id="transactionsTableBody" class="divide-y divide-border [&>tr:nth-child(odd)]:bg-surface3 [&>tr:nth-child(even)]:bg-surface2">
+                                    <tbody id="transactionsTableBody" class="divide-y divide-transparent">
                                         <!-- Transaction rows will be populated here -->
                                     </tbody>
                                 </table>
@@ -896,7 +923,9 @@
             },
             fabExpanded: false,
             selectedTransactions: new Set(),
-            editingTransaction: null
+            editingTransaction: null,
+            sortField: 'date',
+            sortDirection: 'desc'
         };
 
         // Initialize the app
@@ -1022,6 +1051,11 @@
 
             // Select all transactions
             document.getElementById('selectAllTransactions').addEventListener('change', toggleSelectAll);
+
+            // Sorting
+            document.querySelectorAll('[data-sort]').forEach(th => {
+                th.addEventListener('click', () => setSort(th.dataset.sort));
+            });
 
             // Close modals on outside click
             document.getElementById('transactionModal').addEventListener('click', (e) => {
@@ -1356,6 +1390,7 @@
         function renderTransactions() {
             renderTransactionsTable();
             renderTransactionCards();
+            updateSortIndicators();
         }
 
         function renderTransactionsTable() {
@@ -1367,27 +1402,26 @@
                 const isSelected = appState.selectedTransactions.has(t.id);
                 
                 return `
-                    <tr class="hover:bg-surface4 focus-within:bg-surface4 transition-colors ${isSelected ? 'bg-primary/5' : ''}">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <input type="checkbox" class="transaction-checkbox focus-ring rounded border-border"
-                                   data-id="${t.id}" ${isSelected ? 'checked' : ''}>
+                    <tr data-id="${t.id}" class="transactions-row group ${isSelected ? 'bg-primary/5' : 'bg-surface3'}">
+                        <td class="px-4 py-3 first:rounded-l-md">
+                            <input type="checkbox" class="transaction-checkbox focus-ring rounded border-border opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" data-id="${t.id}" ${isSelected ? 'checked' : ''}>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-textPrimary">
+                        <td class="px-4 py-3 text-xs font-mono uppercase text-textSecondary">
                             ${formatDate(t.date)}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-textPrimary">
+                        <td class="px-4 py-3 font-semibold text-textPrimary">
                             ${t.merchant}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-textPrimary">
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium" style="background:${category?.color}20;color:${category?.color}">
-                                ${category?.icon || '💰'} ${category?.name || 'Other'}
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style="background:${category?.color}1A;color:${category?.color}">
+                                ${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span>
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-right ${t.type === 'income' ? 'text-green-400' : 'text-red-500'}">
+                        <td class="px-4 py-3 text-right font-mono text-base font-semibold ${t.type === 'income' ? 'text-green-400' : 'text-red-500'}">
                             ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-textSecondary">
-                            <div class="flex items-center space-x-2">
+                        <td class="px-4 py-3 last:rounded-r-md">
+                            <div class="flex items-center space-x-2 row-chrome opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                                 <button onclick="editTransaction(${t.id})" aria-label="Edit" class="focus-ring p-2 rounded-md text-primary hover:bg-surface4 transition-colors">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -1435,41 +1469,32 @@
                 const isSelected = appState.selectedTransactions.has(t.id);
                 
                 return `
-                    <div class="transaction-card bg-surface2 rounded-lg p-4 shadow-md relative ${isSelected ? 'ring-2 ring-primary' : ''}" data-id="${t.id}">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3 flex-1">
-                                <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg" style="background: ${category?.color}20;">
-                                    ${category?.icon || '💰'}
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="font-medium text-textPrimary truncate">${t.merchant}</div>
-                                    <div class="text-sm text-textSecondary">${formatDate(t.date)} • ${category?.name || 'Other'}</div>
-                                </div>
+                    <div class="transaction-card bg-surface2 rounded-lg p-4 shadow-md relative ${isSelected ? 'ring-2 ring-primary' : ''} group" data-id="${t.id}">
+                        <div class="flex justify-between items-center">
+                            <div class="font-medium text-textPrimary truncate">${t.merchant}</div>
+                            <div class="font-mono text-base font-semibold ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}">
+                                ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
                             </div>
-                            
-                            <div class="flex items-center space-x-3">
-                                <div class="text-right">
-                                    <div class="font-semibold ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}">
-                                        ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
-                                    </div>
-                                </div>
-                                
-                                <div class="relative">
-                                    <button class="text-textSecondary hover:text-textPrimary transition-colors p-2" onclick="toggleTransactionMenu(${t.id})">
-                                        <i class="fas fa-ellipsis-v"></i>
+                        </div>
+                        <div class="mt-1 flex items-center justify-between text-sm">
+                            <span class="font-mono text-textSecondary">${formatDate(t.date)}</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style="background:${category?.color}1A;color:${category?.color}">
+                                ${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span>
+                            </span>
+                            <div class="relative">
+                                <button class="ml-2 text-textSecondary hover:text-textPrimary transition-colors opacity-0 group-hover:opacity-100" onclick="toggleTransactionMenu(${t.id})">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div id="menu-${t.id}" class="hidden absolute right-0 top-6 bg-surface1 rounded-lg shadow-lg border border-border py-1 z-10 min-w-32">
+                                    <button onclick="editTransaction(${t.id})" class="w-full text-left px-3 py-2 text-sm text-textPrimary hover:bg-surface2 transition-colors">
+                                        <i class="fas fa-edit mr-2"></i>Edit
                                     </button>
-                                    <div id="menu-${t.id}" class="hidden absolute right-0 top-8 bg-surface1 rounded-lg shadow-lg border border-border py-1 z-10 min-w-32">
-                                        <button onclick="editTransaction(${t.id})" class="w-full text-left px-3 py-2 text-sm text-textPrimary hover:bg-surface2 transition-colors">
-                                            <i class="fas fa-edit mr-2"></i>Edit
-                                        </button>
-                                        <button onclick="deleteTransaction(${t.id})" class="w-full text-left px-3 py-2 text-sm text-danger hover:bg-surface2 transition-colors">
-                                            <i class="fas fa-trash mr-2"></i>Delete
-                                        </button>
-                                    </div>
+                                    <button onclick="deleteTransaction(${t.id})" class="w-full text-left px-3 py-2 text-sm text-danger hover:bg-surface2 transition-colors">
+                                        <i class="fas fa-trash mr-2"></i>Delete
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        
                         ${isSelected ? `
                             <div class="absolute top-2 left-2">
                                 <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
@@ -1564,8 +1589,20 @@
                 }
             }
             
-            // Sort by date (newest first)
-            return filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+            // Sorting
+            return filtered.sort((a, b) => {
+                let valA = a[appState.sortField];
+                let valB = b[appState.sortField];
+
+                if (appState.sortField === 'date') {
+                    valA = new Date(valA);
+                    valB = new Date(valB);
+                }
+
+                if (valA < valB) return appState.sortDirection === 'asc' ? -1 : 1;
+                if (valA > valB) return appState.sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
         }
 
         function filterTransactions() {
@@ -1602,6 +1639,29 @@
                 mobileBtn.textContent = `${label} ▾`;
                 mobileBtn.classList.toggle('active', isFiltered);
             }
+        }
+
+        function updateSortIndicators() {
+            document.querySelectorAll('[data-sort]').forEach(th => {
+                const field = th.dataset.sort;
+                const dir = field === appState.sortField ? appState.sortDirection : 'none';
+                th.setAttribute('aria-sort', dir === 'none' ? 'none' : dir === 'asc' ? 'ascending' : 'descending');
+                const icon = th.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('rotate-180', dir === 'asc');
+                    icon.classList.toggle('opacity-0', dir === 'none');
+                }
+            });
+        }
+
+        function setSort(field) {
+            if (appState.sortField === field) {
+                appState.sortDirection = appState.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                appState.sortField = field;
+                appState.sortDirection = 'asc';
+            }
+            renderTransactions();
         }
 
         function toggleSelectAll() {
@@ -2281,15 +2341,25 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
 
         function confirmDelete() {
             if (appState.deletingTransaction) {
-                const index = appState.transactions.findIndex(t => t.id === appState.deletingTransaction);
-                if (index !== -1) {
-                    const transaction = appState.transactions[index];
-                    if (transaction.type === 'expense') {
-                        adjustBudgetSpending(transaction.category, -transaction.amount);
-                    }
-                    appState.transactions.splice(index, 1);
-                    showToast('Transaction deleted successfully', 'success');
+                const id = appState.deletingTransaction;
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                if (row) {
+                    row.style.setProperty('--h', `${row.offsetHeight}px`);
+                    row.classList.add('animate-slide-out');
                 }
+                setTimeout(() => {
+                    const index = appState.transactions.findIndex(t => t.id === id);
+                    if (index !== -1) {
+                        const transaction = appState.transactions[index];
+                        if (transaction.type === 'expense') {
+                            adjustBudgetSpending(transaction.category, -transaction.amount);
+                        }
+                        appState.transactions.splice(index, 1);
+                        saveData();
+                        renderCurrentPage();
+                        showToast('Transaction deleted successfully', 'success');
+                    }
+                }, 300);
             } else if (appState.selectedTransactions.size > 0) {
                 const selectedIds = Array.from(appState.selectedTransactions);
                 appState.transactions = appState.transactions.filter(t => {
@@ -2306,9 +2376,11 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                 updateBulkActions();
             }
             
-            saveData();
             closeDeleteModal();
-            renderCurrentPage();
+            if (appState.selectedTransactions.size > 0) {
+                saveData();
+                renderCurrentPage();
+            }
         }
 
         // Utility Functions
@@ -2655,6 +2727,20 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                 border-radius: 50%;
                 cursor: pointer;
                 border: none;
+            }
+
+            .transactions-row {
+                transition: transform 0.15s var(--tw-ease-out), box-shadow 0.15s;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            }
+            .transactions-row:hover,
+            .transactions-row:focus-within {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+                filter: brightness(1.05);
+            }
+            .row-chrome button {
+                transition: opacity 0.15s;
             }
         `;
         document.head.appendChild(style);
