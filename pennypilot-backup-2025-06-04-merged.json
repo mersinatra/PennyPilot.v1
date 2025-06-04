@@ -1,0 +1,1611 @@
+{
+  "transactions": [
+    {
+      "id": 1749023463919,
+      "type": "expense",
+      "date": "2025-06-04",
+      "merchant": "Rent",
+      "category": "housing",
+      "amount": 710
+    },
+    {
+      "id": 1748965575496,
+      "type": "expense",
+      "date": "2025-06-03",
+      "merchant": "McDonalds Otahuhu",
+      "category": "food",
+      "amount": 7
+    },
+    {
+      "id": 1748965593706,
+      "type": "expense",
+      "date": "2025-06-03",
+      "merchant": "McDonalds Otahuhu",
+      "category": "food",
+      "amount": 32.6
+    },
+    {
+      "id": 1748965611262,
+      "type": "expense",
+      "date": "2025-06-03",
+      "merchant": "Kmart",
+      "category": "entertainment",
+      "amount": 70.25
+    },
+    {
+      "id": 1748965637189,
+      "type": "expense",
+      "date": "2025-06-03",
+      "merchant": "New World Southmall",
+      "category": "food",
+      "amount": 264.44
+    },
+    {
+      "id": 1748965662520,
+      "type": "expense",
+      "date": "2025-06-03",
+      "merchant": "Bubble Tea Cottage",
+      "category": "food",
+      "amount": 32
+    },
+    {
+      "id": 1748965689476,
+      "type": "income",
+      "date": "2025-06-03",
+      "merchant": "Kaylee",
+      "category": "freelance",
+      "amount": 4
+    },
+    {
+      "id": 1748965709370,
+      "type": "income",
+      "date": "2025-06-03",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 1300.26
+    },
+    {
+      "id": 1748965729739,
+      "type": "expense",
+      "date": "2025-06-03",
+      "merchant": "Z Otahuhu",
+      "category": "transport",
+      "amount": 30
+    },
+    {
+      "id": 1748965752284,
+      "type": "expense",
+      "date": "2025-06-03",
+      "merchant": "Sheralee Dairy Otara",
+      "category": "food",
+      "amount": 5.09
+    },
+    {
+      "id": 1748965796767,
+      "type": "income",
+      "date": "2025-06-03",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 429.78
+    },
+    {
+      "id": 1748965503249,
+      "type": "expense",
+      "date": "2025-06-02",
+      "merchant": "Pak N Save",
+      "category": "food",
+      "amount": 3.6
+    },
+    {
+      "id": 1748965424384,
+      "type": "expense",
+      "date": "2025-06-01",
+      "merchant": "Chapel Park Superette",
+      "category": "food",
+      "amount": 7.17
+    },
+    {
+      "id": 1748965470586,
+      "type": "expense",
+      "date": "2025-06-01",
+      "merchant": "Butter Chicken House AKL",
+      "category": "food",
+      "amount": 0.52
+    },
+    {
+      "id": 1748697002448,
+      "type": "expense",
+      "date": "2025-05-31",
+      "merchant": "Rent",
+      "category": "housing",
+      "amount": 710
+    },
+    {
+      "id": 1748697019911,
+      "type": "expense",
+      "date": "2025-05-31",
+      "merchant": "DUP",
+      "category": "other",
+      "amount": 180
+    },
+    {
+      "id": 1748965290835,
+      "type": "expense",
+      "date": "2025-05-31",
+      "merchant": "McDonalds Otahuhu",
+      "category": "food",
+      "amount": 5.8
+    },
+    {
+      "id": 1748965310746,
+      "type": "expense",
+      "date": "2025-05-31",
+      "merchant": "McDonalds Otahuhu",
+      "category": "food",
+      "amount": 54.3
+    },
+    {
+      "id": 1748965338676,
+      "type": "expense",
+      "date": "2025-05-31",
+      "merchant": "Mobil Otara",
+      "category": "transport",
+      "amount": 15
+    },
+    {
+      "id": 1748965366148,
+      "type": "expense",
+      "date": "2025-05-31",
+      "merchant": "Family Food Mart Auckland",
+      "category": "other",
+      "amount": 4.61
+    },
+    {
+      "id": 1748965396480,
+      "type": "expense",
+      "date": "2025-05-31",
+      "merchant": "Clothes",
+      "category": "shopping",
+      "amount": 8
+    },
+    {
+      "id": 1748965177172,
+      "type": "expense",
+      "date": "2025-05-30",
+      "merchant": "Top World Bakery Cafe",
+      "category": "food",
+      "amount": 18.15
+    },
+    {
+      "id": 1748965211781,
+      "type": "expense",
+      "date": "2025-05-30",
+      "merchant": "Family Foodmart Auckland",
+      "category": "other",
+      "amount": 36.8
+    },
+    {
+      "id": 1748965231066,
+      "type": "expense",
+      "date": "2025-05-30",
+      "merchant": "Kmart",
+      "category": "entertainment",
+      "amount": 135.45
+    },
+    {
+      "id": 1748965256494,
+      "type": "income",
+      "date": "2025-05-30",
+      "merchant": "Loan chey",
+      "category": "investment",
+      "amount": 40
+    },
+    {
+      "id": 1748964943917,
+      "type": "expense",
+      "date": "2025-05-29",
+      "merchant": "Wholesale Meats Direct AKL",
+      "category": "food",
+      "amount": 25.23
+    },
+    {
+      "id": 1748964908529,
+      "type": "expense",
+      "date": "2025-05-29",
+      "merchant": "The Vape Joint AKL",
+      "category": "other",
+      "amount": 15
+    },
+    {
+      "id": 1748964977508,
+      "type": "expense",
+      "date": "2025-05-29",
+      "merchant": "McDonalds",
+      "category": "food",
+      "amount": 72.8
+    },
+    {
+      "id": 1748965002392,
+      "type": "expense",
+      "date": "2025-05-29",
+      "merchant": "PHO Kitchen",
+      "category": "food",
+      "amount": 56.5
+    },
+    {
+      "id": 1748965054222,
+      "type": "expense",
+      "date": "2025-05-29",
+      "merchant": "PHO Kitchen",
+      "category": "food",
+      "amount": 15.5
+    },
+    {
+      "id": 1748965104407,
+      "type": "expense",
+      "date": "2025-05-29",
+      "merchant": "Fresh Choice Otahuhu",
+      "category": "food",
+      "amount": 44
+    },
+    {
+      "id": 1748965149148,
+      "type": "expense",
+      "date": "2025-05-29",
+      "merchant": "Fresh Choice Flatbush",
+      "category": "food",
+      "amount": 7.98
+    },
+    {
+      "id": 1748964601136,
+      "type": "expense",
+      "date": "2025-05-28",
+      "merchant": "Chapel Park Superette",
+      "category": "food",
+      "amount": 8.71
+    },
+    {
+      "id": 1748964625720,
+      "type": "expense",
+      "date": "2025-05-28",
+      "merchant": "Rent",
+      "category": "housing",
+      "amount": 710
+    },
+    {
+      "id": 1748964650176,
+      "type": "expense",
+      "date": "2025-05-28",
+      "merchant": "Butter Chicken House AKL",
+      "category": "food",
+      "amount": 10.82
+    },
+    {
+      "id": 1748964675072,
+      "type": "expense",
+      "date": "2025-05-28",
+      "merchant": "Supa Value Otara",
+      "category": "food",
+      "amount": 2.04
+    },
+    {
+      "id": 1748964797626,
+      "type": "expense",
+      "date": "2025-05-28",
+      "merchant": "En Quan Trading",
+      "category": "entertainment",
+      "amount": 24.6
+    },
+    {
+      "id": 1748964817384,
+      "type": "expense",
+      "date": "2025-05-28",
+      "merchant": "En Quan Trading",
+      "category": "entertainment",
+      "amount": 3.08
+    },
+    {
+      "id": 1748964861409,
+      "type": "expense",
+      "date": "2025-05-28",
+      "merchant": "Caltex Sylvia Park",
+      "category": "transport",
+      "amount": 20
+    },
+    {
+      "id": 1748964883750,
+      "type": "expense",
+      "date": "2025-05-28",
+      "merchant": "Caltex Sylvia Park",
+      "category": "other",
+      "amount": 4.7
+    },
+    {
+      "id": 1748696987945,
+      "type": "income",
+      "date": "2025-05-27",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 430
+    },
+    {
+      "id": 1748696978807,
+      "type": "income",
+      "date": "2025-05-27",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 1230
+    },
+    {
+      "id": 1748964372955,
+      "type": "expense",
+      "date": "2025-05-27",
+      "merchant": "Supa Save Supermarket",
+      "category": "food",
+      "amount": 9.69
+    },
+    {
+      "id": 1748964399370,
+      "type": "expense",
+      "date": "2025-05-27",
+      "merchant": "Wholesale Meats Direct AKL",
+      "category": "food",
+      "amount": 10.14
+    },
+    {
+      "id": 1748964434246,
+      "type": "expense",
+      "date": "2025-05-27",
+      "merchant": "Butter Chicken House AKL",
+      "category": "food",
+      "amount": 3.61
+    },
+    {
+      "id": 1748964467270,
+      "type": "expense",
+      "date": "2025-05-27",
+      "merchant": "Fill-Um-Tumlunch Bar Otara",
+      "category": "food",
+      "amount": 2.05
+    },
+    {
+      "id": 1748964496649,
+      "type": "expense",
+      "date": "2025-05-27",
+      "merchant": "Otara Mini Mart",
+      "category": "food",
+      "amount": 4.02
+    },
+    {
+      "id": 1748964523896,
+      "type": "income",
+      "date": "2025-05-27",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 1300.26
+    },
+    {
+      "id": 1748964552158,
+      "type": "expense",
+      "date": "2025-05-27",
+      "merchant": "Woolworths",
+      "category": "food",
+      "amount": 248.97
+    },
+    {
+      "id": 1748964568846,
+      "type": "income",
+      "date": "2025-05-27",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 429.78
+    },
+    {
+      "id": 1748964288955,
+      "type": "expense",
+      "date": "2025-05-26",
+      "merchant": "Red Taxi AKL",
+      "category": "entertainment",
+      "amount": 12.6
+    },
+    {
+      "id": 1748964318436,
+      "type": "expense",
+      "date": "2025-05-26",
+      "merchant": "KFC Otahuhu",
+      "category": "food",
+      "amount": 51.97
+    },
+    {
+      "id": 1748964344271,
+      "type": "income",
+      "date": "2025-05-26",
+      "merchant": "Loan chey",
+      "category": "investment",
+      "amount": 40
+    },
+    {
+      "id": 1748964153246,
+      "type": "expense",
+      "date": "2025-05-24",
+      "merchant": "The Warehouse",
+      "category": "entertainment",
+      "amount": 91.5
+    },
+    {
+      "id": 1748964195501,
+      "type": "expense",
+      "date": "2025-05-24",
+      "merchant": "Browns Rd Superette",
+      "category": "food",
+      "amount": 17.2
+    },
+    {
+      "id": 1748964218057,
+      "type": "expense",
+      "date": "2025-05-24",
+      "merchant": "Another Lunch Bar",
+      "category": "food",
+      "amount": 11.33
+    },
+    {
+      "id": 1748963977391,
+      "type": "expense",
+      "date": "2025-05-23",
+      "merchant": "PoH 03 account",
+      "category": "investment",
+      "amount": 7
+    },
+    {
+      "id": 1748964023743,
+      "type": "income",
+      "date": "2025-05-23",
+      "merchant": "Property Compensation",
+      "category": "bills",
+      "amount": 150
+    },
+    {
+      "id": 1748964069015,
+      "type": "expense",
+      "date": "2025-05-23",
+      "merchant": "Z Otahuhu",
+      "category": "other",
+      "amount": 33.21
+    },
+    {
+      "id": 1748964093381,
+      "type": "expense",
+      "date": "2025-05-23",
+      "merchant": "Mcdonalds Otahuhu",
+      "category": "food",
+      "amount": 63.1
+    },
+    {
+      "id": 1748964120981,
+      "type": "expense",
+      "date": "2025-05-23",
+      "merchant": "Family Foodmart AKL",
+      "category": "food",
+      "amount": 31.53
+    },
+    {
+      "id": 1748963567473,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Rent",
+      "category": "housing",
+      "amount": 710
+    },
+    {
+      "id": 1748963704634,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Mcdonalds Otahuhu",
+      "category": "food",
+      "amount": 56.7
+    },
+    {
+      "id": 1748963746293,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Family Foodmart Auckland",
+      "category": "food",
+      "amount": 39.85
+    },
+    {
+      "id": 1748963775058,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Princess Bakery and Cafe",
+      "category": "food",
+      "amount": 23.69
+    },
+    {
+      "id": 1748963824436,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Chelly afterpay",
+      "category": "investment",
+      "amount": 54.8
+    },
+    {
+      "id": 1748963847847,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Pak N Save",
+      "category": "food",
+      "amount": 130.99
+    },
+    {
+      "id": 1748963874023,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Woolworths",
+      "category": "food",
+      "amount": 67.93
+    },
+    {
+      "id": 1748963909624,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Wholesale Club Manukau",
+      "category": "food",
+      "amount": 11.94
+    },
+    {
+      "id": 1748963942851,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Maimah",
+      "category": "investment",
+      "amount": 30
+    },
+    {
+      "id": 1748963473198,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Kowhai Vape Shop",
+      "category": "other",
+      "amount": 20.4
+    },
+    {
+      "id": 1748963499130,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Kowhai Superette",
+      "category": "food",
+      "amount": 2.56
+    },
+    {
+      "id": 1748962988529,
+      "type": "expense",
+      "date": "2025-05-20",
+      "merchant": "Raffle",
+      "category": "entertainment",
+      "amount": 5
+    },
+    {
+      "id": 1748963013635,
+      "type": "expense",
+      "date": "2025-05-20",
+      "merchant": "Raffle",
+      "category": "entertainment",
+      "amount": 5
+    },
+    {
+      "id": 1748963044680,
+      "type": "income",
+      "date": "2025-05-20",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 1300.26
+    },
+    {
+      "id": 1748963152367,
+      "type": "expense",
+      "date": "2025-05-20",
+      "merchant": "Maimah",
+      "category": "shopping",
+      "amount": 60
+    },
+    {
+      "id": 1748963172921,
+      "type": "expense",
+      "date": "2025-05-20",
+      "merchant": "Loan chey",
+      "category": "investment",
+      "amount": 45
+    },
+    {
+      "id": 1748963350933,
+      "type": "expense",
+      "date": "2025-05-20",
+      "merchant": "2Degrees",
+      "category": "bills",
+      "amount": 108
+    },
+    {
+      "id": 1748963378124,
+      "type": "expense",
+      "date": "2025-05-20",
+      "merchant": "Z Otahuhu",
+      "category": "transport",
+      "amount": 40
+    },
+    {
+      "id": 1748963405545,
+      "type": "expense",
+      "date": "2025-05-20",
+      "merchant": "Bud",
+      "category": "other",
+      "amount": 150
+    },
+    {
+      "id": 1748963447203,
+      "type": "expense",
+      "date": "2025-05-20",
+      "merchant": "Bud",
+      "category": "other",
+      "amount": 3
+    },
+    {
+      "id": 1748963542204,
+      "type": "income",
+      "date": "2025-05-20",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 409.78
+    },
+    {
+      "id": 1748962956467,
+      "type": "income",
+      "date": "2025-05-19",
+      "merchant": "Loan chey",
+      "category": "investment",
+      "amount": 45
+    },
+    {
+      "id": 1748962669301,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Local Doctors",
+      "category": "health",
+      "amount": 20
+    },
+    {
+      "id": 1748962698519,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Supa Value Otara",
+      "category": "food",
+      "amount": 4.1
+    },
+    {
+      "id": 1748962729419,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "GAS Atkinson Ave",
+      "category": "other",
+      "amount": 3.99
+    },
+    {
+      "id": 1748962749523,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Pizza Hut",
+      "category": "food",
+      "amount": 30.99
+    },
+    {
+      "id": 1748962831469,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Vineyard Company",
+      "category": "entertainment",
+      "amount": 10
+    },
+    {
+      "id": 1748962858525,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Fresh Choice Otahuhu",
+      "category": "food",
+      "amount": 13.75
+    },
+    {
+      "id": 1748962910364,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Fresh Choice FlatBush",
+      "category": "food",
+      "amount": 6.2
+    },
+    {
+      "id": 1748962502317,
+      "type": "expense",
+      "date": "2025-05-16",
+      "merchant": "The Warehouse ",
+      "category": "entertainment",
+      "amount": 14.91
+    },
+    {
+      "id": 1748962579819,
+      "type": "expense",
+      "date": "2025-05-16",
+      "merchant": "Chocolate",
+      "category": "food",
+      "amount": 19
+    },
+    {
+      "id": 1748962399575,
+      "type": "expense",
+      "date": "2025-05-15",
+      "merchant": "Family Foodmart AKL",
+      "category": "food",
+      "amount": 3.5
+    },
+    {
+      "id": 1748962425152,
+      "type": "expense",
+      "date": "2025-05-15",
+      "merchant": "Woolworths ",
+      "category": "food",
+      "amount": 243.96
+    },
+    {
+      "id": 1748962035721,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Rent",
+      "category": "housing",
+      "amount": 710
+    },
+    {
+      "id": 1748962065421,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Turuki Healthcare ",
+      "category": "health",
+      "amount": 30
+    },
+    {
+      "id": 1748962096191,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Netflix",
+      "category": "bills",
+      "amount": 25.99
+    },
+    {
+      "id": 1748962117073,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "2 Degrees",
+      "category": "bills",
+      "amount": 80.8
+    },
+    {
+      "id": 1748962157281,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Family Foodmart AKL",
+      "category": "food",
+      "amount": 18.38
+    },
+    {
+      "id": 1748962206297,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "ChatGPT",
+      "category": "entertainment",
+      "amount": 37.99
+    },
+    {
+      "id": 1748962243663,
+      "type": "income",
+      "date": "2025-05-14",
+      "merchant": "Kaylee",
+      "category": "freelance",
+      "amount": 75
+    },
+    {
+      "id": 1748962279805,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "NPD Otara",
+      "category": "transport",
+      "amount": 30
+    },
+    {
+      "id": 1748962309599,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Bairds Rd PriceCutter",
+      "category": "other",
+      "amount": 20
+    },
+    {
+      "id": 1748962343313,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Bairds Rd Price Cutter",
+      "category": "other",
+      "amount": 7
+    },
+    {
+      "id": 1748962371319,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "KFC Otahuhu",
+      "category": "food",
+      "amount": 32.97
+    },
+    {
+      "id": 1748961685924,
+      "type": "income",
+      "date": "2025-05-13",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 1300.26
+    },
+    {
+      "id": 1748961728068,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Gigi Trading AKL Dubai",
+      "category": "food",
+      "amount": 32
+    },
+    {
+      "id": 1748961755119,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "JUEWEI Food AKL",
+      "category": "food",
+      "amount": 10
+    },
+    {
+      "id": 1748961784601,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Smashed Potatoes Auckland",
+      "category": "food",
+      "amount": 18.9
+    },
+    {
+      "id": 1748961829816,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "McDonalds Otahuhu",
+      "category": "food",
+      "amount": 24.1
+    },
+    {
+      "id": 1748961849177,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Oz",
+      "category": "other",
+      "amount": 200
+    },
+    {
+      "id": 1748961878279,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Kmart",
+      "category": "entertainment",
+      "amount": 31.5
+    },
+    {
+      "id": 1748961941659,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Loan 03 account",
+      "category": "investment",
+      "amount": 100
+    },
+    {
+      "id": 1748961984537,
+      "type": "income",
+      "date": "2025-05-13",
+      "merchant": "WINZ",
+      "category": "salary",
+      "amount": 429.78
+    },
+    {
+      "id": 1749042505716,
+      "type": "expense",
+      "date": "2025-05-16",
+      "merchant": "CARD 5423 THE WAREHOUSE SYLVIA",
+      "category": "uncategorized",
+      "amount": 14.91
+    },
+    {
+      "id": 1749042505994,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 5.0
+    },
+    {
+      "id": 1749042505272,
+      "type": "income",
+      "date": "2025-05-18",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 50.37
+    },
+    {
+      "id": 1749042505996,
+      "type": "income",
+      "date": "2025-05-18",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 45.0
+    },
+    {
+      "id": 1749042505756,
+      "type": "income",
+      "date": "2025-05-18",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 5.37
+    },
+    {
+      "id": 1749042506071,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 6.2
+    },
+    {
+      "id": 1749042505868,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 13.75
+    },
+    {
+      "id": 1749042505612,
+      "type": "income",
+      "date": "2025-05-18",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 24.4
+    },
+    {
+      "id": 1749042505326,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 10.0
+    },
+    {
+      "id": 1749042505631,
+      "type": "expense",
+      "date": "2025-05-18",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 30.99
+    },
+    {
+      "id": 1749042505403,
+      "type": "income",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 210.32
+    },
+    {
+      "id": 1749042505826,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 31.53
+    },
+    {
+      "id": 1749042505877,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 63.1
+    },
+    {
+      "id": 1749042505529,
+      "type": "income",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 150.0
+    },
+    {
+      "id": 1749042505352,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 7.0
+    },
+    {
+      "id": 1749042505487,
+      "type": "income",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 195.16
+    },
+    {
+      "id": 1749042505533,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 30.0
+    },
+    {
+      "id": 1749042505946,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 11.94
+    },
+    {
+      "id": 1749042505386,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 0.39
+    },
+    {
+      "id": 1749042505770,
+      "type": "expense",
+      "date": "2025-05-22",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 67.93
+    },
+    {
+      "id": 1749042505207,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 67.93
+    },
+    {
+      "id": 1749042505606,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 130.99
+    },
+    {
+      "id": 1749042505908,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 54.8
+    },
+    {
+      "id": 1749042505402,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 23.69
+    },
+    {
+      "id": 1749042505361,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 39.85
+    },
+    {
+      "id": 1749042505749,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 56.7
+    },
+    {
+      "id": 1749042505454,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 710.0
+    },
+    {
+      "id": 1749042505530,
+      "type": "income",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 409.78
+    },
+    {
+      "id": 1749042505452,
+      "type": "income",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 911.67
+    },
+    {
+      "id": 1749042505370,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 2.56
+    },
+    {
+      "id": 1749042505988,
+      "type": "expense",
+      "date": "2025-05-21",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 20.4
+    },
+    {
+      "id": 1749042506113,
+      "type": "income",
+      "date": "2025-05-20",
+      "merchant": "W&l FTC/BSTC C",
+      "category": "uncategorized",
+      "amount": 526.64
+    },
+    {
+      "id": 1749042505402,
+      "type": "income",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 934.63
+    },
+    {
+      "id": 1749042505630,
+      "type": "expense",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 3.0
+    },
+    {
+      "id": 1749042506105,
+      "type": "expense",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 150.0
+    },
+    {
+      "id": 1749042505244,
+      "type": "expense",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 40.0
+    },
+    {
+      "id": 1749042505513,
+      "type": "expense",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 108.0
+    },
+    {
+      "id": 1749042505266,
+      "type": "expense",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 45.0
+    },
+    {
+      "id": 1749042505453,
+      "type": "expense",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 60.0
+    },
+    {
+      "id": 1749042505400,
+      "type": "income",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 1300.26
+    },
+    {
+      "id": 1749042505829,
+      "type": "expense",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 5.0
+    },
+    {
+      "id": 1749042506126,
+      "type": "expense",
+      "date": "2025-05-19",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 5.0
+    },
+    {
+      "id": 1749042505631,
+      "type": "expense",
+      "date": "2025-06-02",
+      "merchant": "DR.INT TO 01/06/2025",
+      "category": "uncategorized",
+      "amount": 0.42
+    },
+    {
+      "id": 1749042505969,
+      "type": "expense",
+      "date": "2025-06-02",
+      "merchant": "UNARRANGED OVERDRAFT FEE",
+      "category": "uncategorized",
+      "amount": 3.0
+    },
+    {
+      "id": 1749042505339,
+      "type": "expense",
+      "date": "2025-05-10",
+      "merchant": "CARD 5423 NPD OTARAAUCKLAND",
+      "category": "uncategorized",
+      "amount": 30.0
+    },
+    {
+      "id": 1749042505963,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 14.91
+    },
+    {
+      "id": 1749042505403,
+      "type": "income",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 128.31
+    },
+    {
+      "id": 1749042505698,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 243.96
+    },
+    {
+      "id": 1749042505553,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 3.5
+    },
+    {
+      "id": 1749042505205,
+      "type": "income",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 375.77
+    },
+    {
+      "id": 1749042505312,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 32.97
+    },
+    {
+      "id": 1749042505673,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 7.0
+    },
+    {
+      "id": 1749042505726,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 20.0
+    },
+    {
+      "id": 1749042505492,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 30.0
+    },
+    {
+      "id": 1749042505552,
+      "type": "expense",
+      "date": "2025-05-14",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 37.99
+    },
+    {
+      "id": 1749042505670,
+      "type": "income",
+      "date": "2025-05-18",
+      "merchant": "SAT 17 MAY \u201cOther acc",
+      "category": "uncategorized",
+      "amount": 59.4
+    },
+    {
+      "id": 1749042505307,
+      "type": "expense",
+      "date": "2025-05-16",
+      "merchant": "FC06-0197-0300444-01 chocolatw",
+      "category": "uncategorized",
+      "amount": 19.0
+    },
+    {
+      "id": 1749042505270,
+      "type": "income",
+      "date": "2025-05-16",
+      "merchant": "12-3274-0034260-01 *",
+      "category": "uncategorized",
+      "amount": 113.4
+    },
+    {
+      "id": 1749042506085,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 37.99
+    },
+    {
+      "id": 1749042505634,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 18.38
+    },
+    {
+      "id": 1749042505361,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 80.8
+    },
+    {
+      "id": 1749042505607,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 25.99
+    },
+    {
+      "id": 1749042505193,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 30.0
+    },
+    {
+      "id": 1749042506095,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 710.0
+    },
+    {
+      "id": 1749042505657,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 20.0
+    },
+    {
+      "id": 1749042505239,
+      "type": "income",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 1313.9
+    },
+    {
+      "id": 1749042506019,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 100.0
+    },
+    {
+      "id": 1749042505884,
+      "type": "expense",
+      "date": "2025-05-13",
+      "merchant": "Unknown",
+      "category": "uncategorized",
+      "amount": 31.5
+    }
+  ],
+  "budgets": [
+    {
+      "id": "housing",
+      "amount": 710,
+      "spent": 710,
+      "pinned": false,
+      "active": true
+    },
+    {
+      "id": "other",
+      "amount": 990,
+      "spent": 0,
+      "pinned": false,
+      "active": true
+    },
+    {
+      "id": "health",
+      "amount": 0,
+      "spent": 0,
+      "pinned": false,
+      "active": true
+    },
+    {
+      "id": "food",
+      "amount": 0,
+      "spent": 344.73,
+      "pinned": false,
+      "active": true
+    },
+    {
+      "id": "entertainment",
+      "amount": 0,
+      "spent": 70.25,
+      "pinned": false,
+      "active": true
+    },
+    {
+      "id": "investment",
+      "amount": 0,
+      "spent": 0,
+      "pinned": false,
+      "active": true
+    },
+    {
+      "id": "bills",
+      "amount": 0,
+      "spent": 0,
+      "pinned": false,
+      "active": true
+    },
+    {
+      "id": "transport",
+      "amount": 0,
+      "spent": 30,
+      "pinned": false,
+      "active": true
+    },
+    {
+      "id": "shopping",
+      "amount": 0,
+      "spent": 0,
+      "pinned": false,
+      "active": true
+    }
+  ],
+  "settings": {
+    "currency": "NZD",
+    "dateFormat": "DD/MM/YYYY",
+    "theme": "system"
+  },
+  "categories": [
+    {
+      "id": "food",
+      "name": "Food & Dining",
+      "icon": "\ud83c\udf7d\ufe0f",
+      "color": "#FF6B6B"
+    },
+    {
+      "id": "transport",
+      "name": "Transport",
+      "icon": "\ud83d\ude97",
+      "color": "#4ECDC4"
+    },
+    {
+      "id": "housing",
+      "name": "Housing",
+      "icon": "\ud83c\udfe0",
+      "color": "#8E44AD"
+    },
+    {
+      "id": "entertainment",
+      "name": "Entertainment",
+      "icon": "\ud83c\udfac",
+      "color": "#45B7D1"
+    },
+    {
+      "id": "shopping",
+      "name": "Shopping",
+      "icon": "\ud83d\udecd\ufe0f",
+      "color": "#96CEB4"
+    },
+    {
+      "id": "bills",
+      "name": "Bills & Utilities",
+      "icon": "\ud83d\udcc4",
+      "color": "#FECA57"
+    },
+    {
+      "id": "health",
+      "name": "Health & Medical",
+      "icon": "\ud83c\udfe5",
+      "color": "#FF9FF3"
+    },
+    {
+      "id": "education",
+      "name": "Education",
+      "icon": "\ud83d\udcda",
+      "color": "#54A0FF"
+    },
+    {
+      "id": "travel",
+      "name": "Travel",
+      "icon": "\u2708\ufe0f",
+      "color": "#5F27CD"
+    },
+    {
+      "id": "salary",
+      "name": "Salary",
+      "icon": "\ud83d\udcb0",
+      "color": "#00D2D3"
+    },
+    {
+      "id": "freelance",
+      "name": "Freelance",
+      "icon": "\ud83d\udcbc",
+      "color": "#FF9F43"
+    },
+    {
+      "id": "investment",
+      "name": "Investment",
+      "icon": "\ud83d\udcc8",
+      "color": "#10AC84"
+    },
+    {
+      "id": "other",
+      "name": "Other",
+      "icon": "\ud83d\udd04",
+      "color": "#747D8C"
+    }
+  ],
+  "exportDate": "2025-06-04T12:53:45.075Z"
+}
