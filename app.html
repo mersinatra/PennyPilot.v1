@@ -413,7 +413,7 @@
                         <div class="hidden lg:block bg-surface2 rounded-lg shadow-md overflow-hidden">
                             <div class="overflow-x-auto">
                                 <table class="w-full">
-                                    <thead class="bg-surface3 sticky top-0 z-10">
+                                    <thead class="bg-surface4 sticky top-0 z-10">
                                         <tr>
                                             <th class="w-12 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">
                                                 <input type="checkbox" id="selectAllTransactions" class="focus-ring rounded border-border">
@@ -425,7 +425,7 @@
                                             <th class="w-32 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="transactionsTableBody" class="bg-surface2 divide-y divide-border">
+                                    <tbody id="transactionsTableBody" class="divide-y divide-border [&>tr:nth-child(odd)]:bg-surface3 [&>tr:nth-child(even)]:bg-surface2">
                                         <!-- Transaction rows will be populated here -->
                                     </tbody>
                                 </table>
@@ -1303,7 +1303,7 @@
                 const isSelected = appState.selectedTransactions.has(t.id);
                 
                 return `
-                    <tr class="odd:bg-surface3 even:bg-surface2 hover:bg-surface4 focus-within:bg-surface4 transition-colors ${isSelected ? 'bg-primary/5' : ''}">
+                    <tr class="hover:bg-surface4 focus-within:bg-surface4 transition-colors ${isSelected ? 'bg-primary/5' : ''}">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <input type="checkbox" class="transaction-checkbox focus-ring rounded border-border"
                                    data-id="${t.id}" ${isSelected ? 'checked' : ''}>
