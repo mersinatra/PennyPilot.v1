@@ -1865,54 +1865,6 @@
             `).join('');
         }
 
-        function generateClosingEntries(transactions) {
-    const nonClosingTransactions = transactions.filter(t => t.type !== 'closing');
-    if (nonClosingTransactions.length === 0) return [];
-
-    const entriesByDate = {};
-    nonClosingTransactions.forEach(t => {
-        const d = new Date(t.date);
-        d.setHours(0, 0, 0, 0); // Normalize date key
-        const key = d.toISOString().split('T')[0];
-        if (!entriesByDate[key]) entriesByDate[key] = [];
-        entriesByDate[key].push(t);
-    });
-
-    const allTransactionDates = [...new Set(nonClosingTransactions.map(t => {
-        const d = new Date(t.date);
-        d.setHours(0, 0, 0, 0);
-        return d.toISOString().split('T')[0];
-    }))].sort();
-
-    if (allTransactionDates.length === 0) return [];
-
-    let balance = 0;
-    const closings = [];
-
-    const firstDateInPeriod = new Date(allTransactionDates[0]);
-    nonClosingTransactions.forEach(tr => {
-        if (new Date(tr.date) < firstDateInPeriod) {
-             balance += tr.type === 'income' ? tr.amount : -tr.amount;
-        }
-    });
-    
-    for (const dateKey of allTransactionDates) {
-        const dailyTransactions = entriesByDate[dateKey] || [];
-        dailyTransactions.forEach(tr => {
-            balance += tr.type === 'income' ? tr.amount : -tr.amount;
-        });
-
-        closings.push({
-            id: `closing-${dateKey}`,
-            type: 'closing',
-            date: dateKey, 
-            merchant: '', 
-            category: 'closing', 
-            amount: balance
-        });
-    }
-    return closings;
-}
 
         function formatSpecialDateDisplay(dateString) {
     const entryDate = new Date(dateString); 
@@ -2076,11 +2028,10 @@
 
         // Also, ensure generateClosingEntries is robust:
         function generateClosingEntries(transactions, todayDateKey) { // todayDateKey is YYYY-MM-DD
-            const nonClosingTransactions = transactions.filter(t => t.type !== 'closing');
+            const nonClosing = transactions.filter(t => t.type !== 'closing');
             const closings = [];
-            
-            if (nonClosingTransactions.length === 0) {
-                // If no transactions at all, but todayDateKey is provided, create a zero balance for today
+
+            if (nonClosing.length === 0) {
                 if (todayDateKey) {
                     closings.push({
                         id: `closing-${todayDateKey}`,
@@ -2094,66 +2045,44 @@
                 return closings;
             }
 
-            const entriesByDate = {};
-            nonClosingTransactions.forEach(t => {
-                // t.date is YYYY-MM-DD, directly use as key
-                const key = t.date; 
-                if (!entriesByDate[key]) entriesByDate[key] = [];
-                entriesByDate[key].push(t);
-            });
-
-            // Get all unique YYYY-MM-DD date strings from transactions and sort them
-            const allTransactionDateKeys = [...new Set(nonClosingTransactions.map(t => t.date))].sort();
+            const sorted = [...nonClosing].sort((a, b) => a.date.localeCompare(b.date));
 
             let balance = 0;
-            let lastCalculatedBalance = 0;
+            let lastDate = null;
 
-            // Calculate balance from all transactions *before* the first date key we'll show a closing for.
-            if (allTransactionDateKeys.length > 0) {
-                const firstDateKeyInPeriod = allTransactionDateKeys[0];
-                nonClosingTransactions.forEach(tr => {
-                    if (tr.date < firstDateKeyInPeriod) {
-                         balance += tr.type === 'income' ? tr.amount : -tr.amount;
-                    }
-                });
-            }
-            lastCalculatedBalance = balance; // Initial balance before processing sorted transaction dates
-            
-            for (const dateKey of allTransactionDateKeys) {
-                const dailyTransactions = entriesByDate[dateKey] || [];
-                dailyTransactions.forEach(tr => {
-                    balance += tr.type === 'income' ? tr.amount : -tr.amount;
-                });
+            sorted.forEach(tr => {
+                balance += tr.type === 'income' ? tr.amount : -tr.amount;
 
-                closings.push({
-                    id: `closing-${dateKey}`,
-                    type: 'closing',
-                    date: dateKey, 
-                    merchant: '', 
-                    category: 'closing', 
-                    amount: balance
-                });
-                lastCalculatedBalance = balance;
-            }
+                if (tr.date === lastDate) {
+                    // Update closing for same day
+                    closings[closings.length - 1].amount = balance;
+                } else {
+                    closings.push({
+                        id: `closing-${tr.date}`,
+                        type: 'closing',
+                        date: tr.date,
+                        merchant: '',
+                        category: 'closing',
+                        amount: balance
+                    });
+                    lastDate = tr.date;
+                }
+            });
 
-            // If todayDateKey is provided and is later than the last transaction date,
-            // and no closing entry for todayDateKey already exists (e.g., if today had transactions)
             if (todayDateKey) {
-                const lastTransactionDateKey = allTransactionDateKeys.length > 0 ? allTransactionDateKeys[allTransactionDateKeys.length - 1] : null;
-                const todayClosingExists = closings.some(c => c.date === todayDateKey);
-
-                if (!todayClosingExists && (!lastTransactionDateKey || todayDateKey > lastTransactionDateKey)) {
+                const lastTransactionDateKey = sorted[sorted.length - 1].date;
+                if (todayDateKey > lastTransactionDateKey) {
                     closings.push({
                         id: `closing-${todayDateKey}`,
                         type: 'closing',
                         date: todayDateKey,
                         merchant: '',
                         category: 'closing',
-                        amount: lastCalculatedBalance // Carry forward the last known balance
+                        amount: balance
                     });
                 }
             }
-            // The final list is sorted by getFilteredTransactions, so no need to re-sort here.
+
             return closings;
         }
 
