@@ -1442,13 +1442,15 @@
         }
 
         function renderDashboard() {
-            // Calculate weekly balance
+            // Weekly stats for income/expenses
             const weeklyStats = calculateWeeklyStats();
-            const balance = weeklyStats.balance;
-            updateBalanceDate(weeklyStats.range);
+
+            // Calculate closing balance for today
+            const todayBalance = calculateClosingBalanceToday();
+            updateBalanceDateToday();
             
             // Update balance card
-            document.getElementById('currentBalance').textContent = formatCurrency(balance);
+            document.getElementById('currentBalance').textContent = formatCurrency(todayBalance);
             document.getElementById('weeklyIncome').textContent = formatCurrency(weeklyStats.income);
             document.getElementById('weeklyExpenses').textContent = formatCurrency(weeklyStats.expenses);
             
@@ -1471,6 +1473,20 @@
             return appState.transactions.reduce((sum, t) => {
                 return sum + (t.type === 'income' ? t.amount : -t.amount);
             }, 0);
+        }
+
+        function getTodayDateKey() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function calculateClosingBalanceToday() {
+            const todayKey = getTodayDateKey();
+            const transactionsUpToToday = appState.transactions.filter(t => t.type !== 'closing' && t.date <= todayKey);
+            return transactionsUpToToday.reduce((sum, t) => sum + (t.type === 'income' ? t.amount : -t.amount), 0);
         }
 
         function calculateWeeklyStats() {
@@ -2997,6 +3013,16 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             const el = document.getElementById('balanceDate');
             if (el) {
                 el.textContent = `Week: ${startStr} - ${endStr}`;
+            }
+        }
+
+        function updateBalanceDateToday() {
+            const options = { month: 'short', day: 'numeric' };
+            const today = new Date();
+            const todayStr = today.toLocaleDateString('en-US', options);
+            const el = document.getElementById('balanceDate');
+            if (el) {
+                el.textContent = `Today: ${todayStr}`;
             }
         }
 
