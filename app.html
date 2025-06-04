@@ -1409,7 +1409,7 @@
             tbody.innerHTML = transactions.map((t, idx) => {
                 const category = appState.categories.find(c => c.id === t.category);
                 const isSelected = appState.selectedTransactions.has(t.id);
-                const rowBg = isSelected ? 'bg-primary/5' : 'bg-white';
+                const rowBg = isSelected ? 'bg-primary/5' : 'bg-surface1';
 
                 return `
                     <tr data-id="${t.id}" class="transactions-row group ${rowBg}">
