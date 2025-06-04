@@ -192,15 +192,6 @@
             fill: var(--color-primary);
         }
 
-        .radio-card-input { @apply hidden peer; }
-        .radio-card-label { 
-          @apply inline-flex items-center justify-between w-full p-5
-                 text-gray-500 bg-white border border-gray-200 rounded-lg 
-                 cursor-pointer hover:text-gray-600 hover:bg-gray-100
-                 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700
-                 peer-checked:border-blue-600 peer-checked:text-blue-600
-                 dark:peer-checked:border-blue-600 dark:peer-checked:text-blue-500;
-        }
 
     </style>
 </head>
@@ -276,7 +267,7 @@
                     <!-- Dashboard Page -->
                     <div id="dashboard-page" class="page active">
                         <div class="mb-6">
-                            <h2 class="text-3xl font-bold text-textPrimary mb-2">Dashboard</h2>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-textPrimary mb-2">Dashboard</h2>
                             <p class="text-textSecondary">Your financial overview at a glance</p>
                         </div>
                         
@@ -372,7 +363,7 @@
                         <div class="mb-6">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h2 class="text-3xl font-bold text-textPrimary mb-2">Transactions</h2>
+                                    <h2 class="text-2xl sm:text-3xl font-bold text-textPrimary mb-2">Transactions</h2>
                                     <p class="text-textSecondary">Manage your income and expenses</p>
                                 </div>
                                 <button id="bulkDeleteBtn" class="hidden bg-danger text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-danger/90 transition-colors">
@@ -441,7 +432,7 @@
                     <!-- Budgets Page -->
                     <div id="budgets-page" class="page">
                         <div class="mb-6">
-                            <h2 class="text-3xl font-bold text-textPrimary mb-2">Budgets</h2>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-textPrimary mb-2">Budgets</h2>
                             <p class="text-textSecondary">Track your spending by category</p>
                         </div>
                         
@@ -466,7 +457,7 @@
                         <div class="mb-6">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h2 class="text-3xl font-bold text-textPrimary mb-2">Reports</h2>
+                                    <h2 class="text-2xl sm:text-3xl font-bold text-textPrimary mb-2">Reports</h2>
                                     <p class="text-textSecondary">Analyze your financial trends</p>
                                 </div>
                                 
@@ -525,13 +516,13 @@
                     <!-- Settings Page -->
                     <div id="settings-page" class="page">
                         <div class="mb-6">
-                            <h2 class="text-3xl font-bold text-textPrimary mb-2">Settings</h2>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-textPrimary mb-2">Settings</h2>
                             <p class="text-textSecondary">Customize your PennyPilot experience</p>
                         </div>
                         
                         <div class="space-y-6">
                             <!-- General Preferences -->
-                            <details class="bg-surface2 rounded-lg shadow-md overflow-hidden">
+                            <details class="group bg-surface2 rounded-lg shadow-md overflow-hidden">
   <!-- Summary becomes the clickable header -->
   <summary class="flex items-center justify-between px-6 py-4 cursor-pointer select-none">
     <h3 class="text-lg font-semibold text-textPrimary">General Preferences</h3>
@@ -606,7 +597,7 @@
 </details>
                             
                             <!-- Category Management -->
-                            <details class="bg-surface2 rounded-lg shadow-md overflow-hidden">
+                            <details class="group bg-surface2 rounded-lg shadow-md overflow-hidden">
   <summary class="flex items-center justify-between px-6 py-4 cursor-pointer select-none">
     <h3 class="text-lg font-semibold text-textPrimary">Categories</h3>
     <svg
@@ -637,7 +628,7 @@
 
                             
                             <!-- Data Management -->
-                            <details class="bg-surface2 rounded-lg shadow-md overflow-hidden">
+                            <details class="group bg-surface2 rounded-lg shadow-md overflow-hidden">
   <summary class="flex items-center justify-between px-6 py-4 cursor-pointer select-none">
     <h3 class="text-lg font-semibold text-textPrimary">Data Management</h3>
     <svg
@@ -691,23 +682,23 @@
         <!-- Bottom Navigation (Mobile) -->
         <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-surface2 border-t border-border z-40">
             <div class="flex items-center justify-around py-2">
-                <a href="#" class="nav-item mobile-nav active flex flex-col items-center p-2 text-xs" data-page="dashboard">
+                <a href="#" class="nav-item mobile-nav active flex flex-col items-center py-3 px-2 text-xs" data-page="dashboard">
                     <i class="fas fa-home text-lg mb-1"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="nav-item mobile-nav flex flex-col items-center p-2 text-xs" data-page="transactions">
+                <a href="#" class="nav-item mobile-nav flex flex-col items-center py-3 px-2 text-xs" data-page="transactions">
                     <i class="fas fa-exchange-alt text-lg mb-1"></i>
                     <span>Transactions</span>
                 </a>
-                <a href="#" class="nav-item mobile-nav flex flex-col items-center p-2 text-xs" data-page="budgets">
+                <a href="#" class="nav-item mobile-nav flex flex-col items-center py-3 px-2 text-xs" data-page="budgets">
                     <i class="fas fa-chart-pie text-lg mb-1"></i>
                     <span>Budgets</span>
                 </a>
-                <a href="#" class="nav-item mobile-nav flex flex-col items-center p-2 text-xs" data-page="reports">
+                <a href="#" class="nav-item mobile-nav flex flex-col items-center py-3 px-2 text-xs" data-page="reports">
                     <i class="fas fa-chart-line text-lg mb-1"></i>
                     <span>Reports</span>
                 </a>
-                <a href="#" class="nav-item mobile-nav flex flex-col items-center p-2 text-xs" data-page="settings">
+                <a href="#" class="nav-item mobile-nav flex flex-col items-center py-3 px-2 text-xs" data-page="settings">
                     <i class="fas fa-cog text-lg mb-1"></i>
                     <span>Settings</span>
                 </a>
@@ -739,7 +730,7 @@
     
     <!-- Transaction Modal -->
     <div id="transactionModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-surface1 rounded-lg shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <div class="bg-surface1 rounded-lg shadow-lg max-w-sm sm:max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h3 id="transactionModalTitle" class="text-lg font-semibold text-textPrimary">Add Transaction</h3>
@@ -1391,7 +1382,7 @@
                                 </div>
                                 
                                 <div class="relative">
-                                    <button class="text-textSecondary hover:text-textPrimary transition-colors p-1" onclick="toggleTransactionMenu(${t.id})">
+                                    <button class="text-textSecondary hover:text-textPrimary transition-colors p-2" onclick="toggleTransactionMenu(${t.id})">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div id="menu-${t.id}" class="hidden absolute right-0 top-8 bg-surface1 rounded-lg shadow-lg border border-border py-1 z-10 min-w-32">
@@ -1987,10 +1978,10 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                         <span class="font-medium text-textPrimary">${category.name}</span>
                     </div>
                     <div class="flex items-center space-x-2">
-                        <button class="text-textSecondary hover:text-textPrimary transition-colors" title="Edit">
+                        <button class="p-2 text-textSecondary hover:text-textPrimary transition-colors" title="Edit">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="text-danger hover:text-danger/80 transition-colors" title="Delete">
+                        <button class="p-2 text-danger hover:text-danger/80 transition-colors" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
