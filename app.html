@@ -1105,9 +1105,9 @@
         }
 
         function renderDashboard() {
-            // Calculate balance
-            const balance = calculateBalance();
+            // Calculate weekly balance
             const weeklyStats = calculateWeeklyStats();
+            const balance = weeklyStats.balance;
             updateBalanceDate(weeklyStats.range);
             
             // Update balance card
@@ -1144,9 +1144,18 @@
                 return d >= range.start && d < range.end;
             });
 
+            const income = weeklyTransactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+
+            const expenses = weeklyTransactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+
             return {
-                income: weeklyTransactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0),
-                expenses: weeklyTransactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0),
+                income,
+                expenses,
+                balance: income - expenses,
                 range
             };
         }
