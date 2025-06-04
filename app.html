@@ -1575,19 +1575,33 @@
         function updateCategoryDropdownLabel() {
             const active = document.querySelector('.filter-pill.active');
             const label = active ? active.textContent.trim() : 'Category';
+            const isFiltered = active && active.dataset.filter !== 'all';
             const desktopBtn = document.getElementById('categoryDropdownBtn');
             const mobileBtn = document.getElementById('categoryDropdownBtnMobile');
-            if (desktopBtn) desktopBtn.textContent = `${label} ▾`;
-            if (mobileBtn) mobileBtn.textContent = `${label} ▾`;
+            if (desktopBtn) {
+                desktopBtn.textContent = `${label} ▾`;
+                desktopBtn.classList.toggle('active', isFiltered);
+            }
+            if (mobileBtn) {
+                mobileBtn.textContent = `${label} ▾`;
+                mobileBtn.classList.toggle('active', isFiltered);
+            }
         }
 
         function updateDateDropdownLabel() {
             const active = document.querySelector('.date-filter-btn[data-range].active');
             const label = active ? active.textContent.trim() : 'Date Range';
+            const isFiltered = active && active.dataset.range !== 'all';
             const desktopBtn = document.getElementById('dateDropdownBtn');
             const mobileBtn = document.getElementById('dateDropdownBtnMobile');
-            if (desktopBtn) desktopBtn.textContent = `${label} ▾`;
-            if (mobileBtn) mobileBtn.textContent = `${label} ▾`;
+            if (desktopBtn) {
+                desktopBtn.textContent = `${label} ▾`;
+                desktopBtn.classList.toggle('active', isFiltered);
+            }
+            if (mobileBtn) {
+                mobileBtn.textContent = `${label} ▾`;
+                mobileBtn.classList.toggle('active', isFiltered);
+            }
         }
 
         function toggleSelectAll() {
@@ -2559,7 +2573,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                 background: var(--color-surface-3);
             }
             
-            .filter-pill.active {
+            .filter-pill.active:not([data-filter="all"]) {
                 background: var(--color-primary);
                 color: white;
                 border-color: var(--color-primary);
@@ -2579,7 +2593,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                 background: var(--color-surface-3);
             }
             
-            .date-filter-btn.active {
+            .date-filter-btn.active:not([data-range="all"]) {
                 background: var(--color-primary);
                 color: white;
                 border-color: var(--color-primary);
