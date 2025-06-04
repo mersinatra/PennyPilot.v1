@@ -71,147 +71,354 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            /* Light mode colors */
-            --color-surface-1: #FFFFFF;
-            --color-surface-2: #F9F9F9;
-            --color-surface-3: #E0E0E0;
-            --color-surface-4: #C4C4C4;
-            --color-primary: #1ABC9C;
-            --color-danger: #E74C3C;
-            --color-warning: #F39C12;
-            --color-text-primary: #222222;
-            --color-text-secondary: #4A4A4A;
-            --color-border: #E0E0E0;
-            --color-focus-ring: #1ABC9C80;
-        }
-        
-        .dark {
-            /* Dark mode colors */
-            --color-surface-1: #121212;
-            --color-surface-2: #1E1E1E;
-            --color-surface-3: #2A2A2A;
-            --color-surface-4: #383838;
-            --color-text-primary: #FAFAFA;
-            --color-text-secondary: #C2C2C2;
-            --color-border: #333333;
-        }
-        
-        body {
-            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-            background-color: var(--color-surface-1);
-            color: var(--color-text-primary);
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--color-surface-2);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--color-border);
-            border-radius: 3px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--color-text-secondary);
-        }
-        
-        /* Focus styles */
-        .focus-ring:focus-visible {
-            outline: 2px solid var(--color-focus-ring);
-            outline-offset: 2px;
-        }
-        
-        /* Animations */
-        @keyframes countUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    :root {
+        /* Light mode colors */
+        --color-surface-1: #FFFFFF;
+        --color-surface-2: #F9F9F9;
+        --color-surface-3: #E0E0E0;
+        --color-surface-4: #C4C4C4;
+        --color-primary: #1ABC9C;
+        --color-danger: #E74C3C;
+        --color-warning: #F39C12;
+        --color-text-primary: #222222;
+        --color-text-secondary: #4A4A4A;
+        --color-border: #E0E0E0;
+        --color-focus-ring: #1ABC9C80;
 
-        @keyframes slideOut {
-            from { opacity: 1; height: var(--h, auto); }
-            to { opacity: 0; height: 0; }
-        }
-        
-        .animate-count-up {
-            animation: countUp 0.6s ease-out;
-        }
-        
-        .animate-slide-in-right {
-            animation: slideInRight 0.3s ease-out;
-        }
-        
-        .animate-fade-in-up {
-            animation: fadeInUp 0.4s ease-out;
-        }
-        
-        /* Toast styles */
-        .toast {
-            transform: translateY(100px);
-            transition: transform 0.3s ease-out;
-        }
-        
-        .toast.show {
-            transform: translateY(0);
-        }
-        
-        /* FAB animations */
-        .fab-expanded {
-            transform: rotate(45deg);
-        }
-        
-        /* Card hover effects */
-        .card-hover:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
-            transition: all 0.2s ease-out;
-        }
-        
-        /* Progress circle */
-        .progress-circle {
-            transform: rotate(-90deg);
-        }
-        
-        /* Sparkline */
-        .sparkline-point {
-            transition: all 0.2s ease-out;
-        }
-        
-        .sparkline-point:hover {
-            r: 4;
-            fill: var(--color-primary);
-        }
+        /* MODIFIED: CSS Variables for Theming Table and Rows */
+        --color-table-header-bg: rgba(26, 188, 156, 0.15); /* Light theme header - increased opacity */
+        --color-surface-1-alt: #F0F0F0; /* Alternate row background for light theme - more distinct */
+        --color-row-border: var(--color-border); 
+        --color-selected-row-bg: rgba(26, 188, 156, 0.1); 
+    }
 
-        .animate-slide-out {
-            animation: slideOut 0.3s ease forwards;
-        }
+    .dark {
+        /* Dark mode colors */
+        --color-surface-1: #121212;
+        --color-surface-2: #1E1E1E;
+        --color-surface-3: #2A2A2A;
+        --color-surface-4: #383838;
+        --color-text-primary: #FAFAFA;
+        --color-text-secondary: #C2C2C2;
+        --color-border: #333333;
 
-        .tabular-nums {
-            font-variant-numeric: tabular-nums;
-        }
+        /* MODIFIED: Dark Theme CSS Variables for Table and Rows */
+        --color-table-header-bg: rgba(26, 188, 156, 0.2);  
+        --color-surface-1-alt: #242424; 
+        --color-selected-row-bg: rgba(26, 188, 156, 0.25); 
+    }
 
-        .transaction-checkbox {
-            width: 14px;
-            height: 14px;
-        }
+    body {
+        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+        background-color: var(--color-surface-1);
+        color: var(--color-text-primary);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--color-surface-2);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-border);
+        border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-text-secondary);
+    }
+
+    /* Focus styles */
+    .focus-ring:focus-visible {
+        outline: 2px solid var(--color-focus-ring);
+        outline-offset: 2px;
+    }
+
+    /* Animations */
+    @keyframes countUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideOut {
+        from { opacity: 1; height: var(--h, auto); }
+        to { opacity: 0; height: 0; }
+    }
+
+    .animate-count-up {
+        animation: countUp 0.6s ease-out;
+    }
+
+    .animate-slide-in-right {
+        animation: slideInRight 0.3s ease-out;
+    }
+
+    .animate-fade-in-up {
+        animation: fadeInUp 0.4s ease-out;
+    }
+
+    /* Toast styles */
+    .toast {
+        transform: translateY(100px);
+        transition: transform 0.3s ease-out;
+    }
+
+    .toast.show {
+        transform: translateY(0);
+    }
+
+    /* FAB animations */
+    .fab-expanded {
+        transform: rotate(45deg);
+    }
+
+    /* Card hover effects */
+    .card-hover:hover {
+        box-shadow: var(--shadow-lg); 
+        transform: translateY(-2px);
+        transition: all 0.2s ease-out;
+    }
+
+    /* Progress circle */
+    .progress-circle {
+        transform: rotate(-90deg);
+    }
+
+    /* Sparkline */
+    .sparkline-point {
+        transition: all 0.2s ease-out;
+    }
+
+    .sparkline-point:hover {
+        r: 4;
+        fill: var(--color-primary);
+    }
+
+    .animate-slide-out {
+        animation: slideOut 0.3s ease forwards;
+    }
+
+    .tabular-nums {
+        font-variant-numeric: tabular-nums;
+    }
+
+    .transaction-checkbox {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* --- NEW/MODIFIED CSS FOR TABLE THEMING --- */
+
+    /* Table Header Styling */
+    .table-header {
+        background-color: var(--color-table-header-bg);
+        position: sticky; 
+        top: 0;
+        z-index: 10; 
+    }
+    .table-header th {
+        border-bottom: 2px solid var(--color-border); 
+        color: var(--color-text-secondary);
+    }
+
+    /* Transaction Row Styling */
+    .transactions-row {
+        transition: background-color 0.2s ease;
+        border-bottom: 1px solid var(--color-row-border);
+    }
+    .transactions-row:last-child { 
+        border-bottom: none;
+    }
+    .transactions-row.group:hover {
+        background-color: var(--color-surface-3) !important; 
+    }
+
+    /* Class for JS to apply for zebra striping */
+    .bg-surface1-alt { /* This class will be applied to odd rows over the table's base background */
+        background-color: var(--color-surface-1-alt);
+    }
+    /* Class for JS to apply for selected rows */
+    .bg-selected-row {
+        background-color: var(--color-selected-row-bg) !important;
+    }
 
 
-    </style>
+    /* Closing Entry Row Styling */
+    .closing-entry-row {
+        background-color: var(--color-surface-2); 
+        border-top: 1px dashed var(--color-border);
+        border-bottom: 1px dashed var(--color-border);
+    }
+    .closing-entry-row td {
+        font-style: italic;
+    }
+    /* Make date and amount in closing row more prominent */
+    .closing-entry-row td.closing-data-emphasis {
+        font-weight: 600; /* semibold */
+        color: var(--color-text-primary);
+    }
+
+    .dark .closing-entry-row {
+        background-color: var(--color-surface-3); 
+    }
+    
+    /* Mobile Closing Entry Card Styling */
+    .closing-entry-card {
+        background-color: var(--color-surface-3); /* More distinct background */
+        border: 1px solid var(--color-border);
+    }
+    .dark .closing-entry-card {
+        background-color: var(--color-surface-4);
+    }
+    .closing-entry-card .closing-card-date {
+        font-weight: 600; /* semibold */
+        color: var(--color-text-primary);
+    }
+    .closing-entry-card .closing-card-amount {
+        font-weight: 600; /* semibold */
+        color: var(--color-text-primary);
+    }
+
+
+    /* --- END OF NEW/MODIFIED CSS --- */
+
+    .page {
+        display: none;
+    }
+    .page.active {
+        display: block;
+    }
+    .nav-item {
+        color: var(--color-text-secondary);
+        transition: all 0.2s ease;
+    }
+    .nav-item:hover {
+        color: var(--color-text-primary);
+        background-color: var(--color-surface-3);
+    }
+    .nav-item.active {
+        color: var(--color-primary);
+        background-color: rgba(26, 188, 156, 0.1); 
+    }
+    .mobile-nav.active {
+        color: var(--color-primary);
+    }
+    .filter-pill {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--color-primary);
+        border-radius: 9999px;
+        background: var(--color-surface-1);
+        color: var(--color-text-secondary);
+        font-size: 0.875rem;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        transition: all 0.2s ease;
+    }
+    .filter-pill:hover {
+        background: var(--color-surface-3);
+    }
+    .filter-pill.active:not([data-filter="all"]) {
+        background: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+    }
+    .date-filter-btn {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--color-primary);
+        border-radius: 0.5rem;
+        background: var(--color-surface-1);
+        color: var(--color-text-secondary);
+        font-size: 0.875rem;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        transition: all 0.2s ease;
+    }
+    .date-filter-btn:hover {
+        background: var(--color-surface-3);
+    }
+    .date-filter-btn.active:not([data-range="all"]) {
+        background: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+    }
+    .date-toggle-btn {
+        min-width: 4.5rem;
+        white-space: nowrap;
+    }
+    .segmented-control {
+        display: flex;
+        border: 1px solid var(--color-border);
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+    .segmented-control .filter-pill {
+        border-radius: 0;
+        border: none;
+        border-right: 1px solid var(--color-border);
+    }
+    .segmented-control .filter-pill:last-child {
+        border-right: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .budget-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 6px;
+        background: var(--color-surface-3);
+        border-radius: 3px;
+        outline: none;
+    }
+    .budget-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        background: var(--color-primary);
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    .budget-slider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        background: var(--color-primary);
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+    .row-chrome button { 
+        transition: opacity 0.15s;
+    }
+    .skeleton {
+        background: rgba(26,188,156,0.1); 
+        border-radius: 4px;
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+    @keyframes pulse {
+        0%,100% { opacity: 0.3; }
+        50% { opacity: 0.6; }
+    }
+    #bulkDeleteBtn {
+        transition: transform 0.2s, opacity 0.2s;
+    }
+</style>
 </head>
 <body class="h-full bg-surface1 text-textPrimary">
     <div id="app" class="h-full flex flex-col">
@@ -396,7 +603,7 @@
                         <div class="flex flex-col lg:flex-row lg:items-center gap-4">
                                 <div class="flex-1 relative">
                                     <input type="text" id="transactionSearch" placeholder="Search transactions..."
-                                           class="focus-ring w-full pl-10 pr-4 py-2 border border-primary rounded-md bg-white text-textPrimary text-base shadow-inner transition-colors">
+                                           class="focus-ring w-full pl-10 pr-4 py-2 border border-primary rounded-md bg-surface1 text-textPrimary text-base shadow-inner transition-colors">
                                     <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-textSecondary pointer-events-none"></i>
                                 </div>
 
@@ -486,7 +693,7 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody id="transactionsTableBody" class="divide-y divide-transparent">
+                                    <tbody id="transactionsTableBody" class="">
                                         <!-- Transaction rows will be populated here -->
                                     </tbody>
                                 </table>
@@ -1016,7 +1223,7 @@
                     filterTransactions();
                     document.getElementById('categoryDropdownMenu')?.classList.add('hidden');
                     document.getElementById('categoryDropdownMenuMobile')?.classList.add('hidden');
-                    document.getElementById('dateDropdownMenuMobile')?.classList.add('hidden');
+                    // document.getElementById('dateDropdownMenuMobile')?.classList.add('hidden'); // This was causing date dropdown to close prematurely
                 });
             });
 
@@ -1029,7 +1236,7 @@
                 if (!btn || !menu) return;
                 btn.addEventListener('click', () => menu.classList.toggle('hidden'));
                 document.addEventListener('click', (e) => {
-                    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    if (menu && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
                         menu.classList.add('hidden');
                     }
                 });
@@ -1044,7 +1251,7 @@
                 if (!btn || !menu) return;
                 btn.addEventListener('click', () => menu.classList.toggle('hidden'));
                 document.addEventListener('click', (e) => {
-                    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                     if (menu && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
                         menu.classList.add('hidden');
                     }
                 });
@@ -1052,7 +1259,14 @@
 
             document.querySelectorAll('.date-filter-btn[data-range]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.date-filter-btn[data-range]').forEach(b => b.classList.remove('active'));
+                    // Deselect other buttons within the same dropdown
+                    const parentDropdown = e.target.closest('div[id$="DropdownMenu"], div[id$="DropdownMenuMobile"]');
+                    if (parentDropdown) {
+                         parentDropdown.querySelectorAll('.date-filter-btn[data-range]').forEach(b => b.classList.remove('active'));
+                    } else { // For non-dropdown buttons if any, or global deselection (less common)
+                         document.querySelectorAll('.date-filter-btn[data-range]').forEach(b => b.classList.remove('active'));
+                    }
+
 
                     e.target.classList.add('active');
                     updateDateDropdownLabel();
@@ -1421,64 +1635,122 @@
         }
 
         function renderTransactionsTable() {
-            const tbody = document.getElementById('transactionsTableBody');
-            const transactions = getFilteredTransactions();
+    const tbody = document.getElementById('transactionsTableBody');
+    tbody.className = ''; // Clears classes like 'divide-y divide-transparent'
 
-            tbody.innerHTML = transactions.map((t, idx) => {
-                const category = appState.categories.find(c => c.id === t.category);
-                const isClosing = t.type === 'closing';
-                const isSelected = appState.selectedTransactions.has(t.id);
-                const rowBg = isSelected ? 'bg-primary/5' : (idx % 2 === 0 ? 'bg-surface1' : 'bg-[#FAFAFA]');
+    const transactions = getFilteredTransactions();
+    const nonClosingTransactions = transactions.filter(t => t.type !== 'closing');
+    let nonClosingRowIndex = 0; 
 
-                return `
-                    <tr data-id="${t.id}" class="transactions-row group ${rowBg}">
-                        <td class="px-3 py-3 text-center first:rounded-l-md">
-                            ${isClosing ? '' : `<input type="checkbox" class="transaction-checkbox focus-ring rounded border-border opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" data-id="${t.id}" ${isSelected ? 'checked' : ''}>`}
-                        </td>
-                        <td class="px-4 py-3 text-xs font-mono uppercase text-textSecondary">
-                            ${formatDate(t.date)}
-                        </td>
-                        <td class="px-4 py-3 font-semibold text-textPrimary">
-                            ${isClosing ? 'Closing Balance' : t.merchant}
-                        </td>
-                        <td class="px-4 py-3">
-                            ${isClosing ? '<span class="text-xs text-textSecondary">—</span>' : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style="background:${category?.color}26;color:${category?.color}">${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span></span>`}
-                        </td>
-                        <td class="px-4 py-3 text-right font-mono tabular-nums text-base font-semibold ${isClosing ? 'text-textSecondary' : (t.type === 'income' ? 'text-green-400' : 'text-red-500')}">
-                            ${isClosing ? formatCurrency(t.amount) : `${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}`}
-                        </td>
-                        <td class="px-4 py-3 last:rounded-r-md">
-                            ${isClosing ? '' : `<div class="flex items-center space-x-2 row-chrome opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity"><button onclick="editTransaction(${t.id})" aria-label="Edit" class="focus-ring p-2 rounded-md text-primary hover:bg-surface4 transition-colors"><i class="fas fa-edit"></i></button><button onclick="deleteTransaction(${t.id})" aria-label="Delete" class="focus-ring p-2 rounded-md text-danger hover:bg-surface4 transition-colors"><i class="fas fa-trash"></i></button></div>`}
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-            
-            // Add event listeners to checkboxes
-            tbody.querySelectorAll('.transaction-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', (e) => {
-                    const id = parseInt(e.target.dataset.id);
-                    if (e.target.checked) {
-                        appState.selectedTransactions.add(id);
-                    } else {
-                        appState.selectedTransactions.delete(id);
-                    }
-                    updateBulkActions();
-                });
-            });
-            
-            if (transactions.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="px-6 py-12 text-center text-textSecondary">
-                            <i class="fas fa-search text-3xl mb-2 opacity-50"></i>
-                            <p>No transactions found</p>
-                            <p class="text-sm">Try adjusting your search or filters</p>
-                        </td>
-                    </tr>
-                `;
+    tbody.innerHTML = transactions.map((t) => {
+        const category = appState.categories.find(c => c.id === t.category);
+        const isClosing = t.type === 'closing';
+        const isSelected = !isClosing && appState.selectedTransactions.has(t.id);
+
+        if (isClosing) {
+            return `
+                <tr data-id="${t.id}" class="closing-entry-row">
+                    <td colspan="2" class="px-4 py-2 text-left text-sm closing-data-emphasis">
+                        ${formatSpecialDateDisplay(t.date)}
+                    </td>
+                    <td class="px-4 py-2"></td> 
+                    <td class="px-4 py-2"></td> 
+                    <td class="px-4 py-2 text-right font-mono tabular-nums text-base closing-data-emphasis">
+                        ${formatCurrency(t.amount)}
+                    </td>
+                    <td class="px-4 py-2"></td> 
+                </tr>
+            `;
+        } else {
+            let rowClasses = "transactions-row group";
+            if (isSelected) {
+                rowClasses += " bg-selected-row"; 
+            } else {
+                // Base for rows is surface2 (from table container). Apply bg-surface1-alt for odd rows.
+                // nonClosingRowIndex is 0-indexed.
+                // If nonClosingRowIndex is 0 (first non-closing, visually "even" if surface2 is base), it gets no class.
+                // If nonClosingRowIndex is 1 (second non-closing, visually "odd"), it gets bg-surface1-alt.
+                if (nonClosingRowIndex % 2 !== 0) { 
+                    rowClasses += " bg-surface1-alt";
+                }
             }
+            nonClosingRowIndex++; 
+
+            return `
+                <tr data-id="${t.id}" class="${rowClasses}">
+                    <td class="px-3 py-3 text-center">
+                        <input type="checkbox" class="transaction-checkbox focus-ring rounded border-border opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" data-id="${t.id}" ${isSelected ? 'checked' : ''}>
+                    </td>
+                    <td class="px-4 py-3 text-xs font-mono uppercase text-textSecondary">
+                        ${formatDate(t.date)}
+                    </td>
+                    <td class="px-4 py-3 font-semibold text-textPrimary">
+                        ${t.merchant}
+                    </td>
+                    <td class="px-4 py-3">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style="background:${category?.color}26;color:${category?.color}">
+                            ${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span>
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 text-right font-mono tabular-nums text-base font-semibold ${t.type === 'income' ? 'text-green-500' : 'text-red-500'}">
+                        ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex items-center space-x-2 row-chrome opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+                            <button onclick="editTransaction(${t.id})" aria-label="Edit" class="focus-ring p-2 rounded-md text-primary hover:bg-surface3 transition-colors">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteTransaction(${t.id})" aria-label="Delete" class="focus-ring p-2 rounded-md text-danger hover:bg-surface3 transition-colors">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
         }
+    }).join('');
+
+    tbody.querySelectorAll('.transaction-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', (e) => {
+            const id = parseInt(e.target.dataset.id);
+            if (e.target.checked) {
+                appState.selectedTransactions.add(id);
+            } else {
+                appState.selectedTransactions.delete(id);
+            }
+            updateBulkActions();
+
+            const row = checkbox.closest('tr');
+            if (row) {
+                row.classList.remove('bg-selected-row', 'bg-surface1-alt');
+                
+                if (e.target.checked) {
+                    row.classList.add('bg-selected-row');
+                } else {
+                    const allRowsInTable = Array.from(tbody.children);
+                    const currentNonClosingRows = allRowsInTable.filter(r => !r.classList.contains('closing-entry-row'));
+                    const rowIndexAmongNonClosing = currentNonClosingRows.indexOf(row);
+
+                    if (rowIndexAmongNonClosing !== -1 && rowIndexAmongNonClosing % 2 !== 0) {
+                        row.classList.add('bg-surface1-alt');
+                    }
+                }
+            }
+        });
+    });
+
+    if (transactions.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="px-6 py-12 text-center text-textSecondary">
+                    <i class="fas fa-search text-3xl mb-2 opacity-50"></i>
+                    <p>No transactions found</p>
+                    <p class="text-sm">Try adjusting your search or filters</p>
+                </td>
+            </tr>
+        `;
+    }
+}
 
         function renderTransactionsSkeleton() {
             const tbody = document.getElementById('transactionsTableBody');
@@ -1502,14 +1774,13 @@
 
                 if (isClosing) {
                     return `
-                        <div class="transaction-card bg-surface2 rounded-lg p-4 shadow-md relative">
+                        <div class="transaction-card closing-entry-card rounded-lg p-4 shadow-md relative">
                             <div class="flex justify-between items-center">
-                                <div class="font-medium text-textPrimary truncate">Closing Balance</div>
-                                <div class="font-mono text-base font-semibold text-textSecondary">${formatCurrency(t.amount)}</div>
+                                <div class="closing-card-date text-sm truncate">${formatSpecialDateDisplay(t.date)}</div>
+                                <div class="closing-card-amount font-mono text-base">${formatCurrency(t.amount)}</div>
                             </div>
-                            <div class="mt-1 flex items-center justify-between text-sm">
-                                <span class="font-mono text-textSecondary">${formatDate(t.date)}</span>
-                                <span class="text-textSecondary">Balance</span>
+                            <div class="mt-1 text-xs text-textSecondary text-right">
+                                Closing Balance
                             </div>
                         </div>
                     `;
@@ -1554,7 +1825,7 @@
             }).join('');
             
             // Add long press support for mobile
-            container.querySelectorAll('.transaction-card').forEach(card => {
+            container.querySelectorAll('.transaction-card:not(.closing-entry-card)').forEach(card => {
                 let pressTimer;
                 
                 card.addEventListener('touchstart', (e) => {
@@ -1595,119 +1866,207 @@
         }
 
         function generateClosingEntries(transactions) {
-            if (transactions.length === 0) return [];
+    const nonClosingTransactions = transactions.filter(t => t.type !== 'closing');
+    if (nonClosingTransactions.length === 0) return [];
 
-            const entriesByDate = {};
-            transactions.forEach(t => {
-                const d = new Date(t.date);
-                const key = d.toISOString().split('T')[0];
-                if (!entriesByDate[key]) entriesByDate[key] = [];
-                entriesByDate[key].push(t);
-            });
+    const entriesByDate = {};
+    nonClosingTransactions.forEach(t => {
+        const d = new Date(t.date);
+        d.setHours(0, 0, 0, 0); // Normalize date key
+        const key = d.toISOString().split('T')[0];
+        if (!entriesByDate[key]) entriesByDate[key] = [];
+        entriesByDate[key].push(t);
+    });
 
-            const firstDate = new Date(Math.min(...transactions.map(t => new Date(t.date))));
-            firstDate.setHours(0,0,0,0);
-            const today = new Date();
-            today.setHours(0,0,0,0);
+    const allTransactionDates = [...new Set(nonClosingTransactions.map(t => {
+        const d = new Date(t.date);
+        d.setHours(0, 0, 0, 0);
+        return d.toISOString().split('T')[0];
+    }))].sort();
 
-            let current = new Date(firstDate);
-            let balance = 0;
-            const closings = [];
+    if (allTransactionDates.length === 0) return [];
 
-            while (current < today) {
-                const key = current.toISOString().split('T')[0];
-                const daily = entriesByDate[key] || [];
-                daily.forEach(tr => {
-                    balance += tr.type === 'income' ? tr.amount : -tr.amount;
-                });
-                const next = new Date(current);
-                next.setDate(current.getDate() + 1);
-                closings.push({
-                    id: `closing-${next.toISOString().split('T')[0]}`,
-                    type: 'closing',
-                    date: next.toISOString().split('T')[0],
-                    merchant: 'Closing Balance',
-                    category: 'closing',
-                    amount: balance
-                });
-                current.setDate(current.getDate() + 1);
-            }
+    let balance = 0;
+    const closings = [];
 
-            return closings;
+    const firstDateInPeriod = new Date(allTransactionDates[0]);
+    nonClosingTransactions.forEach(tr => {
+        if (new Date(tr.date) < firstDateInPeriod) {
+             balance += tr.type === 'income' ? tr.amount : -tr.amount;
         }
+    });
+    
+    for (const dateKey of allTransactionDates) {
+        const dailyTransactions = entriesByDate[dateKey] || [];
+        dailyTransactions.forEach(tr => {
+            balance += tr.type === 'income' ? tr.amount : -tr.amount;
+        });
+
+        closings.push({
+            id: `closing-${dateKey}`,
+            type: 'closing',
+            date: dateKey, 
+            merchant: '', 
+            category: 'closing', 
+            amount: balance
+        });
+    }
+    return closings;
+}
+
+        function formatSpecialDateDisplay(dateString) {
+    const entryDate = new Date(dateString); 
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    entryDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    yesterday.setHours(0, 0, 0, 0);
+
+    if (entryDate.getTime() === today.getTime()) {
+        return "Today";
+    }
+    if (entryDate.getTime() === yesterday.getTime()) {
+        return "Yesterday";
+    }
+    
+    const dateForFormatting = new Date(dateString + 'T00:00:00'); 
+
+    const dayName = dateForFormatting.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase().replace(',', '');
+    const dayOfMonth = dateForFormatting.toLocaleDateString('en-GB', { day: '2-digit' });
+    const monthName = dateForFormatting.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
+    const year = dateForFormatting.toLocaleDateString('en-GB', { year: 'numeric' });
+
+    return `${dayName} ${dayOfMonth} ${monthName} ${year}`;
+}
 
         function getFilteredTransactions() {
-            const baseTransactions = appState.transactions.filter(t => t.type !== 'closing');
-            const closingEntries = generateClosingEntries(baseTransactions);
-            let filtered = baseTransactions.concat(closingEntries);
+            const localNow = new Date();
+            const todayDateKey = `${localNow.getFullYear()}-${String(localNow.getMonth() + 1).padStart(2, '0')}-${String(localNow.getDate()).padStart(2, '0')}`;
             
-            // Search filter
+            const yesterdayDate = new Date(localNow);
+            yesterdayDate.setDate(localNow.getDate() - 1);
+            const yesterdayDateKey = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth() + 1).padStart(2, '0')}-${String(yesterdayDate.getDate()).padStart(2, '0')}`;
+
+            const baseTransactions = appState.transactions.filter(t => t.type !== 'closing');
+            // Pass todayDateKey to ensure a closing entry for today is considered if needed
+            const closingEntries = generateClosingEntries(baseTransactions, todayDateKey); 
+            
+            let filtered = [...baseTransactions, ...closingEntries]; 
+            
             const searchTerm = document.getElementById('transactionSearch')?.value.toLowerCase() || '';
             if (searchTerm) {
-                filtered = filtered.filter(t => 
-                    t.merchant.toLowerCase().includes(searchTerm) ||
-                    appState.categories.find(c => c.id === t.category)?.name.toLowerCase().includes(searchTerm)
-                );
+                filtered = filtered.filter(t => {
+                    if (t.type === 'closing') return true; // Keep all closing entries for now, date filter will handle
+                    return t.merchant.toLowerCase().includes(searchTerm) ||
+                           (appState.categories.find(c => c.id === t.category)?.name.toLowerCase().includes(searchTerm));
+                });
             }
             
-            // Category filter
-            const activeFilter = document.querySelector('.filter-pill.active')?.dataset.filter || 'all';
-            if (activeFilter && activeFilter !== 'all') {
-                if (activeFilter === 'income' || activeFilter === 'expense') {
-                    filtered = filtered.filter(t => t.type === activeFilter);
-                } else {
-                    filtered = filtered.filter(t => t.category === activeFilter);
-                }
+            const activeFilterPill = document.querySelector('#categoryDropdownMenu .filter-pill.active, #categoryDropdownMenuMobile .filter-pill.active');
+            const activeCategoryFilter = activeFilterPill?.dataset.filter || 'all';
+
+            if (activeCategoryFilter && activeCategoryFilter !== 'all') {
+                filtered = filtered.filter(t => {
+                    if (t.type === 'closing') return true; // Keep all closing entries for now
+                    if (activeCategoryFilter === 'income' || activeCategoryFilter === 'expense') {
+                        return t.type === activeCategoryFilter;
+                    } else {
+                        return t.category === activeCategoryFilter;
+                    }
+                });
             }
             
-            // Date range filter
-            const activeDateFilter = document.querySelector('.date-filter-btn[data-range].active')?.dataset.range || 'all';
+            const activeDateFilterBtn = document.querySelector('#dateDropdownMenu .date-filter-btn[data-range].active, #dateDropdownMenuMobile .date-filter-btn[data-range].active');
+            const activeDateFilter = activeDateFilterBtn?.dataset.range || 'all';
+
             if (activeDateFilter && activeDateFilter !== 'all') {
-                const now = new Date();
-                let filterDate;
-                
+                let filterStartDate, filterEndDate;
+                const nowForFilters = new Date(); // Use a consistent "now" for filter range calculation
+
                 switch (activeDateFilter) {
                     case 'today':
-                        filterDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                        filtered = filtered.filter(t => new Date(t.date) >= filterDate);
+                        filterStartDate = new Date(nowForFilters.getFullYear(), nowForFilters.getMonth(), nowForFilters.getDate());
+                        filterEndDate = new Date(nowForFilters.getFullYear(), nowForFilters.getMonth(), nowForFilters.getDate(), 23, 59, 59, 999);
                         break;
-                    case 'week':
-                        filterDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-                        filtered = filtered.filter(t => new Date(t.date) >= filterDate);
+                    case 'week': 
+                        // Week starts on Monday, ends on Sunday
+                        const currentDayOfWeek = nowForFilters.getDay(); // 0 (Sun) to 6 (Sat)
+                        const diffToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek; // days to go back to reach Monday
+                        filterStartDate = new Date(nowForFilters.getFullYear(), nowForFilters.getMonth(), nowForFilters.getDate() + diffToMonday);
+                        filterStartDate.setHours(0,0,0,0);
+
+                        filterEndDate = new Date(filterStartDate);
+                        filterEndDate.setDate(filterStartDate.getDate() + 6); // Sunday
+                        filterEndDate.setHours(23,59,59,999);
                         break;
-                    case 'month':
-                        filterDate = new Date(now.getFullYear(), now.getMonth(), 1);
-                        filtered = filtered.filter(t => new Date(t.date) >= filterDate);
+                    case 'month': 
+                        filterStartDate = new Date(nowForFilters.getFullYear(), nowForFilters.getMonth(), 1);
+                        filterEndDate = new Date(nowForFilters.getFullYear(), nowForFilters.getMonth() + 1, 0, 23, 59, 59, 999); 
                         break;
                     case 'lastMonth':
-                        const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-                        const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-                        filtered = filtered.filter(t => {
-                            const date = new Date(t.date);
-                            return date >= startOfLastMonth && date <= endOfLastMonth;
-                        });
+                        filterStartDate = new Date(nowForFilters.getFullYear(), nowForFilters.getMonth() - 1, 1);
+                        filterEndDate = new Date(nowForFilters.getFullYear(), nowForFilters.getMonth(), 0, 23, 59, 59, 999); 
                         break;
+                }
+
+                if (filterStartDate && filterEndDate) {
+                    filtered = filtered.filter(t => {
+                        // t.date is YYYY-MM-DD string. Convert to local Date object at midnight.
+                        const itemDate = new Date(t.date + "T00:00:00");
+
+                        if (t.type === 'closing') {
+                            if (activeDateFilter === 'today') {
+                                // For "Today" filter, include closing for actual today AND actual yesterday
+                                return t.date === todayDateKey || t.date === yesterdayDateKey;
+                            }
+                            // For other ranges, include if the closing entry's date is within the range.
+                            // A closing entry for date D is end of day D.
+                            return itemDate >= filterStartDate && itemDate <= filterEndDate;
+                        } else { // Regular transaction
+                            return itemDate >= filterStartDate && itemDate <= filterEndDate;
+                        }
+                    });
                 }
             }
             
-            // Sorting
+            // Sorting (ensure this handles YYYY-MM-DD strings correctly for dates)
             return filtered.sort((a, b) => {
-                let valA = a[appState.sortField];
-                let valB = b[appState.sortField];
-
                 if (appState.sortField === 'date') {
-                    valA = new Date(valA);
-                    valB = new Date(valB);
+                    // Dates are YYYY-MM-DD strings, direct string comparison works for sorting
+                    const dateAStr = a.date;
+                    const dateBStr = b.date;
 
-                    if (valA.getTime() === valB.getTime()) {
-                        if (a.type === 'closing' && b.type !== 'closing') {
-                            return appState.sortDirection === 'asc' ? -1 : 1;
-                        }
-                        if (b.type === 'closing' && a.type !== 'closing') {
-                            return appState.sortDirection === 'asc' ? 1 : -1;
-                        }
+                    if (appState.sortDirection === 'desc') { // Newest first
+                        if (dateAStr > dateBStr) return -1;
+                        if (dateAStr < dateBStr) return 1;
+                        // Dates are same, sort by type (closing first) then by ID for stability
+                        if (a.type === 'closing' && b.type !== 'closing') return -1;
+                        if (a.type !== 'closing' && b.type === 'closing') return 1;
+                        return b.id && a.id ? (String(b.id).localeCompare(String(a.id))) : 0; 
+                    } else { // Oldest first (asc)
+                        if (dateAStr < dateBStr) return -1;
+                        if (dateAStr > dateBStr) return 1;
+                        // Dates are same, sort by type (transactions first, then closing) then by ID
+                        if (a.type !== 'closing' && b.type === 'closing') return -1;
+                        if (a.type === 'closing' && b.type !== 'closing') return 1;
+                        return a.id && b.id ? (String(a.id).localeCompare(String(b.id))) : 0;
                     }
                 }
+
+                // For other fields (merchant, amount)
+                let valA = a[appState.sortField];
+                let valB = b[appState.sortField];
+                
+                if (typeof valA === 'string' && typeof valB === 'string' && (a.type !== 'closing' && b.type !== 'closing')) { // Avoid lowercasing closing entry 'merchant' (empty)
+                    valA = valA.toLowerCase();
+                    valB = valB.toLowerCase();
+                }
+                // Ensure closing entries don't interfere with merchant/amount sort if they have null/empty values
+                if (a.type === 'closing') valA = appState.sortDirection === 'asc' ? Infinity : -Infinity; // Push to end/start
+                if (b.type === 'closing') valB = appState.sortDirection === 'asc' ? Infinity : -Infinity;
+
 
                 if (valA < valB) return appState.sortDirection === 'asc' ? -1 : 1;
                 if (valA > valB) return appState.sortDirection === 'asc' ? 1 : -1;
@@ -1715,16 +2074,104 @@
             });
         }
 
+        // Also, ensure generateClosingEntries is robust:
+        function generateClosingEntries(transactions, todayDateKey) { // todayDateKey is YYYY-MM-DD
+            const nonClosingTransactions = transactions.filter(t => t.type !== 'closing');
+            const closings = [];
+            
+            if (nonClosingTransactions.length === 0) {
+                // If no transactions at all, but todayDateKey is provided, create a zero balance for today
+                if (todayDateKey) {
+                    closings.push({
+                        id: `closing-${todayDateKey}`,
+                        type: 'closing',
+                        date: todayDateKey,
+                        merchant: '',
+                        category: 'closing',
+                        amount: 0
+                    });
+                }
+                return closings;
+            }
+
+            const entriesByDate = {};
+            nonClosingTransactions.forEach(t => {
+                // t.date is YYYY-MM-DD, directly use as key
+                const key = t.date; 
+                if (!entriesByDate[key]) entriesByDate[key] = [];
+                entriesByDate[key].push(t);
+            });
+
+            // Get all unique YYYY-MM-DD date strings from transactions and sort them
+            const allTransactionDateKeys = [...new Set(nonClosingTransactions.map(t => t.date))].sort();
+
+            let balance = 0;
+            let lastCalculatedBalance = 0;
+
+            // Calculate balance from all transactions *before* the first date key we'll show a closing for.
+            if (allTransactionDateKeys.length > 0) {
+                const firstDateKeyInPeriod = allTransactionDateKeys[0];
+                nonClosingTransactions.forEach(tr => {
+                    if (tr.date < firstDateKeyInPeriod) {
+                         balance += tr.type === 'income' ? tr.amount : -tr.amount;
+                    }
+                });
+            }
+            lastCalculatedBalance = balance; // Initial balance before processing sorted transaction dates
+            
+            for (const dateKey of allTransactionDateKeys) {
+                const dailyTransactions = entriesByDate[dateKey] || [];
+                dailyTransactions.forEach(tr => {
+                    balance += tr.type === 'income' ? tr.amount : -tr.amount;
+                });
+
+                closings.push({
+                    id: `closing-${dateKey}`,
+                    type: 'closing',
+                    date: dateKey, 
+                    merchant: '', 
+                    category: 'closing', 
+                    amount: balance
+                });
+                lastCalculatedBalance = balance;
+            }
+
+            // If todayDateKey is provided and is later than the last transaction date,
+            // and no closing entry for todayDateKey already exists (e.g., if today had transactions)
+            if (todayDateKey) {
+                const lastTransactionDateKey = allTransactionDateKeys.length > 0 ? allTransactionDateKeys[allTransactionDateKeys.length - 1] : null;
+                const todayClosingExists = closings.some(c => c.date === todayDateKey);
+
+                if (!todayClosingExists && (!lastTransactionDateKey || todayDateKey > lastTransactionDateKey)) {
+                    closings.push({
+                        id: `closing-${todayDateKey}`,
+                        type: 'closing',
+                        date: todayDateKey,
+                        merchant: '',
+                        category: 'closing',
+                        amount: lastCalculatedBalance // Carry forward the last known balance
+                    });
+                }
+            }
+            // The final list is sorted by getFilteredTransactions, so no need to re-sort here.
+            return closings;
+        }
+
         function filterTransactions() {
             renderTransactions();
         }
 
         function updateCategoryDropdownLabel() {
-            const active = document.querySelector('.filter-pill.active');
+            const activeDesktop = document.querySelector('#categoryDropdownMenu .filter-pill.active');
+            const activeMobile = document.querySelector('#categoryDropdownMenuMobile .filter-pill.active');
+            const active = activeDesktop || activeMobile;
+            
             const label = active ? active.textContent.trim() : 'Category';
             const isFiltered = active && active.dataset.filter !== 'all';
+            
             const desktopBtn = document.getElementById('categoryDropdownBtn');
             const mobileBtn = document.getElementById('categoryDropdownBtnMobile');
+
             if (desktopBtn) {
                 desktopBtn.textContent = `${label} ▾`;
                 desktopBtn.classList.toggle('active', isFiltered);
@@ -1736,11 +2183,16 @@
         }
 
         function updateDateDropdownLabel() {
-            const active = document.querySelector('.date-filter-btn[data-range].active');
+            const activeDesktop = document.querySelector('#dateDropdownMenu .date-filter-btn[data-range].active');
+            const activeMobile = document.querySelector('#dateDropdownMenuMobile .date-filter-btn[data-range].active');
+            const active = activeDesktop || activeMobile;
+
             const label = active ? active.textContent.trim() : 'Date Range';
             const isFiltered = active && active.dataset.range !== 'all';
+
             const desktopBtn = document.getElementById('dateDropdownBtn');
             const mobileBtn = document.getElementById('dateDropdownBtnMobile');
+
             if (desktopBtn) {
                 desktopBtn.textContent = `${label} ▾`;
                 desktopBtn.classList.toggle('active', isFiltered);
@@ -1769,23 +2221,31 @@
                 appState.sortDirection = appState.sortDirection === 'asc' ? 'desc' : 'asc';
             } else {
                 appState.sortField = field;
-                appState.sortDirection = 'asc';
+                // Default sort direction for new fields:
+                // Date: desc (newest first)
+                // Merchant: asc (A-Z)
+                // Amount: desc (largest first)
+                appState.sortDirection = (field === 'merchant') ? 'asc' : 'desc';
             }
             renderTransactions();
         }
 
         function toggleSelectAll() {
             const isChecked = document.getElementById('selectAllTransactions').checked;
-            const visibleTransactions = getFilteredTransactions();
+            const visibleTransactions = getFilteredTransactions().filter(t => t.type !== 'closing'); // Only select non-closing
             
             if (isChecked) {
                 visibleTransactions.forEach(t => appState.selectedTransactions.add(t.id));
             } else {
+                // If unchecking selectAll, clear all selected, even those not visible (safer)
+                // appState.selectedTransactions.clear(); 
+                // Or only clear visible ones:
                 visibleTransactions.forEach(t => appState.selectedTransactions.delete(t.id));
             }
             
             updateBulkActions();
-            renderTransactions();
+            renderTransactionsTable(); // Only re-render table for checkbox state updates
+            renderTransactionCards(); // Re-render cards for selection state updates
         }
 
         function updateBulkActions() {
@@ -1808,7 +2268,29 @@
                 appState.selectedTransactions.add(id);
             }
             updateBulkActions();
-            renderTransactions();
+            renderTransactionCards(); // Re-render cards to show selection state
+            // Update specific row checkbox in table if visible
+            const checkboxInTable = document.querySelector(`#transactionsTableBody .transaction-checkbox[data-id="${id}"]`);
+            if (checkboxInTable) {
+                checkboxInTable.checked = appState.selectedTransactions.has(id);
+                // Also update row style
+                 const row = checkboxInTable.closest('tr');
+                if (row) {
+                    row.classList.remove('bg-selected-row', 'bg-surface1-alt');
+                    if (appState.selectedTransactions.has(id)) {
+                        row.classList.add('bg-selected-row');
+                    } else {
+                        // Re-apply zebra if needed
+                        const tbody = document.getElementById('transactionsTableBody');
+                        const allRowsInTable = Array.from(tbody.children);
+                        const currentNonClosingRows = allRowsInTable.filter(r => !r.classList.contains('closing-entry-row'));
+                        const rowIndexAmongNonClosing = currentNonClosingRows.indexOf(row);
+                        if (rowIndexAmongNonClosing !== -1 && rowIndexAmongNonClosing % 2 !== 0) {
+                            row.classList.add('bg-surface1-alt');
+                        }
+                    }
+                }
+            }
         }
 
         function toggleTransactionMenu(id) {
@@ -1825,13 +2307,14 @@
             
             // Close menu when clicking outside
             setTimeout(() => {
-                document.addEventListener('click', function closeMenu(e) {
-                    if (!menu.contains(e.target)) {
+                const clickOutsideHandler = (e) => {
+                    if (menu && !menu.contains(e.target) && !menu.previousElementSibling.contains(e.target)) {
                         menu.classList.add('hidden');
-                        document.removeEventListener('click', closeMenu);
+                        document.removeEventListener('click', clickOutsideHandler);
                     }
-                });
-            }, 10);
+                };
+                document.addEventListener('click', clickOutsideHandler);
+            }, 0); // Use 0 timeout to ensure it's added after current event bubble
         }
 
         function renderBudgets() {
@@ -1858,39 +2341,33 @@
         }
 
         function renderBudgetCard(budget) {
-  // 1) Find category for icon/display
   const category = appState.categories.find(c => c.id === budget.id) || {};
-  
-  // 2) Compute derived values in “real dollars”
-  //    budget.amount is always a multiple of $5, e.g. 0, 5, 10, …, 2000
   const spent = budget.spent || 0;
-  const realAmount = budget.amount; // realAmount ∈ [0…5000] by steps of 10
+  const realAmount = budget.amount; 
   const percentage = realAmount > 0 ? Math.round((spent / realAmount) * 100) : 0;
   const remaining = realAmount - spent;
 
-  // 3) Decide header + progress bar colors (based on %)
-  let headerClass = 'bg-gray-500';
-  let progressBarClass = 'bg-green-500';
+  let headerClass = 'bg-gray-500'; // Default, consider var(--color-surface-4) or similar
+  let progressBarClass = 'bg-green-500'; // Consider var(--color-primary) or success color
+  
+  // Theme adjustments for header/progress bar colors
+  const isDark = document.documentElement.classList.contains('dark');
   if (percentage >= 100) {
-    headerClass = 'bg-red-500';
-    progressBarClass = 'bg-red-500';
+    headerClass = 'bg-danger'; // Use Tailwind class for var(--color-danger)
+    progressBarClass = 'bg-danger';
   } else if (percentage >= 75) {
-    headerClass = 'bg-yellow-500';
-    progressBarClass = 'bg-yellow-500';
+    headerClass = 'bg-warning'; // Use Tailwind class for var(--color-warning)
+    progressBarClass = 'bg-warning';
+  } else {
+    headerClass = 'bg-primary'; // Use Tailwind class for var(--color-primary)
+    progressBarClass = 'bg-primary'; // Or a success color if primary is not green-ish
   }
 
-  // 4) Compute “slider position” = realAmount ÷ 5
-  //    e.g. if realAmount = $125, sliderPosition = 125/5 = 25
-  //    This is the numeric value we store in the <input type="range">
+
   const sliderPosition = Math.round(realAmount / 5);
 
-  // 5) Return the HTML string. Notice:
-  //    • We display formatCurrency(realAmount) everywhere for “Budget” text
-  //    • We set <input value="${sliderPosition}">, NOT "budget.amount"
-  //    • Every ID (span/div) is unique (uses budget.id) so that liveUpdate can find it
   return `
     <div class="budget-card bg-surface2 rounded-lg shadow-md overflow-hidden" id="budget-card-${budget.id}">
-      <!-- Header: category icon, name, pin/pause -->
       <div class="p-4 ${headerClass} text-white" id="budget-header-${budget.id}">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-2">
@@ -1908,9 +2385,7 @@
         </div>
       </div>
       
-      <!-- Body: amount, slider, progress, remaining/spent -->
       <div class="p-4">
-        <!-- 1) Budget Amount Display + Slider -->
         <div class="mb-4">
           <div class="flex items-center justify-between mb-2">
             <span class="text-sm text-textSecondary">Budget</span>
@@ -1924,15 +2399,14 @@
             class="w-full budget-slider"
             data-id="${budget.id}"
             min="0"
-            max="1000"             /* 400 steps = $0 … $2000 @ $5/step */
-            step="1"              /* one slider‐unit = $5 real */
+            max="1000"            
+            step="1"              
             value="${sliderPosition}"
             oninput="liveUpdateBudgetAmount('${budget.id}', this.value)"
             onchange="updateBudgetAmount('${budget.id}', this.value)"
           >
         </div>
         
-        <!-- 2) Progress Bar + Percentage -->
         <div class="mb-4">
           <div class="flex items-center justify-between mb-1">
             <span class="text-sm text-textSecondary">Progress</span>
@@ -1949,7 +2423,6 @@
           </div>
         </div>
         
-        <!-- 3) Remaining vs Spent -->
         <div class="flex items-center justify-between text-sm">
           <span class="text-textSecondary" id="budget-remaining-display-${budget.id}">
             ${remaining >= 0
@@ -1961,7 +2434,6 @@
           </span>
         </div>
         
-        <!-- 4) Mini sparkline placeholder (static) -->
         <div class="mt-3 h-8 bg-surface3 rounded opacity-50 flex items-center justify-center">
           <span class="text-xs text-textSecondary">30-day trend</span>
         </div>
@@ -1970,59 +2442,46 @@
   `;
 }
 
-
-
-          // 1) Find the budget object, update its amount, then update only the necessary DOM pieces
   function liveUpdateBudgetAmount(budgetId, sliderValueStr) {
-  // 1) Convert incoming slider value (0…400) to real dollars
-  const sliderValue = parseInt(sliderValueStr, 10); // e.g. “25”
-  const realAmount = sliderValue * 5;              // e.g. 25 × 5 = $125
+  const sliderValue = parseInt(sliderValueStr, 10); 
+  const realAmount = sliderValue * 5;              
 
-  // 2) Update appState
   const budget = appState.budgets.find(b => b.id === budgetId);
   if (!budget) return;
-  budget.amount = realAmount; // budget.amount is now an integer multiple of 5
+  budget.amount = realAmount; 
 
-  // 3) Re‐compute derived values in real dollars
   const spent = budget.spent || 0;
   const percentage = realAmount > 0 ? Math.round((spent / realAmount) * 100) : 0;
   const remaining = realAmount - spent;
 
-  // 4) Pick CSS classes for header + progress bar
-  let headerClass = 'bg-gray-500';
-  let progressBarClass = 'bg-green-500';
+  let headerClass = 'bg-primary';
+  let progressBarClass = 'bg-primary';
   if (percentage >= 100) {
-    headerClass = 'bg-red-500';
-    progressBarClass = 'bg-red-500';
+    headerClass = 'bg-danger';
+    progressBarClass = 'bg-danger';
   } else if (percentage >= 75) {
-    headerClass = 'bg-yellow-500';
-    progressBarClass = 'bg-yellow-500';
+    headerClass = 'bg-warning';
+    progressBarClass = 'bg-warning';
   }
 
-  // 5) Update the DOM of that one budget card:
 
-  // 5a) Budget amount text
   const amountSpan = document.getElementById(`budget-amount-display-${budgetId}`);
   if (amountSpan) {
     amountSpan.textContent = formatCurrency(realAmount);
   }
 
-  // 5b) Percentage text
   const percentSpan = document.getElementById(`budget-percentage-display-${budgetId}`);
   if (percentSpan) {
     percentSpan.textContent = `${percentage}%`;
   }
 
-  // 5c) Progress bar width + color
   const progressBar = document.getElementById(`budget-progress-bar-${budgetId}`);
   if (progressBar) {
     const widthPercent = Math.min(percentage, 100);
     progressBar.style.width = `${widthPercent}%`;
-    progressBar.classList.remove('bg-red-500', 'bg-yellow-500', 'bg-green-500');
-    progressBar.classList.add(progressBarClass);
+    progressBar.className = `h-2 rounded-full transition-all duration-300 ${progressBarClass}`; // Reset and apply new class
   }
 
-  // 5d) Remaining text
   const remainingSpan = document.getElementById(`budget-remaining-display-${budgetId}`);
   if (remainingSpan) {
     if (remaining >= 0) {
@@ -2032,25 +2491,18 @@
     }
   }
 
-  // 5e) Header background color
   const headerDiv = document.getElementById(`budget-header-${budgetId}`);
   if (headerDiv) {
-    headerDiv.classList.remove('bg-gray-500', 'bg-yellow-500', 'bg-red-500');
-    headerDiv.classList.add(headerClass);
+    headerDiv.className = `p-4 ${headerClass} text-white`; // Reset and apply new class
   }
 
-  // 6) Persist on every tick (optional)
   saveData();
 
-  // 7) Recalc any dashboard summary if needed
   if (appState.currentPage === 'dashboard') {
     updateBudgetCompass();
   }
 }
 
-// Called when the budget slider change event fires. Currently we just reuse
-// the live update logic so that the final value persists and UI elements stay
-// in sync.
 function updateBudgetAmount(budgetId, sliderValueStr) {
   liveUpdateBudgetAmount(budgetId, sliderValueStr);
 }
@@ -2086,8 +2538,8 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
         function renderSpendingChart() {
             const canvas = document.getElementById('spendingChart');
             const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous chart
             
-            // Simple pie chart implementation
             const expenses = appState.transactions.filter(t => t.type === 'expense');
             const categoryTotals = {};
             
@@ -2103,7 +2555,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             const total = values.reduce((sum, v) => sum + v, 0);
             
             if (total === 0) {
-                ctx.fillStyle = 'var(--color-text-secondary)';
+                ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--color-text-secondary').trim();
                 ctx.font = '14px Inter';
                 ctx.textAlign = 'center';
                 ctx.fillText('No spending data', canvas.width / 2, canvas.height / 2);
@@ -2112,9 +2564,9 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
-            const radius = 80;
+            const radius = Math.min(centerX, centerY) * 0.8; // Adjust radius
             
-            let currentAngle = 0;
+            let currentAngle = -0.5 * Math.PI; // Start at the top
             
             categories.forEach((category, i) => {
                 const categoryInfo = appState.categories.find(c => c.id === category);
@@ -2135,8 +2587,6 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
         function renderTrendsChart() {
             const canvas = document.getElementById('trendsChart');
             const ctx = canvas.getContext('2d');
-            
-            // Simple line chart for last 6 months
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             const months = [];
@@ -2161,24 +2611,43 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             }
             
             if (incomeData.every(v => v === 0) && expenseData.every(v => v === 0)) {
-                ctx.fillStyle = 'var(--color-text-secondary)';
+                ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--color-text-secondary').trim();
                 ctx.font = '14px Inter';
                 ctx.textAlign = 'center';
                 ctx.fillText('No data available', canvas.width / 2, canvas.height / 2);
                 return;
             }
             
-            const maxValue = Math.max(...incomeData, ...expenseData);
-            const chartHeight = canvas.height - 40;
-            const chartWidth = canvas.width - 60;
+            const maxValue = Math.max(1, ...incomeData, ...expenseData); // Ensure maxValue is at least 1 to avoid division by zero
+            const chartHeight = canvas.height - 40; // Padding for labels
+            const chartWidth = canvas.width - 60; // Padding for labels
+            const yAxisOrigin = canvas.height - 20; // Bottom padding
+            const xAxisOrigin = 30; // Left padding
+
+            // Draw X-axis labels (months)
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--color-text-secondary').trim();
+            ctx.font = '10px Inter';
+            ctx.textAlign = 'center';
+            months.forEach((month, i) => {
+                const x = xAxisOrigin + (i / (months.length - 1)) * chartWidth;
+                ctx.fillText(month, x, canvas.height - 5);
+            });
             
+            // Draw Y-axis (simple line for now)
+            ctx.beginPath();
+            ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--color-border').trim();
+            ctx.moveTo(xAxisOrigin, 20);
+            ctx.lineTo(xAxisOrigin, yAxisOrigin);
+            ctx.stroke();
+
+
             // Draw income line (green)
             ctx.beginPath();
-            ctx.strokeStyle = '#10AC84';
+            ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--color-primary').trim(); // Use primary color
             ctx.lineWidth = 2;
             incomeData.forEach((value, i) => {
-                const x = 30 + (i / (incomeData.length - 1)) * chartWidth;
-                const y = 20 + (1 - value / maxValue) * chartHeight;
+                const x = xAxisOrigin + (i / (incomeData.length - 1)) * chartWidth;
+                const y = yAxisOrigin - (value / maxValue) * chartHeight;
                 if (i === 0) {
                     ctx.moveTo(x, y);
                 } else {
@@ -2189,11 +2658,11 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             
             // Draw expense line (red)
             ctx.beginPath();
-            ctx.strokeStyle = '#E74C3C';
+            ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--color-danger').trim();
             ctx.lineWidth = 2;
             expenseData.forEach((value, i) => {
-                const x = 30 + (i / (expenseData.length - 1)) * chartWidth;
-                const y = 20 + (1 - value / maxValue) * chartHeight;
+                const x = xAxisOrigin + (i / (expenseData.length - 1)) * chartWidth;
+                const y = yAxisOrigin - (value / maxValue) * chartHeight;
                 if (i === 0) {
                     ctx.moveTo(x, y);
                 } else {
@@ -2209,9 +2678,14 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             
             tbody.innerHTML = appState.budgets.filter(b => b.active).map(budget => {
                 const category = appState.categories.find(c => c.id === budget.id);
-                const variance = budget.spent - budget.amount;
-                const variancePercent = budget.amount > 0 ? ((variance / budget.amount) * 100).toFixed(1) : 0;
+                const variance = budget.spent - budget.amount; // Positive if overspent, negative if underspent
+                const variancePercent = budget.amount > 0 ? ((variance / budget.amount) * 100).toFixed(1) : (budget.spent > 0 ? '∞' : '0');
                 
+                let varianceColorClass = 'text-green-600'; // Underspent or on budget
+                if (variance > 0) varianceColorClass = 'text-red-600'; // Overspent
+                else if (variance === 0 && budget.amount === 0 && budget.spent > 0) varianceColorClass = 'text-red-600'; // Spent with no budget
+                else if (variance === 0) varianceColorClass = 'text-textSecondary'; // Exactly on budget or zero spent/budgeted
+
                 return `
                     <tr class="border-b border-border">
                         <td class="py-3 text-sm text-textPrimary">
@@ -2223,7 +2697,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                         <td class="py-3 text-sm text-textPrimary text-right">${formatCurrency(budget.amount)}</td>
                         <td class="py-3 text-sm text-textPrimary text-right">${formatCurrency(budget.spent)}</td>
                         <td class="py-3 text-sm text-right">
-                            <span class="${variance >= 0 ? 'text-red-600' : 'text-green-600'}">
+                            <span class="${varianceColorClass}">
                                 ${variance >= 0 ? '+' : ''}${formatCurrency(variance)}
                                 <span class="text-xs opacity-75">(${variancePercent}%)</span>
                             </span>
@@ -2248,7 +2722,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             container.innerHTML = appState.categories.map(category => `
                 <div class="flex items-center justify-between p-3 bg-surface1 rounded-md">
                     <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: ${category.color};">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: ${category.color}; color: white;">
                             ${category.icon}
                         </div>
                         <span class="font-medium text-textPrimary">${category.name}</span>
@@ -2396,7 +2870,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             } else {
                 // Add new transaction
                 const newTransaction = {
-                    id: Date.now(),
+                    id: Date.now() + Math.random(), // Add random to ensure uniqueness if multiple added quickly
                     ...transactionData
                 };
                 appState.transactions.push(newTransaction);
@@ -2419,10 +2893,13 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
         function adjustBudgetSpending(categoryId, delta) {
             let budget = appState.budgets.find(b => b.id === categoryId);
             if (!budget) {
-                if (delta <= 0) return;
+                // Only create a new budget if we are adding spending (delta > 0)
+                // If delta is negative (e.g. deleting/editing an expense from a non-budgeted category), do nothing.
+                if (delta <= 0 && !appState.categories.find(c => c.id === categoryId)) return;
+
                 budget = {
                     id: categoryId,
-                    amount: 0,
+                    amount: 0, // Default budget amount
                     spent: 0,
                     pinned: false,
                     active: true
@@ -2431,7 +2908,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             }
 
             budget.spent += delta;
-            if (budget.spent < 0) budget.spent = 0;
+            if (budget.spent < 0) budget.spent = 0; // Ensure spent doesn't go negative
         }
 
         function deleteTransaction(id) {
@@ -2451,13 +2928,20 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
         }
 
         function confirmDelete() {
-            if (appState.deletingTransaction) {
+            if (appState.deletingTransaction) { // Single delete
                 const id = appState.deletingTransaction;
-                const row = document.querySelector(`tr[data-id="${id}"]`);
+                const row = document.querySelector(`#transactionsTableBody tr[data-id="${id}"]`);
+                const card = document.querySelector(`#transactionCards .transaction-card[data-id="${id}"]`);
+
                 if (row) {
                     row.style.setProperty('--h', `${row.offsetHeight}px`);
                     row.classList.add('animate-slide-out');
                 }
+                 if (card) {
+                    card.style.setProperty('--h', `${card.offsetHeight}px`);
+                    card.classList.add('animate-slide-out');
+                }
+
                 setTimeout(() => {
                     const index = appState.transactions.findIndex(t => t.id === id);
                     if (index !== -1) {
@@ -2467,49 +2951,68 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                         }
                         appState.transactions.splice(index, 1);
                         saveData();
-                        renderCurrentPage();
+                        renderCurrentPage(); // Re-render after data change
                         showToast('Transaction deleted successfully', 'success');
                     }
                 }, 300);
-            } else if (appState.selectedTransactions.size > 0) {
+            } else if (appState.selectedTransactions.size > 0) { // Bulk delete
                 const selectedIds = Array.from(appState.selectedTransactions);
-                appState.transactions = appState.transactions.filter(t => {
-                    if (selectedIds.includes(t.id)) {
-                        if (t.type === 'expense') {
-                            adjustBudgetSpending(t.category, -t.amount);
-                        }
-                        return false;
+                
+                // Animate removal for visible items
+                selectedIds.forEach(id => {
+                    const row = document.querySelector(`#transactionsTableBody tr[data-id="${id}"]`);
+                    const card = document.querySelector(`#transactionCards .transaction-card[data-id="${id}"]`);
+                    if (row) {
+                        row.style.setProperty('--h', `${row.offsetHeight}px`);
+                        row.classList.add('animate-slide-out');
                     }
-                    return true;
+                    if (card) {
+                        card.style.setProperty('--h', `${card.offsetHeight}px`);
+                        card.classList.add('animate-slide-out');
+                    }
                 });
-                appState.selectedTransactions.clear();
-                showToast(`${selectedIds.length} transactions deleted successfully`, 'success');
-                updateBulkActions();
+
+                setTimeout(() => {
+                    appState.transactions = appState.transactions.filter(t => {
+                        if (selectedIds.includes(t.id)) {
+                            if (t.type === 'expense') {
+                                adjustBudgetSpending(t.category, -t.amount);
+                            }
+                            return false; // Remove from list
+                        }
+                        return true;
+                    });
+                    appState.selectedTransactions.clear();
+                    saveData();
+                    updateBulkActions(); // Hide button
+                    renderCurrentPage(); // Re-render after data change
+                    showToast(`${selectedIds.length} transactions deleted successfully`, 'success');
+                }, 300);
             }
             
             closeDeleteModal();
-            if (appState.selectedTransactions.size > 0) {
-                saveData();
-                renderCurrentPage();
-            }
         }
 
         // Utility Functions
         function formatCurrency(amount) {
-            const formatter = new Intl.NumberFormat('en-NZ', {
+            const formatter = new Intl.NumberFormat('en-NZ', { // Default to en-NZ if currency is not typical
                 style: 'currency',
-                currency: appState.settings.currency
+                currency: appState.settings.currency || 'NZD'
             });
             return formatter.format(amount);
         }
 
         function formatDate(dateString) {
             const date = new Date(dateString);
+            // Adjust for timezone offset if dateString is YYYY-MM-DD (interpreted as UTC midnight)
+            const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+            const localDate = new Date(date.getTime() + userTimezoneOffset);
+
             const format = appState.settings.dateFormat;
             
-            const day = date.getDate().toString().padStart(2, '0');
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const year = date.getFullYear();
+            const day = localDate.getDate().toString().padStart(2, '0');
+            const month = (localDate.getMonth() + 1).toString().padStart(2, '0');
+            const year = localDate.getFullYear();
             
             switch (format) {
                 case 'MM/DD/YYYY':
@@ -2543,40 +3046,56 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
         function getCurrentWeekRange() {
             const now = new Date();
             const day = now.getDay(); // 0=Sun,1=Mon,2=Tue,...
-            const diff = day >= 2 ? day - 2 : day + 5; // days since Tuesday
+            // Assuming week starts on Monday for financial tracking
+            const diffToMonday = day === 0 ? 6 : day - 1; // days since Monday
+            
             const start = new Date(now);
-            start.setDate(now.getDate() - diff);
+            start.setDate(now.getDate() - diffToMonday);
             start.setHours(0, 0, 0, 0);
+            
             const end = new Date(start);
-            end.setDate(start.getDate() + 7);
+            end.setDate(start.getDate() + 7); // End of Sunday
             return { start, end };
         }
 
         function updateBalanceDate(range) {
             const options = { month: 'short', day: 'numeric' };
             const startStr = range.start.toLocaleDateString('en-US', options);
-            const endMinus = new Date(range.end);
-            endMinus.setDate(range.end.getDate() - 1);
-            const endStr = endMinus.toLocaleDateString('en-US', options);
+            const endMinusOneDay = new Date(range.end);
+            endMinusOneDay.setDate(range.end.getDate() - 1); // Show up to Sunday
+            const endStr = endMinusOneDay.toLocaleDateString('en-US', options);
 
             const el = document.getElementById('balanceDate');
             if (el) {
-                el.textContent = `Week of ${startStr} - ${endStr}`;
+                el.textContent = `Week: ${startStr} - ${endStr}`;
             }
         }
 
         function computeWeeklyBudgetSpending() {
             const range = getCurrentWeekRange();
-            appState.budgets.forEach(b => b.spent = 0);
+            appState.budgets.forEach(b => b.spent = 0); // Reset weekly spent for all budgets
+            
             appState.transactions.forEach(t => {
-                const d = new Date(t.date);
-                if (t.type === 'expense' && d >= range.start && d < range.end) {
+                const transactionDate = new Date(t.date);
+                // Adjust for timezone if date string is YYYY-MM-DD
+                const userTimezoneOffset = transactionDate.getTimezoneOffset() * 60000;
+                const localTransactionDate = new Date(transactionDate.getTime() + userTimezoneOffset);
+
+                if (t.type === 'expense' && localTransactionDate >= range.start && localTransactionDate < range.end) {
                     let budget = appState.budgets.find(b => b.id === t.category);
                     if (!budget) {
-                        budget = { id: t.category, amount: 0, spent: 0, pinned: false, active: true };
-                        appState.budgets.push(budget);
+                        // If category exists in appState.categories but not in budgets, create it
+                        if (appState.categories.find(c => c.id === t.category)) {
+                             budget = { id: t.category, amount: 0, spent: 0, pinned: false, active: true };
+                             appState.budgets.push(budget);
+                        } else {
+                            // This is an expense for a category not formally defined, skip or handle as 'other'
+                            return; 
+                        }
                     }
-                    budget.spent += t.amount;
+                    if (budget.active) { // Only add to active budgets
+                       budget.spent += t.amount;
+                    }
                 }
             });
         }
@@ -2589,7 +3108,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             
             toast.className = `toast ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 max-w-sm`;
             toast.innerHTML = `
-                <i class="fas ${type === 'success' ? 'fa-check' : type === 'error' ? 'fa-times' : 'fa-info'}"></i>
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-times-circle' : 'fa-info-circle'}"></i>
                 <span>${message}</span>
             `;
             
@@ -2640,55 +3159,57 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             if (!file) return;
             
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = (event) => {
                 try {
-                    const data = JSON.parse(e.target.result);
+                    const data = JSON.parse(event.target.result);
                     
-                    // Validate backup structure
                     if (!data.transactions || !data.budgets || !data.settings) {
                         showToast('Invalid backup file format', 'error');
                         return;
                     }
                     
-                    // Restore data
-                    appState.transactions = data.transactions;
-                    appState.budgets = data.budgets;
-                    appState.settings = { ...appState.settings, ...data.settings };
-                    if (data.categories) {
-                        appState.categories = data.categories;
-                    }
+                    appState.transactions = data.transactions || [];
+                    appState.budgets = data.budgets || [];
+                    appState.settings = { ...appState.settings, ...(data.settings || {}) };
+                    appState.categories = data.categories || appState.categories; // Keep original if not in backup
                     
                     saveData();
-                    applyTheme();
-                    renderCurrentPage();
+                    applyTheme(); // Apply theme from restored settings
+                    // Ensure settings UI reflects loaded data
+                    document.getElementById('currencySelect').value = appState.settings.currency;
+                    document.getElementById('dateFormatSelect').value = appState.settings.dateFormat;
+                    document.getElementById('themeSelect').value = appState.settings.theme;
+
+                    renderCurrentPage(); // Full re-render
                     
                     showToast('Backup restored successfully', 'success');
                 } catch (error) {
-                    showToast('Error reading backup file', 'error');
+                    console.error("Error restoring backup:", error);
+                    showToast('Error reading backup file. Check console for details.', 'error');
                 }
             };
             
             reader.readAsText(file);
-            e.target.value = ''; // Reset file input
+            e.target.value = ''; 
         }
 
         function resetData() {
             const modal = document.getElementById('deleteModal');
             const text = document.getElementById('deleteModalText');
+            const confirmBtn = document.getElementById('confirmDelete');
+            const cancelBtn = document.getElementById('cancelDelete');
 
             text.textContent = 'Are you sure you want to reset all data? This will permanently delete all transactions, budgets, and settings. This action cannot be undone.';
-
-            const confirmBtn = document.getElementById('confirmDelete');
-
-            // Temporarily remove the existing confirm handler
-            confirmBtn.removeEventListener('click', confirmDelete);
+            
+            // Store original handlers or use a flag
+            const originalConfirmHandler = confirmBtn.onclick;
+            const originalCancelHandler = cancelBtn.onclick;
 
             const resetHandler = () => {
                 localStorage.removeItem('pennyPilot_transactions');
                 localStorage.removeItem('pennyPilot_budgets');
                 localStorage.removeItem('pennyPilot_settings');
 
-                // Reset app state
                 appState.transactions = [];
                 appState.budgets = [];
                 appState.settings = {
@@ -2697,186 +3218,38 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                     theme: 'system'
                 };
                 appState.selectedTransactions.clear();
+                appState.transactionsLoaded = false; // Force reload effect if needed
 
+                saveData(); // Save the reset state
+                applyTheme(); // Apply default theme settings
+
+                // Update settings UI to defaults
+                document.getElementById('currencySelect').value = appState.settings.currency;
+                document.getElementById('dateFormatSelect').value = appState.settings.dateFormat;
+                document.getElementById('themeSelect').value = appState.settings.theme;
+                
                 closeDeleteModal();
-                renderCurrentPage();
+                showPage('dashboard'); // Go to a default page
+                renderCurrentPage(); // Re-render with empty data
                 showToast('All data has been reset', 'success');
 
-                // Restore the original handler and remove this temporary one
-                confirmBtn.removeEventListener('click', resetHandler);
-                confirmBtn.addEventListener('click', confirmDelete);
+                // Restore original handlers
+                confirmBtn.onclick = originalConfirmHandler;
+                cancelBtn.onclick = originalCancelHandler;
+            };
+            
+            const cancelResetHandler = () => {
+                closeDeleteModal();
+                // Restore original handlers
+                confirmBtn.onclick = originalConfirmHandler;
+                cancelBtn.onclick = originalCancelHandler;
             };
 
-            confirmBtn.addEventListener('click', resetHandler);
+            confirmBtn.onclick = resetHandler;
+            cancelBtn.onclick = cancelResetHandler;
+            
             modal.classList.remove('hidden');
         }
-
-        // Add CSS classes for components
-        const style = document.createElement('style');
-        style.textContent = `
-            .page {
-                display: none;
-            }
-            
-            .page.active {
-                display: block;
-            }
-            
-            .nav-item {
-                color: var(--color-text-secondary);
-                transition: all 0.2s ease;
-            }
-            
-            .nav-item:hover {
-                color: var(--color-text-primary);
-                background-color: var(--color-surface-3);
-            }
-            
-            .nav-item.active {
-                color: var(--color-primary);
-                background-color: var(--color-primary);
-                background-color: rgba(26, 188, 156, 0.1);
-            }
-            
-            .mobile-nav.active {
-                color: var(--color-primary);
-            }
-            
-            .filter-pill {
-                padding: 0.5rem 1rem;
-                border: 1px solid var(--color-primary);
-                border-radius: 9999px;
-                background: var(--color-surface-1);
-                color: var(--color-text-secondary);
-                font-size: 0.875rem;
-                box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-                transition: all 0.2s ease;
-            }
-            
-            .filter-pill:hover {
-                background: var(--color-surface-3);
-            }
-            
-            .filter-pill.active:not([data-filter="all"]) {
-                background: var(--color-primary);
-                color: white;
-                border-color: var(--color-primary);
-            }
-            
-            .date-filter-btn {
-                padding: 0.5rem 1rem;
-                border: 1px solid var(--color-primary);
-                border-radius: 0.5rem;
-                background: var(--color-surface-1);
-                color: var(--color-text-secondary);
-                font-size: 0.875rem;
-                box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-                transition: all 0.2s ease;
-            }
-            
-            .date-filter-btn:hover {
-                background: var(--color-surface-3);
-            }
-            
-            .date-filter-btn.active:not([data-range="all"]) {
-                background: var(--color-primary);
-                color: white;
-                border-color: var(--color-primary);
-            }
-
-            .date-toggle-btn {
-                min-width: 4.5rem;
-                white-space: nowrap;
-            }
-
-            .segmented-control {
-                display: flex;
-                border: 1px solid var(--color-border);
-                border-radius: 0.5rem;
-                overflow: hidden;
-            }
-
-            .segmented-control .filter-pill {
-                border-radius: 0;
-                border: none;
-                border-right: 1px solid var(--color-border);
-            }
-
-            .segmented-control .filter-pill:last-child {
-                border-right: none;
-            }
-
-            .no-scrollbar {
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-            }
-            .no-scrollbar::-webkit-scrollbar {
-                display: none;
-            }
-            
-            .budget-slider {
-                -webkit-appearance: none;
-                appearance: none;
-                height: 6px;
-                background: var(--color-surface-3);
-                border-radius: 3px;
-                outline: none;
-            }
-            
-            .budget-slider::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                appearance: none;
-                width: 18px;
-                height: 18px;
-                background: var(--color-primary);
-                border-radius: 50%;
-                cursor: pointer;
-            }
-            
-            .budget-slider::-moz-range-thumb {
-                width: 18px;
-                height: 18px;
-                background: var(--color-primary);
-                border-radius: 50%;
-                cursor: pointer;
-                border: none;
-            }
-
-            .transactions-row {
-                transition: transform 0.15s var(--tw-ease-out), box-shadow 0.15s;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            }
-            .transactions-row:hover,
-            .transactions-row:focus-within {
-                transform: translateY(-1px);
-                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-                filter: brightness(1.03);
-            }
-            .row-chrome button {
-                transition: opacity 0.15s;
-            }
-
-            .skeleton {
-                background: rgba(26,188,156,0.1);
-                border-radius: 4px;
-                animation: pulse 1.5s infinite ease-in-out;
-            }
-
-            @keyframes pulse {
-                0%,100% { opacity: 0.3; }
-                50% { opacity: 0.6; }
-            }
-
-            .table-header {
-                background: rgba(26,188,156,0.04);
-                box-shadow: 0 1px 0 rgba(0,0,0,0.05);
-            }
-
-            #bulkDeleteBtn {
-                transition: transform 0.2s, opacity 0.2s;
-            }
-        `;
-        document.head.appendChild(style);
 
         // Listen for system theme changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
@@ -2888,6 +3261,9 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
         // Add bulk delete event listener
         document.getElementById('bulkDeleteBtn').addEventListener('click', () => {
             if (appState.selectedTransactions.size === 0) return;
+            
+            // Ensure appState.deletingTransaction is null for bulk delete mode
+            appState.deletingTransaction = null; 
             
             const modal = document.getElementById('deleteModal');
             const text = document.getElementById('deleteModalText');
