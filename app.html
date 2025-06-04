@@ -80,8 +80,8 @@
             --color-primary: #1ABC9C;
             --color-danger: #E74C3C;
             --color-warning: #F39C12;
-            --color-text-primary: #333333;
-            --color-text-secondary: #555555;
+            --color-text-primary: #222222;
+            --color-text-secondary: #4A4A4A;
             --color-border: #E0E0E0;
             --color-focus-ring: #1ABC9C80;
         }
@@ -396,7 +396,7 @@
                             <div class="flex flex-col lg:flex-row lg:items-center gap-4">
                                 <div class="flex-1">
                                     <input type="text" id="transactionSearch" placeholder="Search transactions..."
-                                           class="focus-ring w-full px-4 py-2 border border-border rounded-md bg-surface1 text-textPrimary text-base focus:border-primary transition-colors">
+                                           class="focus-ring w-full px-4 py-2 border border-primary rounded-md bg-white text-textPrimary text-base shadow-inner transition-colors">
                                 </div>
 
                                 <!-- Desktop Toolbar -->
@@ -455,7 +455,7 @@
                         <div class="hidden lg:block bg-surface2 rounded-lg shadow-md overflow-hidden p-2">
                             <div class="overflow-x-auto">
                                 <table class="w-full">
-                                    <thead class="bg-surface4 sticky top-0 z-10">
+                                    <thead class="bg-surface3 border-b border-border shadow-sm sticky top-0 z-10">
                                         <tr>
                                             <th class="w-12 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">
                                                 <input type="checkbox" id="selectAllTransactions" class="transaction-checkbox focus-ring rounded border-border">
@@ -1409,7 +1409,7 @@
             tbody.innerHTML = transactions.map((t, idx) => {
                 const category = appState.categories.find(c => c.id === t.category);
                 const isSelected = appState.selectedTransactions.has(t.id);
-                const rowBg = isSelected ? 'bg-primary/5' : (idx % 2 === 0 ? 'bg-surface3' : 'bg-surface2');
+                const rowBg = isSelected ? 'bg-primary/5' : 'bg-white';
 
                 return `
                     <tr data-id="${t.id}" class="transactions-row group ${rowBg}">
@@ -1423,7 +1423,7 @@
                             ${t.merchant}
                         </td>
                         <td class="px-4 py-3">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style="background:${category?.color}33;color:${category?.color}">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style="background:${category?.color}26;color:${category?.color}">
                                 ${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span>
                             </span>
                         </td>
@@ -1488,7 +1488,7 @@
                         </div>
                         <div class="mt-1 flex items-center justify-between text-sm">
                             <span class="font-mono text-textSecondary">${formatDate(t.date)}</span>
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style="background:${category?.color}1A;color:${category?.color}">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style="background:${category?.color}26;color:${category?.color}">
                                 ${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span>
                             </span>
                             <div class="relative">
@@ -2643,11 +2643,12 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             
             .filter-pill {
                 padding: 0.5rem 1rem;
-                border: 1px solid var(--color-border);
+                border: 1px solid var(--color-primary);
                 border-radius: 9999px;
                 background: var(--color-surface-1);
                 color: var(--color-text-secondary);
                 font-size: 0.875rem;
+                box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
                 transition: all 0.2s ease;
             }
             
@@ -2663,11 +2664,12 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             
             .date-filter-btn {
                 padding: 0.5rem 1rem;
-                border: 1px solid var(--color-border);
+                border: 1px solid var(--color-primary);
                 border-radius: 0.5rem;
                 background: var(--color-surface-1);
                 color: var(--color-text-secondary);
                 font-size: 0.875rem;
+                box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
                 transition: all 0.2s ease;
             }
             
