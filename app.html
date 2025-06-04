@@ -26,6 +26,7 @@
                         surface1: "var(--color-surface-1)",
                         surface2: "var(--color-surface-2)",
                         surface3: "var(--color-surface-3)",
+                        surface4: "var(--color-surface-4)",
                         textPrimary: "var(--color-text-primary)",
                         textSecondary: "var(--color-text-secondary)",
                         border: "var(--color-border)",
@@ -75,6 +76,7 @@
             --color-surface-1: #FFFFFF;
             --color-surface-2: #F9F9F9;
             --color-surface-3: #E0E0E0;
+            --color-surface-4: #C4C4C4;
             --color-primary: #1ABC9C;
             --color-danger: #E74C3C;
             --color-warning: #F39C12;
@@ -89,6 +91,7 @@
             --color-surface-1: #121212;
             --color-surface-2: #1E1E1E;
             --color-surface-3: #2A2A2A;
+            --color-surface-4: #383838;
             --color-text-primary: #FAFAFA;
             --color-text-secondary: #C2C2C2;
             --color-border: #333333;
@@ -410,16 +413,16 @@
                         <div class="hidden lg:block bg-surface2 rounded-lg shadow-md overflow-hidden">
                             <div class="overflow-x-auto">
                                 <table class="w-full">
-                                    <thead class="bg-surface3">
+                                    <thead class="bg-surface3 sticky top-0 z-10">
                                         <tr>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">
+                                            <th class="w-12 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">
                                                 <input type="checkbox" id="selectAllTransactions" class="focus-ring rounded border-border">
                                             </th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">Date</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">Merchant</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">Category</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">Amount</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">Actions</th>
+                                            <th class="w-32 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">Date</th>
+                                            <th class="w-40 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">Merchant</th>
+                                            <th class="w-40 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">Category</th>
+                                            <th class="w-32 px-6 py-4 text-right text-sm font-semibold text-textSecondary uppercase tracking-wider">Amount</th>
+                                            <th class="w-32 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="transactionsTableBody" class="bg-surface2 divide-y divide-border">
@@ -1300,9 +1303,9 @@
                 const isSelected = appState.selectedTransactions.has(t.id);
                 
                 return `
-                    <tr class="hover:bg-surface3 transition-colors ${isSelected ? 'bg-primary/5' : ''}">
+                    <tr class="odd:bg-surface3 even:bg-surface2 hover:bg-surface4 focus-within:bg-surface4 transition-colors ${isSelected ? 'bg-primary/5' : ''}">
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <input type="checkbox" class="transaction-checkbox focus-ring rounded border-border" 
+                            <input type="checkbox" class="transaction-checkbox focus-ring rounded border-border"
                                    data-id="${t.id}" ${isSelected ? 'checked' : ''}>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-textPrimary">
@@ -1312,20 +1315,19 @@
                             ${t.merchant}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-textPrimary">
-                            <div class="flex items-center">
-                                <span class="mr-2">${category?.icon || '💰'}</span>
-                                ${category?.name || 'Other'}
-                            </div>
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium" style="background:${category?.color}20;color:${category?.color}">
+                                ${category?.icon || '💰'} ${category?.name || 'Other'}
+                            </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-right ${t.type === 'income' ? 'text-green-400' : 'text-red-500'}">
                             ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-textSecondary">
                             <div class="flex items-center space-x-2">
-                                <button onclick="editTransaction(${t.id})" class="text-primary hover:text-primary/80 transition-colors" title="Edit">
+                                <button onclick="editTransaction(${t.id})" aria-label="Edit" class="focus-ring p-2 rounded-md text-primary hover:bg-surface4 transition-colors">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button onclick="deleteTransaction(${t.id})" class="text-danger hover:text-danger/80 transition-colors" title="Delete">
+                                <button onclick="deleteTransaction(${t.id})" aria-label="Delete" class="focus-ring p-2 rounded-md text-danger hover:bg-surface4 transition-colors">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
