@@ -1770,6 +1770,13 @@
   }
 }
 
+// Called when the budget slider change event fires. Currently we just reuse
+// the live update logic so that the final value persists and UI elements stay
+// in sync.
+function updateBudgetAmount(budgetId, sliderValueStr) {
+  liveUpdateBudgetAmount(budgetId, sliderValueStr);
+}
+
 
         function toggleBudgetPin(budgetId) {
             const budget = appState.budgets.find(b => b.id === budgetId);
