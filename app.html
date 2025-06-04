@@ -159,6 +159,11 @@
         to { opacity: 0; height: 0; }
     }
 
+    @keyframes slideIn {
+        from { opacity: 0; height: 0; }
+        to { opacity: 1; height: var(--h, auto); }
+    }
+
     .animate-count-up {
         animation: countUp 0.6s ease-out;
     }
@@ -188,9 +193,15 @@
 
     /* Card hover effects */
     .card-hover:hover {
-        box-shadow: var(--shadow-lg); 
+        box-shadow: var(--shadow-lg);
         transform: translateY(-2px);
         transition: all 0.2s ease-out;
+    }
+
+    .transaction-card:active {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+        transition: all 0.15s ease-out;
     }
 
     /* Progress circle */
@@ -210,6 +221,10 @@
 
     .animate-slide-out {
         animation: slideOut 0.3s ease forwards;
+    }
+
+    .animate-slide-in {
+        animation: slideIn 0.15s ease forwards;
     }
 
     .tabular-nums {
@@ -245,7 +260,7 @@
         border-bottom: none;
     }
     .transactions-row.group:hover {
-        background-color: var(--color-surface-3) !important; 
+        background-color: rgba(255,255,255,0.05) !important;
     }
 
     /* Class for JS to apply for zebra striping */
@@ -289,6 +304,10 @@
     .closing-entry-card {
         background-color: var(--color-surface-3); /* More distinct background */
         border: 1px solid var(--color-border);
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        backdrop-filter: blur(4px);
     }
     .dark .closing-entry-card {
         background-color: var(--color-surface-4);
@@ -1130,17 +1149,17 @@
             transactions: [],
             budgets: [],
             categories: [
-                { id: 'food', name: 'Food & Dining', icon: '🍽️', color: '#fb886c' },
+                { id: 'food', name: 'Food & Dining', icon: '🍽️', color: '#F78C6B' },
                 { id: 'transport', name: 'Transport', icon: '🚗', color: '#6ee7b7' },
-                { id: 'housing', name: 'Housing', icon: '🏠', color: '#8b5cf6' },
+                { id: 'housing', name: 'Housing', icon: '🏠', color: '#7C3AED' },
                 { id: 'entertainment', name: 'Entertainment', icon: '🎬', color: '#fda4af' },
                 { id: 'shopping', name: 'Shopping', icon: '🛍️', color: '#fcd34d' },
                 { id: 'bills', name: 'Bills & Utilities', icon: '📄', color: '#f9a8d4' },
                 { id: 'health', name: 'Health & Medical', icon: '🏥', color: '#fbcfe8' },
                 { id: 'education', name: 'Education', icon: '📚', color: '#93c5fd' },
                 { id: 'travel', name: 'Travel', icon: '✈️', color: '#a5b4fc' },
-                { id: 'salary', name: 'Salary', icon: '💰', color: '#2dd4bf' },
-                { id: 'freelance', name: 'Freelance', icon: '💼', color: '#2dd4bf' },
+                { id: 'salary', name: 'Salary', icon: '💰', color: '#2DD4BF' },
+                { id: 'freelance', name: 'Freelance', icon: '💼', color: '#2DD4BF' },
                 { id: 'investment', name: 'Investment', icon: '📈', color: '#99f6e4' },
                 { id: 'other', name: 'Other', icon: '🔄', color: '#cbd5e1' }
             ],
@@ -1152,6 +1171,7 @@
             fabExpanded: false,
             selectedTransactions: new Set(),
             editingTransaction: null,
+            collapsedDays: {},
             sortField: 'date',
             sortDirection: 'desc',
             loadingTransactions: false,
@@ -1677,10 +1697,14 @@
         const isSelected = !isClosing && appState.selectedTransactions.has(t.id);
 
         if (isClosing) {
+            const collapsed = appState.collapsedDays[t.date];
             return `
-                <tr data-id="${t.id}" class="closing-entry-row">
+                <tr data-id="${t.id}" data-date="${t.date}" class="closing-entry-row ${collapsed ? 'collapsed' : ''}">
                     <td colspan="2" class="px-4 py-3 text-left text-sm closing-data-emphasis closing-date">
-                        ${formatSpecialDateDisplay(t.date)}
+                        <button class="w-full flex items-center justify-between" onclick="toggleDayCollapse('${t.date}')">
+                            <span>${formatSpecialDateDisplay(t.date)}</span>
+                            <i class="fas fa-chevron-${collapsed ? 'right' : 'down'} ml-2"></i>
+                        </button>
                     </td>
                     <td class="px-4 py-3"></td>
                     <td class="px-4 py-3"></td>
@@ -1691,6 +1715,9 @@
                 </tr>
             `;
         } else {
+            if (appState.collapsedDays[t.date]) {
+                return '';
+            }
             let rowClasses = "transactions-row group";
             if (t.type === 'income') {
                 rowClasses += " border-l-2 border-l-green-400";
@@ -1807,10 +1834,14 @@
                 const isClosing = t.type === 'closing';
 
                 if (isClosing) {
+                    const collapsed = appState.collapsedDays[t.date];
                     return `
-                        <div class="transaction-card closing-entry-card rounded-lg p-4 shadow-md relative">
+                        <div class="transaction-card closing-entry-card rounded-lg p-4 shadow-md relative" data-date="${t.date}">
                             <div class="flex justify-between items-center">
-                                <div class="closing-card-date text-sm truncate">${formatSpecialDateDisplay(t.date)}</div>
+                                <button class="closing-card-date text-sm truncate flex items-center" onclick="toggleDayCollapse('${t.date}')">
+                                    <span>${formatSpecialDateDisplay(t.date)}</span>
+                                    <i class="fas fa-chevron-${collapsed ? 'right' : 'down'} ml-2"></i>
+                                </button>
                                 <div class="closing-card-amount font-mono text-base">${formatCurrency(t.amount)}</div>
                             </div>
                             <div class="mt-1 text-xs text-textSecondary text-right">
@@ -1818,6 +1849,10 @@
                             </div>
                         </div>
                     `;
+                }
+
+                if (appState.collapsedDays[t.date]) {
+                    return '';
                 }
 
                 return `
@@ -2278,6 +2313,11 @@
                 };
                 document.addEventListener('click', clickOutsideHandler);
             }, 0); // Use 0 timeout to ensure it's added after current event bubble
+        }
+
+        function toggleDayCollapse(date) {
+            appState.collapsedDays[date] = !appState.collapsedDays[date];
+            renderTransactions();
         }
 
         function renderBudgets() {
@@ -2793,13 +2833,15 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             e.preventDefault();
             
             const formData = new FormData(e.target);
-            const transactionData = {
-                type: formData.get('type'),
-                date: document.getElementById('transactionDate').value,
-                merchant: document.getElementById('transactionMerchant').value,
-                category: document.getElementById('transactionCategory').value,
-                amount: parseFloat(document.getElementById('transactionAmount').value)
-            };
+        const transactionData = {
+            type: formData.get('type'),
+            date: document.getElementById('transactionDate').value,
+            merchant: document.getElementById('transactionMerchant').value,
+            category: document.getElementById('transactionCategory').value,
+            amount: parseFloat(document.getElementById('transactionAmount').value)
+        };
+
+        let newTransaction = null;
             
             // Validation
             if (!transactionData.merchant || !transactionData.category || !transactionData.amount || transactionData.amount <= 0) {
@@ -2832,8 +2874,8 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                 }
             } else {
                 // Add new transaction
-                const newTransaction = {
-                    id: Date.now() + Math.random(), // Add random to ensure uniqueness if multiple added quickly
+                newTransaction = {
+                    id: Date.now() + Math.random(),
                     ...transactionData
                 };
                 appState.transactions.push(newTransaction);
@@ -2846,6 +2888,21 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             saveData();
             closeTransactionModal();
             renderCurrentPage();
+
+            if (!appState.editingTransaction) {
+                requestAnimationFrame(() => {
+                    const row = document.querySelector(`#transactionsTableBody tr[data-id="${newTransaction?.id}"]`);
+                    const card = document.querySelector(`#transactionCards .transaction-card[data-id="${newTransaction?.id}"]`);
+                    if (row) {
+                        row.style.setProperty('--h', `${row.offsetHeight}px`);
+                        row.classList.add('animate-slide-in');
+                    }
+                    if (card) {
+                        card.style.setProperty('--h', `${card.offsetHeight}px`);
+                        card.classList.add('animate-slide-in');
+                    }
+                });
+            }
         }
 
         function updateBudgetSpending(categoryId, amount, type) {
