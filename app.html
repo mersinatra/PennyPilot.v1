@@ -1005,6 +1005,7 @@
             document.querySelectorAll('.date-filter-btn[data-range]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('.date-filter-btn[data-range]').forEach(b => b.classList.remove('active'));
+                  
                     e.target.classList.add('active');
                     dateMenus.forEach(({menu}) => menu?.classList.add('hidden'));
                     filterTransactions();
