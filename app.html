@@ -2084,7 +2084,23 @@
                 // Update existing transaction
                 const index = appState.transactions.findIndex(t => t.id === appState.editingTransaction.id);
                 if (index !== -1) {
-                    appState.transactions[index] = { ...appState.editingTransaction, ...transactionData };
+                    const original = appState.transactions[index];
+
+                    // Revert budget spending for the original transaction
+                    if (original.type === 'expense') {
+                        adjustBudgetSpending(original.category, -original.amount);
+                    }
+
+                    // Update transaction in state
+                    appState.transactions[index] = { ...original, ...transactionData };
+
+                    const updated = appState.transactions[index];
+
+                    // Apply budget spending for the updated transaction
+                    if (updated.type === 'expense') {
+                        adjustBudgetSpending(updated.category, updated.amount);
+                    }
+
                     showToast('Transaction updated successfully', 'success');
                 }
             } else {
@@ -2107,10 +2123,13 @@
 
         function updateBudgetSpending(categoryId, amount, type) {
             if (type !== 'expense') return;
-            
+            adjustBudgetSpending(categoryId, amount);
+        }
+
+        function adjustBudgetSpending(categoryId, delta) {
             let budget = appState.budgets.find(b => b.id === categoryId);
             if (!budget) {
-                // Create new budget for this category
+                if (delta <= 0) return;
                 budget = {
                     id: categoryId,
                     amount: 0,
@@ -2120,8 +2139,9 @@
                 };
                 appState.budgets.push(budget);
             }
-            
-            budget.spent += amount;
+
+            budget.spent += delta;
+            if (budget.spent < 0) budget.spent = 0;
         }
 
         function deleteTransaction(id) {
@@ -2144,12 +2164,24 @@
             if (appState.deletingTransaction) {
                 const index = appState.transactions.findIndex(t => t.id === appState.deletingTransaction);
                 if (index !== -1) {
+                    const transaction = appState.transactions[index];
+                    if (transaction.type === 'expense') {
+                        adjustBudgetSpending(transaction.category, -transaction.amount);
+                    }
                     appState.transactions.splice(index, 1);
                     showToast('Transaction deleted successfully', 'success');
                 }
             } else if (appState.selectedTransactions.size > 0) {
                 const selectedIds = Array.from(appState.selectedTransactions);
-                appState.transactions = appState.transactions.filter(t => !selectedIds.includes(t.id));
+                appState.transactions = appState.transactions.filter(t => {
+                    if (selectedIds.includes(t.id)) {
+                        if (t.type === 'expense') {
+                            adjustBudgetSpending(t.category, -t.amount);
+                        }
+                        return false;
+                    }
+                    return true;
+                });
                 appState.selectedTransactions.clear();
                 showToast(`${selectedIds.length} transactions deleted successfully`, 'success');
                 updateBulkActions();
