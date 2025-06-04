@@ -970,6 +970,7 @@
                 pill.addEventListener('click', (e) => {
                     document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
                     e.target.classList.add('active');
+                    updateCategoryDropdownLabel();
                     filterTransactions();
                     document.getElementById('categoryDropdownMenu')?.classList.add('hidden');
                     document.getElementById('dateDropdownMenuMobile')?.classList.add('hidden');
@@ -1005,8 +1006,9 @@
             document.querySelectorAll('.date-filter-btn[data-range]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('.date-filter-btn[data-range]').forEach(b => b.classList.remove('active'));
-                  
+
                     e.target.classList.add('active');
+                    updateDateDropdownLabel();
                     dateMenus.forEach(({menu}) => menu?.classList.add('hidden'));
                     filterTransactions();
                 });
@@ -1026,6 +1028,9 @@
 
             // Settings
             setupSettingsEventListeners();
+
+            updateCategoryDropdownLabel();
+            updateDateDropdownLabel();
         }
 
         function setupSettingsEventListeners() {
@@ -1559,6 +1564,22 @@
 
         function filterTransactions() {
             renderTransactions();
+        }
+
+        function updateCategoryDropdownLabel() {
+            const active = document.querySelector('.filter-pill.active');
+            const label = active ? active.textContent.trim() : 'Category';
+            const btn = document.getElementById('categoryDropdownBtn');
+            if (btn) btn.textContent = `${label} ▾`;
+        }
+
+        function updateDateDropdownLabel() {
+            const active = document.querySelector('.date-filter-btn[data-range].active');
+            const label = active ? active.textContent.trim() : 'Date Range';
+            const desktopBtn = document.getElementById('dateDropdownBtn');
+            const mobileBtn = document.getElementById('dateDropdownBtnMobile');
+            if (desktopBtn) desktopBtn.textContent = `${label} ▾`;
+            if (mobileBtn) mobileBtn.textContent = `${label} ▾`;
         }
 
         function toggleSelectAll() {
@@ -2558,6 +2579,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
 
             .date-toggle-btn {
                 min-width: 4.5rem;
+                white-space: nowrap;
             }
 
             .segmented-control {
