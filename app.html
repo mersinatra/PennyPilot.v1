@@ -1490,7 +1490,7 @@
         }
 
         function calculateWeeklyStats() {
-            const range = getCurrentWeekRange();
+            const range = getWeekRangeFromTuesday();
 
             const weeklyTransactions = appState.transactions.filter(t => {
                 const d = new Date(t.date);
@@ -3003,6 +3003,22 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             return { start, end };
         }
 
+        // Returns the date range starting from this week's Tuesday up to today
+        function getWeekRangeFromTuesday() {
+            const now = new Date();
+            const day = now.getDay(); // 0=Sun,1=Mon,2=Tue...
+            const diffToTuesday = (day + 7 - 2) % 7; // days since the most recent Tuesday
+
+            const start = new Date(now);
+            start.setDate(now.getDate() - diffToTuesday);
+            start.setHours(0, 0, 0, 0);
+
+            const end = new Date(now);
+            end.setHours(23, 59, 59, 999);
+
+            return { start, end };
+        }
+
         function updateBalanceDate(range) {
             const options = { month: 'short', day: 'numeric' };
             const startStr = range.start.toLocaleDateString('en-US', options);
@@ -3027,7 +3043,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
         }
 
         function computeWeeklyBudgetSpending() {
-            const range = getCurrentWeekRange();
+            const range = getWeekRangeFromTuesday();
             appState.budgets.forEach(b => b.spent = 0); // Reset weekly spent for all budgets
             
             appState.transactions.forEach(t => {
