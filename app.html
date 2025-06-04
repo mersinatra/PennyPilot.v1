@@ -88,8 +88,11 @@
         /* MODIFIED: CSS Variables for Theming Table and Rows */
         --color-table-header-bg: rgba(26, 188, 156, 0.15); /* Light theme header - increased opacity */
         --color-surface-1-alt: #F0F0F0; /* Alternate row background for light theme - more distinct */
-        --color-row-border: var(--color-border); 
-        --color-selected-row-bg: rgba(26, 188, 156, 0.1); 
+        --color-row-border: var(--color-border);
+        --color-selected-row-bg: rgba(26, 188, 156, 0.1);
+        --color-income-border: #059669;
+        --color-expense-border: #DC2626;
+        --shadow-lg: 0 4px 6px rgba(0,0,0,0.1);
     }
 
     .dark {
@@ -105,7 +108,10 @@
         /* MODIFIED: Dark Theme CSS Variables for Table and Rows */
         --color-table-header-bg: rgba(26, 188, 156, 0.2);  
         --color-surface-1-alt: #242424; 
-        --color-selected-row-bg: rgba(26, 188, 156, 0.25); 
+        --color-selected-row-bg: rgba(26, 188, 156, 0.25);
+        --color-income-border: #34D399;
+        --color-expense-border: #F87171;
+        --shadow-lg: 0 4px 6px rgba(0,0,0,0.4);
     }
 
     body {
@@ -191,6 +197,17 @@
         transform: rotate(45deg);
     }
 
+    /* FAB base styles */
+    .fab-option,
+    #mainFab {
+        border: 1px solid transparent;
+    }
+    body:not(.dark) .fab-option,
+    body:not(.dark) #mainFab {
+        border-color: rgba(0,0,0,0.1);
+        box-shadow: var(--shadow-lg);
+    }
+
     /* Card hover effects */
     .card-hover:hover {
         box-shadow: var(--shadow-lg);
@@ -261,6 +278,14 @@
     }
     .transactions-row.group:hover {
         background-color: rgba(255,255,255,0.05) !important;
+    }
+
+    /* Income and expense row accents */
+    .row-income {
+        border-left: 2px solid var(--color-income-border);
+    }
+    .row-expense {
+        border-left: 2px solid var(--color-expense-border);
     }
 
     /* Class for JS to apply for zebra striping */
@@ -1720,9 +1745,9 @@
             }
             let rowClasses = "transactions-row group";
             if (t.type === 'income') {
-                rowClasses += " border-l-2 border-l-green-400";
+                rowClasses += " row-income";
             } else if (t.type === 'expense') {
-                rowClasses += " border-l-2 border-l-red-400";
+                rowClasses += " row-expense";
             }
             if (isSelected) {
                 rowClasses += " bg-selected-row";
