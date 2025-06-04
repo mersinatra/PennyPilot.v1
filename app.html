@@ -239,6 +239,7 @@
     .transactions-row {
         transition: background-color 0.2s ease;
         border-bottom: 1px solid var(--color-row-border);
+        line-height: 1.5;
     }
     .transactions-row:last-child { 
         border-bottom: none;
@@ -259,9 +260,13 @@
 
     /* Closing Entry Row Styling */
     .closing-entry-row {
-        background-color: var(--color-surface-2); 
+        background-color: var(--color-surface-2);
         border-top: 1px dashed var(--color-border);
         border-bottom: 1px dashed var(--color-border);
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        backdrop-filter: blur(4px);
     }
     .closing-entry-row td {
         font-style: italic;
@@ -270,6 +275,10 @@
     .closing-entry-row td.closing-data-emphasis {
         font-weight: 600; /* semibold */
         color: var(--color-text-primary);
+    }
+
+    .closing-entry-row td.closing-date {
+        color: var(--color-text-secondary);
     }
 
     .dark .closing-entry-row {
@@ -1000,7 +1009,7 @@
                 </div>
                 
                 <!-- Main FAB -->
-                <button id="mainFab" class="bg-primary hover:bg-primary/90 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-base focus-ring">
+                <button id="mainFab" class="bg-emerald-400 hover:bg-emerald-500 text-white w-14 h-14 rounded-full shadow-lg drop-shadow-md flex items-center justify-center transition-all duration-base focus-ring">
                     <i class="fas fa-plus text-xl transition-transform duration-base"></i>
                 </button>
             </div>
@@ -1121,19 +1130,19 @@
             transactions: [],
             budgets: [],
             categories: [
-                { id: 'food', name: 'Food & Dining', icon: '🍽️', color: '#FF6B6B' },
-                { id: 'transport', name: 'Transport', icon: '🚗', color: '#4ECDC4' },
-                { id: 'housing', name: 'Housing', icon: '🏠', color: '#8E44AD' },
-                { id: 'entertainment', name: 'Entertainment', icon: '🎬', color: '#45B7D1' },
-                { id: 'shopping', name: 'Shopping', icon: '🛍️', color: '#96CEB4' },
-                { id: 'bills', name: 'Bills & Utilities', icon: '📄', color: '#FECA57' },
-                { id: 'health', name: 'Health & Medical', icon: '🏥', color: '#FF9FF3' },
-                { id: 'education', name: 'Education', icon: '📚', color: '#54A0FF' },
-                { id: 'travel', name: 'Travel', icon: '✈️', color: '#5F27CD' },
-                { id: 'salary', name: 'Salary', icon: '💰', color: '#00D2D3' },
-                { id: 'freelance', name: 'Freelance', icon: '💼', color: '#FF9F43' },
-                { id: 'investment', name: 'Investment', icon: '📈', color: '#10AC84' },
-                { id: 'other', name: 'Other', icon: '🔄', color: '#747D8C' }
+                { id: 'food', name: 'Food & Dining', icon: '🍽️', color: '#fb886c' },
+                { id: 'transport', name: 'Transport', icon: '🚗', color: '#6ee7b7' },
+                { id: 'housing', name: 'Housing', icon: '🏠', color: '#8b5cf6' },
+                { id: 'entertainment', name: 'Entertainment', icon: '🎬', color: '#fda4af' },
+                { id: 'shopping', name: 'Shopping', icon: '🛍️', color: '#fcd34d' },
+                { id: 'bills', name: 'Bills & Utilities', icon: '📄', color: '#f9a8d4' },
+                { id: 'health', name: 'Health & Medical', icon: '🏥', color: '#fbcfe8' },
+                { id: 'education', name: 'Education', icon: '📚', color: '#93c5fd' },
+                { id: 'travel', name: 'Travel', icon: '✈️', color: '#a5b4fc' },
+                { id: 'salary', name: 'Salary', icon: '💰', color: '#2dd4bf' },
+                { id: 'freelance', name: 'Freelance', icon: '💼', color: '#2dd4bf' },
+                { id: 'investment', name: 'Investment', icon: '📈', color: '#99f6e4' },
+                { id: 'other', name: 'Other', icon: '🔄', color: '#cbd5e1' }
             ],
             settings: {
                 currency: 'NZD',
@@ -1670,21 +1679,26 @@
         if (isClosing) {
             return `
                 <tr data-id="${t.id}" class="closing-entry-row">
-                    <td colspan="2" class="px-4 py-2 text-left text-sm closing-data-emphasis">
+                    <td colspan="2" class="px-4 py-3 text-left text-sm closing-data-emphasis closing-date">
                         ${formatSpecialDateDisplay(t.date)}
                     </td>
-                    <td class="px-4 py-2"></td> 
-                    <td class="px-4 py-2"></td> 
-                    <td class="px-4 py-2 text-right font-mono tabular-nums text-base closing-data-emphasis">
+                    <td class="px-4 py-3"></td>
+                    <td class="px-4 py-3"></td>
+                    <td class="px-4 py-3 text-right font-mono tabular-nums text-base closing-data-emphasis">
                         ${formatCurrency(t.amount)}
                     </td>
-                    <td class="px-4 py-2"></td> 
+                    <td class="px-4 py-3"></td>
                 </tr>
             `;
         } else {
             let rowClasses = "transactions-row group";
+            if (t.type === 'income') {
+                rowClasses += " border-l-2 border-green-400";
+            } else if (t.type === 'expense') {
+                rowClasses += " border-l-2 border-red-400";
+            }
             if (isSelected) {
-                rowClasses += " bg-selected-row"; 
+                rowClasses += " bg-selected-row";
             } else {
                 // Base for rows is surface2 (from table container). Apply bg-surface1-alt for odd rows.
                 // nonClosingRowIndex is 0-indexed.
@@ -1698,24 +1712,24 @@
 
             return `
                 <tr data-id="${t.id}" class="${rowClasses}">
-                    <td class="px-3 py-3 text-center">
+                    <td class="px-3 py-4 text-center">
                         <input type="checkbox" class="transaction-checkbox focus-ring rounded border-border opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity" data-id="${t.id}" ${isSelected ? 'checked' : ''}>
                     </td>
-                    <td class="px-4 py-3 text-xs font-mono uppercase text-textSecondary">
+                    <td class="px-4 py-4 text-xs font-mono text-textSecondary text-center">
                         ${formatDate(t.date)}
                     </td>
-                    <td class="px-4 py-3 font-semibold text-textPrimary">
+                    <td class="px-4 py-4 font-semibold text-textPrimary">
                         ${t.merchant}
                     </td>
-                    <td class="px-4 py-3">
+                    <td class="px-4 py-4">
                         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" style="background:${category?.color}26;color:${category?.color}">
                             ${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span>
                         </span>
                     </td>
-                    <td class="px-4 py-3 text-right font-mono tabular-nums text-base font-semibold ${t.type === 'income' ? 'text-green-500' : 'text-red-500'}">
+                    <td class="px-4 py-4 text-right font-mono tabular-nums text-base font-semibold ${t.type === 'income' ? 'text-green-400' : 'text-red-400'}">
                         ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
                     </td>
-                    <td class="px-4 py-3">
+                    <td class="px-4 py-4">
                         <div class="flex items-center space-x-2 row-chrome opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                             <button onclick="editTransaction(${t.id})" aria-label="Edit" class="focus-ring p-2 rounded-md text-primary hover:bg-surface3 transition-colors">
                                 <i class="fas fa-edit"></i>
@@ -1903,12 +1917,12 @@
         return "Yesterday";
     }
     
-    const dateForFormatting = new Date(dateString + 'T00:00:00'); 
+    const dateForFormatting = new Date(dateString + 'T00:00:00');
 
-    const dayName = dateForFormatting.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase().replace(',', '');
-    const dayOfMonth = dateForFormatting.toLocaleDateString('en-GB', { day: '2-digit' });
-    const monthName = dateForFormatting.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
-    const year = dateForFormatting.toLocaleDateString('en-GB', { year: 'numeric' });
+    const dayName = dateForFormatting.toLocaleDateString('en-NZ', { weekday: 'short' });
+    const dayOfMonth = dateForFormatting.toLocaleDateString('en-NZ', { day: '2-digit' });
+    const monthName = dateForFormatting.toLocaleDateString('en-NZ', { month: 'short' });
+    const year = dateForFormatting.toLocaleDateString('en-NZ', { year: 'numeric' });
 
     return `${dayName} ${dayOfMonth} ${monthName} ${year}`;
 }
@@ -2545,7 +2559,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
             for (let i = 5; i >= 0; i--) {
                 const date = new Date();
                 date.setMonth(date.getMonth() - i);
-                months.push(date.toLocaleDateString('en-US', { month: 'short' }));
+                months.push(date.toLocaleDateString('en-NZ', { month: 'short' }));
                 
                 const monthTransactions = appState.transactions.filter(t => {
                     const tDate = new Date(t.date);
@@ -2975,11 +2989,11 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
 
         function updateCurrentDate() {
             const now = new Date();
-            const dateString = now.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+            const dateString = now.toLocaleDateString('en-NZ', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             });
             
             const currentDateEl = document.getElementById('currentDate');
@@ -3025,10 +3039,10 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
 
         function updateBalanceDate(range) {
             const options = { month: 'short', day: 'numeric' };
-            const startStr = range.start.toLocaleDateString('en-US', options);
+            const startStr = range.start.toLocaleDateString('en-NZ', options);
             const endMinusOneDay = new Date(range.end);
             endMinusOneDay.setDate(range.end.getDate() - 1); // Show up to Sunday
-            const endStr = endMinusOneDay.toLocaleDateString('en-US', options);
+            const endStr = endMinusOneDay.toLocaleDateString('en-NZ', options);
 
             const el = document.getElementById('balanceDate');
             if (el) {
@@ -3039,7 +3053,7 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
         function updateBalanceDateToday() {
             const options = { month: 'short', day: 'numeric' };
             const today = new Date();
-            const todayStr = today.toLocaleDateString('en-US', options);
+            const todayStr = today.toLocaleDateString('en-NZ', options);
             const el = document.getElementById('balanceDate');
             if (el) {
                 el.textContent = `Today: ${todayStr}`;
