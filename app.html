@@ -84,14 +84,17 @@
         --color-text-secondary: #4A4A4A;
         --color-border: #E0E0E0;
         --color-focus-ring: #1ABC9C80;
+        --space: 8px;
+        --color-income: #059669;
+        --color-expense: #DC2626;
+        --color-income-border: var(--color-income);
+        --color-expense-border: var(--color-expense);
 
         /* MODIFIED: CSS Variables for Theming Table and Rows */
         --color-table-header-bg: rgba(26, 188, 156, 0.15); /* Light theme header - increased opacity */
         --color-surface-1-alt: #F0F0F0; /* Alternate row background for light theme - more distinct */
         --color-row-border: var(--color-border);
         --color-selected-row-bg: rgba(26, 188, 156, 0.1);
-        --color-income-border: #059669;
-        --color-expense-border: #DC2626;
         --shadow-lg: 0 4px 6px rgba(0,0,0,0.1);
     }
 
@@ -104,13 +107,15 @@
         --color-text-primary: #FAFAFA;
         --color-text-secondary: #C2C2C2;
         --color-border: #333333;
+        --color-income: #34D399;
+        --color-expense: #F87171;
+        --color-income-border: var(--color-income);
+        --color-expense-border: var(--color-expense);
 
         /* MODIFIED: Dark Theme CSS Variables for Table and Rows */
         --color-table-header-bg: rgba(26, 188, 156, 0.2);  
         --color-surface-1-alt: #242424; 
         --color-selected-row-bg: rgba(26, 188, 156, 0.25);
-        --color-income-border: #34D399;
-        --color-expense-border: #F87171;
         --shadow-lg: 0 4px 6px rgba(0,0,0,0.4);
     }
 
@@ -253,6 +258,19 @@
         height: 14px;
     }
 
+    .text-income { color: var(--color-income); }
+    .text-expense { color: var(--color-expense); }
+
+    .theme-overlay {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        background: var(--color-surface-1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 50;
+    }
+
     /* --- NEW/MODIFIED CSS FOR TABLE THEMING --- */
 
     /* Table Header Styling */
@@ -300,7 +318,7 @@
 
     /* Closing Entry Row Styling */
     .closing-entry-row {
-        background-color: var(--color-surface-2);
+        background-color: var(--color-surface-1-alt);
         border-top: 1px dashed var(--color-border);
         border-bottom: 1px dashed var(--color-border);
         position: sticky;
@@ -322,7 +340,7 @@
     }
 
     .dark .closing-entry-row {
-        background-color: var(--color-surface-3); 
+        background-color: var(--color-surface-4);
     }
     
     /* Mobile Closing Entry Card Styling */
@@ -371,8 +389,8 @@
         color: var(--color-primary);
     }
     .filter-pill {
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--color-primary);
+        padding: calc(var(--space)/2) var(--space);
+        border: 1px solid var(--color-border);
         border-radius: 9999px;
         background: var(--color-surface-1);
         color: var(--color-text-secondary);
@@ -389,8 +407,8 @@
         border-color: var(--color-primary);
     }
     .date-filter-btn {
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--color-primary);
+        padding: calc(var(--space)/2) var(--space);
+        border: 1px solid var(--color-border);
         border-radius: 0.5rem;
         background: var(--color-surface-1);
         color: var(--color-text-secondary);
@@ -515,7 +533,7 @@
         <div class="flex flex-1 overflow-hidden">
             <!-- Desktop Sidebar -->
             <aside class="hidden lg:flex w-56 xl:w-64 bg-surface2 border-r border-border flex-col">
-                <nav class="flex-1 px-4 py-6 space-y-2">
+                <nav class="flex-1 px-4 py-4 space-y-2">
                     <a href="#" class="nav-item active flex items-center px-3 py-2 rounded-md text-sm font-medium" data-page="dashboard">
                         <i class="fas fa-home mr-3 w-4"></i>
                         Dashboard
@@ -570,11 +588,11 @@
                                         </div>
                                         <div class="flex items-center justify-between">
                                             <span class="text-textSecondary">+ Income</span>
-                                            <span class="font-medium text-green-600" id="weeklyIncome"></span>
+                                            <span class="font-medium text-income" id="weeklyIncome"></span>
                                         </div>
                                         <div class="flex items-center justify-between">
                                             <span class="text-textSecondary">&minus; Expenses</span>
-                                            <span class="font-medium text-red-600" id="weeklyExpenses"></span>
+                                            <span class="font-medium text-expense" id="weeklyExpenses"></span>
                                         </div>
                                     </div>
 
@@ -658,7 +676,7 @@
                         <div class="flex flex-col lg:flex-row lg:items-center gap-4">
                                 <div class="flex-1 relative">
                                     <input type="text" id="transactionSearch" placeholder="Search transactions..."
-                                           class="focus-ring w-full pl-10 pr-4 py-2 border border-primary rounded-md bg-surface1 text-textPrimary text-base shadow-inner transition-colors">
+                                           class="focus-ring w-full pl-10 pr-4 py-2 border border-border rounded-md bg-surface1 text-textPrimary text-base shadow-inner focus:border-primary transition-colors">
                                     <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-textSecondary pointer-events-none"></i>
                                 </div>
 
@@ -1419,20 +1437,30 @@
         function toggleTheme() {
     const currentTheme = appState.settings.theme;
     let newTheme;
-    
+
     if (currentTheme === 'light') {
         newTheme = 'dark';
     } else if (currentTheme === 'dark') {
-        newTheme = 'system'; // Or 'light' if you prefer a strict cycle
-    } else { // system
+        newTheme = 'system';
+    } else {
         newTheme = 'light';
     }
-    
+
     appState.settings.theme = newTheme;
     saveData();
     applyTheme();
-    
-    // Update the <select> element in settings
+
+    const overlay = document.createElement('div');
+    overlay.className = 'theme-overlay';
+    document.body.appendChild(overlay);
+    requestAnimationFrame(() => {
+        overlay.style.opacity = '1';
+        requestAnimationFrame(() => {
+            overlay.style.opacity = '0';
+        });
+    });
+    overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+
     const themeSelect = document.getElementById('themeSelect');
     if (themeSelect) {
         themeSelect.value = newTheme;
@@ -1678,7 +1706,7 @@
                             </div>
                         </div>
                         <div class="text-right">
-                            <div class="font-semibold ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}">
+                            <div class="font-semibold ${t.type === 'income' ? 'text-income' : 'text-expense'}">
                                 ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
                             </div>
                         </div>
@@ -1778,7 +1806,7 @@
                             ${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span>
                         </span>
                     </td>
-                    <td class="px-4 py-4 text-right font-mono tabular-nums text-base font-semibold ${t.type === 'income' ? 'text-green-400' : 'text-red-400'}">
+                    <td class="px-4 py-4 text-right font-mono tabular-nums text-base font-semibold ${t.type === 'income' ? 'text-income' : 'text-expense'}">
                         ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
                     </td>
                     <td class="px-4 py-4">
@@ -1884,7 +1912,7 @@
                     <div class="transaction-card bg-surface2 rounded-lg p-4 shadow-md relative ${isSelected ? 'ring-2 ring-primary' : ''} group" data-id="${t.id}">
                         <div class="flex justify-between items-center">
                             <div class="font-medium text-textPrimary truncate">${t.merchant}</div>
-                            <div class="font-mono text-base font-semibold ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}">
+                            <div class="font-mono text-base font-semibold ${t.type === 'income' ? 'text-income' : 'text-expense'}">
                                 ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
                             </div>
                         </div>
@@ -2709,9 +2737,9 @@ function updateBudgetAmount(budgetId, sliderValueStr) {
                 const variance = budget.spent - budget.amount; // Positive if overspent, negative if underspent
                 const variancePercent = budget.amount > 0 ? ((variance / budget.amount) * 100).toFixed(1) : (budget.spent > 0 ? '∞' : '0');
                 
-                let varianceColorClass = 'text-green-600'; // Underspent or on budget
-                if (variance > 0) varianceColorClass = 'text-red-600'; // Overspent
-                else if (variance === 0 && budget.amount === 0 && budget.spent > 0) varianceColorClass = 'text-red-600'; // Spent with no budget
+                let varianceColorClass = 'text-income'; // Underspent or on budget
+                if (variance > 0) varianceColorClass = 'text-expense'; // Overspent
+                else if (variance === 0 && budget.amount === 0 && budget.spent > 0) varianceColorClass = 'text-expense'; // Spent with no budget
                 else if (variance === 0) varianceColorClass = 'text-textSecondary'; // Exactly on budget or zero spent/budgeted
 
                 return `
