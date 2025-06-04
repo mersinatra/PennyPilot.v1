@@ -2332,15 +2332,19 @@
         function resetData() {
             const modal = document.getElementById('deleteModal');
             const text = document.getElementById('deleteModalText');
-            
+
             text.textContent = 'Are you sure you want to reset all data? This will permanently delete all transactions, budgets, and settings. This action cannot be undone.';
-            
-            // Override confirm delete to reset data
-            document.getElementById('confirmDelete').onclick = () => {
+
+            const confirmBtn = document.getElementById('confirmDelete');
+
+            // Temporarily remove the existing confirm handler
+            confirmBtn.removeEventListener('click', confirmDelete);
+
+            const resetHandler = () => {
                 localStorage.removeItem('pennyPilot_transactions');
                 localStorage.removeItem('pennyPilot_budgets');
                 localStorage.removeItem('pennyPilot_settings');
-                
+
                 // Reset app state
                 appState.transactions = [];
                 appState.budgets = [];
@@ -2350,15 +2354,17 @@
                     theme: 'system'
                 };
                 appState.selectedTransactions.clear();
-                
+
                 closeDeleteModal();
                 renderCurrentPage();
                 showToast('All data has been reset', 'success');
-                
-                // Restore original confirm delete handler
-                document.getElementById('confirmDelete').onclick = confirmDelete;
+
+                // Restore the original handler and remove this temporary one
+                confirmBtn.removeEventListener('click', resetHandler);
+                confirmBtn.addEventListener('click', confirmDelete);
             };
-            
+
+            confirmBtn.addEventListener('click', resetHandler);
             modal.classList.remove('hidden');
         }
 
