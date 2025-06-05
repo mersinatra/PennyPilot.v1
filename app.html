@@ -330,7 +330,7 @@
     }
 
     .merchant-col {
-        max-width: 12rem;
+        max-width: none;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -361,16 +361,16 @@
         z-index: 1;
         backdrop-filter: blur(4px);
     }
-    .closing-entry-row td {
+    .closing-entry-row th {
         font-style: italic;
     }
     /* Make date and amount in closing row more prominent */
-    .closing-entry-row td.closing-data-emphasis {
+    .closing-entry-row th.closing-data-emphasis {
         font-weight: 600; /* semibold */
         color: var(--color-text-primary);
     }
 
-    .closing-entry-row td.closing-date {
+    .closing-entry-row th.closing-date {
         color: var(--color-text-secondary);
     }
 
@@ -508,6 +508,14 @@
         border-radius: 50%;
         cursor: pointer;
         border: none;
+    }
+    .row-chrome {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 0.5rem;
     }
     .row-chrome button {
         transition: opacity 0.15s, transform 0.1s;
@@ -785,7 +793,7 @@
                                                     <i class="fas fa-chevron-down ml-1 text-xs transition-transform opacity-0"></i>
                                                 </span>
                                             </th>
-                                            <th class="w-40 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider cursor-pointer select-none" data-sort="merchant" aria-sort="none">
+                                            <th class="w-48 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider cursor-pointer select-none" data-sort="merchant" aria-sort="none">
                                                 <span class="inline-flex items-center">
                                                     Merchant
                                                     <i class="fas fa-chevron-down ml-1 text-xs transition-transform opacity-0"></i>
@@ -797,10 +805,6 @@
                                                     Amount
                                                     <i class="fas fa-chevron-down ml-1 text-xs transition-transform opacity-0"></i>
                                                 </span>
-                                            </th>
-                                            <th class="w-12 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider">
-                                                <span class="sr-only">Actions</span>
-                                                <i class="fas fa-ellipsis-h" title="Actions"></i>
                                             </th>
                                         </tr>
                                     </thead>
@@ -1826,18 +1830,18 @@
             const collapsed = appState.collapsedDays[t.date];
             return `
                 <tr data-id="${t.id}" data-date="${t.date}" class="closing-entry-row ${collapsed ? 'collapsed' : ''}">
-                    <td colspan="2" class="px-4 py-3 text-left text-sm closing-data-emphasis closing-date">
-                        <button class="w-full flex items-center justify-between" onclick="toggleDayCollapse('${t.date}')">
-                            <span>${formatSpecialDateDisplay(t.date)}</span>
-                            <i class="fas fa-chevron-${collapsed ? 'right' : 'down'} ml-2"></i>
-                        </button>
-                    </td>
-                    <td class="px-4 py-3"></td>
-                    <td class="px-4 py-3"></td>
-                    <td class="px-4 py-3 text-right font-mono tabular-nums text-base closing-data-emphasis">
-                        ${formatCurrency(t.amount)}
-                    </td>
-                    <td class="px-4 py-3"></td>
+                    <th colspan="5" class="px-4 py-3 text-sm closing-date">
+                        <div class="flex items-center justify-between">
+                            <span class="closing-data-emphasis">${formatSpecialDateDisplay(t.date)}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono tabular-nums closing-data-emphasis">${formatCurrency(t.amount)}</span>
+                                <span class="text-xs text-textSecondary">Closing Balance</span>
+                                <button onclick="toggleDayCollapse('${t.date}')" class="focus-ring">
+                                    <i class="fas fa-chevron-${collapsed ? 'right' : 'down'}"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </th>
                 </tr>
             `;
         } else {
@@ -1879,11 +1883,9 @@
                             ${category?.icon || '💰'} <span class="ml-1">${category?.name || 'Other'}</span>
                         </span>
                     </td>
-                    <td class="px-4 py-4 text-right font-mono tabular-nums text-base font-semibold ${t.type === 'income' ? 'text-income' : 'text-expense'}">
+                    <td class="px-4 py-4 text-right font-mono tabular-nums text-base font-semibold relative ${t.type === 'income' ? 'text-income' : 'text-expense'}">
                         ${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}
-                    </td>
-                    <td class="px-4 py-4">
-                        <div class="flex items-center space-x-2 row-chrome opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+                        <div class="row-chrome opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                             <button onclick="editTransaction(${t.id})" aria-label="Edit" class="focus-ring p-2 rounded-md text-primary hover:bg-surface3 transition-colors">
                                 <i class="fas fa-edit"></i>
                             </button>
@@ -1929,7 +1931,7 @@
     if (transactions.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="6" class="px-6 py-12 text-center text-textSecondary">
+                <td colspan="5" class="px-6 py-12 text-center text-textSecondary">
                     <i class="fas fa-search text-3xl mb-2 opacity-50"></i>
                     <p>No transactions found</p>
                     <p class="text-sm">Try adjusting your search or filters</p>
@@ -1943,7 +1945,7 @@
             const tbody = document.getElementById('transactionsTableBody');
             tbody.innerHTML = Array.from({length:4}).map(() => `
                 <tr>
-                    <td class="px-4 py-3" colspan="6">
+                    <td class="px-4 py-3" colspan="5">
                         <div class="h-4 skeleton"></div>
                     </td>
                 </tr>
