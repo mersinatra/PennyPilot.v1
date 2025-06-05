@@ -309,7 +309,6 @@
         transition: background-color 0.1s ease;
         border-bottom: 1px solid var(--color-row-border);
         line-height: 1.5;
-        position: relative;
     }
     .transactions-row:hover {
         background-color: var(--color-surface-1-alt);
@@ -322,17 +321,12 @@
     }
 
     /* Income and expense row accents */
-    .row-income::before,
-    .row-expense::before {
-        content: '';
-        position: absolute;
-        left: 8px;
-        top: 2px;
-        bottom: 2px;
-        width: 2px;
+    .row-income {
+        border-left: 2px solid var(--color-income-border);
     }
-    .row-income::before { background-color: var(--color-income-border); }
-    .row-expense::before { background-color: var(--color-expense-border); }
+    .row-expense {
+        border-left: 2px solid var(--color-expense-border);
+    }
 
     .merchant-col {
         max-width: 12rem;
@@ -781,7 +775,7 @@
                                 <table class="w-full">
                                     <thead class="table-header sticky top-0 z-10">
                                         <tr>
-                                            <th class="w-10 px-3 py-4 text-center text-sm font-semibold text-textSecondary uppercase tracking-wider">
+                                            <th class="px-3 py-4 text-center text-sm font-semibold text-textSecondary uppercase tracking-wider">
                                                 <input type="checkbox" id="selectAllTransactions" class="transaction-checkbox focus-ring rounded border-border">
                                             </th>
                                             <th class="w-32 px-6 py-4 text-left text-sm font-semibold text-textSecondary uppercase tracking-wider cursor-pointer select-none" data-sort="date" aria-sort="none">
